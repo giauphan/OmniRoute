@@ -577,16 +577,28 @@ function getOpenAIIntermediateChunks(value: unknown): unknown[] {
 }
 
 function restoreClaudePassthroughToolUseName(parsed: JsonRecord, toolNameMap: unknown): boolean {
-  if (!(toolNameMap instanceof Map)) return false;
-  if (!parsed || typeof parsed !== "object") return false;
-
   const block =
     parsed.content_block && typeof parsed.content_block === "object"
       ? (parsed.content_block as JsonRecord)
       : null;
   if (!block || block.type !== "tool_use" || typeof block.name !== "string") return false;
 
-  const restoredName = caseInsensitiveToolNameLookup(block.name, toolNameMap) ?? block.name;
+  const TOOL_CASE_MAP: Record<string, string> = {
+    'bash': 'Bash',
+    'read': 'Read',
+    'edit': 'Edit',
+    'write': 'Write',
+    'websearch': 'WebSearch',
+    'webfetch': 'WebFetch',
+    'agent': 'Agent'
+  };
+
+  const mapped = TOOL_CASE_MAP[block.name.toLowerCase()];
+  let restoredName = mapped || block.name;
+  if (toolNameMap instanceof Map) {
+    restoredName = toolNameMap.get(block.name) ?? restoredName;
+  }
+
   if (restoredName === block.name) return false;
   block.name = restoredName;
   return true;
