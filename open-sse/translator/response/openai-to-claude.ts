@@ -33,54 +33,108 @@ function extractXmlInvokeBlocks(
   state
 ): { cleaned: string; toolCalls: XmlToolCall[] } {
   const toolCalls: XmlToolCall[] = [];
-
-  // Prepend any incomplete content from previous chunk
   const combined = (state._xmlInvokeBuffer || "") + text;
   state._xmlInvokeBuffer = "";
-
   let remaining = combined;
   let cleaned = "";
 
-  while (true) {
-    const startMatch = remaining.match(/<invoke\s+name="([^"]*)"\s*>/);
-    if (!startMatch) {
+  while (remaining.length > 0) {
+    // Find all possible tool call patterns and pick the earliest
+    const invokeMatch = remaining.match(/<invoke\s+name="([^"]*)"\s*>/);
+    const toolCallTagMatch = remaining.match(/<tool_call>/);
+    const toolCallTextMatch = remaining.match(/TOOL_CALL\s+([A-Za-z0-9_]+):\s*/);
+
+    const matches = [
+      invokeMatch ? { type: "invoke" as const, index: invokeMatch.index!, data: invokeMatch } : null,
+      toolCallTagMatch ? { type: "tool_call_tag" as const, index: toolCallTagMatch.index!, data: toolCallTagMatch } : null,
+      toolCallTextMatch ? { type: "tool_call_text" as const, index: toolCallTextMatch.index!, data: toolCallTextMatch } : null,
+    ].filter(Boolean).sort((a, b) => a!.index - b!.index);
+
+    if (matches.length === 0) {
       cleaned += remaining;
       break;
     }
 
-    // Text before the <invoke> block
-    cleaned += remaining.slice(0, startMatch.index);
+    const first = matches[0]!;
+    cleaned += remaining.slice(0, first.index);
+    const rest = remaining.slice(first.index);
 
-    const blockStart = startMatch.index;
-    const restAfterStart = remaining.slice(blockStart);
-    const endMatch = restAfterStart.match(/<\/invoke>/);
-
-    if (!endMatch) {
-      // Incomplete block — buffer for next chunk
-      state._xmlInvokeBuffer = restAfterStart;
-      break;
+    if (first.type === "invoke") {
+      const startMatch = first.data;
+      const endMatch = rest.match(/<\/invoke>/);
+      if (!endMatch) {
+        state._xmlInvokeBuffer = rest;
+        break;
+      }
+      const innerXml = rest.slice(startMatch[0].length, endMatch.index!);
+      const fullLength = endMatch.index! + endMatch[0].length;
+      const args: Record<string, string> = {};
+      const paramRegex = /<parameter\s+name="([^"]*)"[^>]*>([\s\S]*?)<\/parameter>/g;
+      let pm;
+      while ((pm = paramRegex.exec(innerXml)) !== null) {
+        args[pm[1]] = pm[2].trim();
+      }
+      toolCalls.push({
+        id: `toolu_xml_${Date.now()}_${toolCalls.length}`,
+        name: startMatch[1],
+        args,
+      });
+      remaining = rest.slice(fullLength);
+    } else if (first.type === "tool_call_tag") {
+      const endMatch = rest.match(/<\/tool_call>/);
+      if (!endMatch) {
+        state._xmlInvokeBuffer = rest;
+        break;
+      }
+      const innerJson = rest.slice("<tool_call>".length, endMatch.index!).trim();
+      const fullLength = endMatch.index! + "</tool_call>".length;
+      try {
+        const parsed = JSON.parse(innerJson) as Record<string, unknown>;
+        const name = (parsed.name || parsed.tool_name || "") as string;
+        const rawArgs = parsed.arguments || parsed.args || parsed.parameters || {};
+        const args: Record<string, string> =
+          typeof rawArgs === "string"
+            ? JSON.parse(rawArgs)
+            : (rawArgs as Record<string, string>);
+        if (name) {
+          toolCalls.push({ id: `toolu_txt_${Date.now()}_${toolCalls.length}`, name, args });
+        }
+      } catch {
+        cleaned += rest.slice(0, fullLength);
+      }
+      remaining = rest.slice(fullLength);
+    } else {
+      const startMatch = first.data;
+      const toolName = startMatch[1];
+      const afterPrefix = rest.slice(startMatch[0].length);
+      let depth = 0;
+      let inString = false;
+      let escape = false;
+      let jsonEndIndex = -1;
+      for (let i = 0; i < afterPrefix.length; i++) {
+        const c = afterPrefix[i];
+        if (escape) { escape = false; continue; }
+        if (c === "\\" && inString) { escape = true; continue; }
+        if (c === '"') { inString = !inString; continue; }
+        if (!inString) {
+          if (c === "{") depth++;
+          else if (c === "}") { depth--; if (depth === 0) { jsonEndIndex = i + 1; break; } }
+        }
+      }
+      if (jsonEndIndex === -1) {
+        state._xmlInvokeBuffer = rest;
+        break;
+      }
+      const jsonStr = afterPrefix.slice(0, jsonEndIndex);
+      const fullLength = startMatch[0].length + jsonEndIndex;
+      try {
+        const args = JSON.parse(jsonStr) as Record<string, string>;
+        toolCalls.push({ id: `toolu_txt_${Date.now()}_${toolCalls.length}`, name: toolName, args });
+      } catch {
+        cleaned += rest.slice(0, fullLength);
+      }
+      remaining = rest.slice(fullLength);
     }
-
-    // Complete block found
-    const innerXml = restAfterStart.slice(startMatch[0].length, endMatch.index);
-    const fullBlock = restAfterStart.slice(0, endMatch.index + endMatch[0].length);
-
-    // Parse <parameter name="..." ...>value</parameter>
-    const args: Record<string, string> = {};
-    const paramRegex = /<parameter\s+name="([^"]*)"[^>]*>([\s\S]*?)<\/parameter>/g;
-    let pm;
-    while ((pm = paramRegex.exec(innerXml)) !== null) {
-      args[pm[1]] = pm[2].trim();
-    }
-
-    toolCalls.push({
-      id: `toolu_xml_${Date.now()}_${toolCalls.length}`,
-      name: startMatch[1],
-      args,
-    });
-
-    // Continue scanning after the block
-    remaining = remaining.slice(blockStart + fullBlock.length);
   }
 
   return { cleaned, toolCalls };
