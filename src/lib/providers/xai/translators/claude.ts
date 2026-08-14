@@ -334,10 +334,21 @@ export function xaiCompletedToClaudeJson(
       } catch {
         inputObj = { _raw: item.arguments };
       }
+      // Fix: Map lowercase tool names from providers to Claude Code expected PascalCase
+      const TOOL_CASE_MAP: Record<string, string> = {
+        'bash': 'Bash',
+        'read': 'Read',
+        'edit': 'Edit',
+        'write': 'Write',
+        'websearch': 'WebSearch',
+        'webfetch': 'WebFetch',
+        'agent': 'Agent'
+      };
+      const correctedName = TOOL_CASE_MAP[item.name.toLowerCase()] || item.name;
       content.push({
         type: "tool_use",
         id: item.call_id ?? item.id ?? genId("toolu"),
-        name: item.name,
+        name: correctedName,
         input: inputObj,
       });
     } else if (item.type === "reasoning" && Array.isArray(item.summary)) {

@@ -161,6 +161,18 @@ export function remapToolNamesInResponse(
   if (!forceLowercase) return text;
 
   // Replace TitleCase tool names back to lowercase in SSE chunks
+  const FALLBACK_CASE_MAP: Record<string, string> = {
+    "bash": "Bash",
+    "read": "Read",
+    "edit": "Edit",
+    "write": "Write",
+    "websearch": "WebSearch",
+    "webfetch": "WebFetch",
+    "agent": "Agent"
+  };
+  const fallback = FALLBACK_CASE_MAP[rawName.toLowerCase()];
+  if (fallback) return fallback;
+
   if (toolNameMap?.size) {
     for (const [mapped, original] of toolNameMap.entries()) {
       text = text.replaceAll(`"name":"${mapped}"`, `"name":"${original}"`);
@@ -206,7 +218,16 @@ export function restoreClaudeToolName(
     }
   }
 
-  return REVERSE_MAP[rawName] ?? rawName;
+  const TOOL_CASE_MAP: Record<string, string> = {
+    "bash": "Bash",
+    "read": "Read",
+    "edit": "Edit",
+    "write": "Write",
+    "websearch": "WebSearch",
+    "webfetch": "WebFetch",
+    "agent": "Agent"
+  };
+  return TOOL_CASE_MAP[rawName.toLowerCase()] ?? (REVERSE_MAP[rawName] ?? rawName);
 }
 
 export { TOOL_RENAME_MAP, REVERSE_MAP };
