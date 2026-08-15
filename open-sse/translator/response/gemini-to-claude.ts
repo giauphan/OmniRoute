@@ -17,6 +17,90 @@ function normalizeToolName(name: string): string {
   return mapped;
 }
 
+function extractXmlInvokeBlocks(
+  text: string,
+  state: { _xmlInvokeBuffer?: string }
+): { cleaned: string; toolCalls: Array<{ id: string; name: string; args: Record<string, unknown> }> } {
+  const toolCalls: Array<{ id: string; name: string; args: Record<string, unknown> }> = [];
+  const combined = (state._xmlInvokeBuffer || "") + text;
+  state._xmlInvokeBuffer = "";
+  let remaining = combined;
+  let cleaned = "";
+
+  while (remaining.length > 0) {
+    const invokeMatch = remaining.match(/<invoke\s+name="([^"]*)"\s*>/);
+    const toolCallTagMatch = remaining.match(/<tool_call>/);
+    const toolCallTextMatch = remaining.match(/TOOL_CALL\s+([A-Za-z0-9_]+):\s*/);
+
+    const matches = [
+      invokeMatch ? { type: "invoke" as const, index: invokeMatch.index!, data: invokeMatch } : null,
+      toolCallTagMatch ? { type: "tool_call_tag" as const, index: toolCallTagMatch.index!, data: toolCallTagMatch } : null,
+      toolCallTextMatch ? { type: "tool_call_text" as const, index: toolCallTextMatch.index!, data: toolCallTextMatch } : null,
+    ].filter(Boolean).sort((a, b) => a!.index - b!.index);
+
+    if (matches.length === 0) {
+      cleaned += remaining;
+      break;
+    }
+
+    const first = matches[0]!;
+    cleaned += remaining.slice(0, first.index);
+    const rest = remaining.slice(first.index);
+
+    if (first.type === "invoke") {
+      const startMatch = first.data;
+      const endMatch = rest.match(/<\/invoke>/);
+      if (!endMatch) { state._xmlInvokeBuffer = rest; break; }
+      const innerXml = rest.slice(startMatch[0].length, endMatch.index!);
+      const fullLength = endMatch.index! + endMatch[0].length;
+      const args: Record<string, string> = {};
+      const paramRegex = /<parameter\s+name="([^"]*)"[^>]*>([\s\S]*?)<\/parameter>/g;
+      let pm;
+      while ((pm = paramRegex.exec(innerXml)) !== null) { args[pm[1]] = pm[2].trim(); }
+      toolCalls.push({ id: `toolu_xml_${Date.now()}_${toolCalls.length}`, name: startMatch[1], args });
+      remaining = rest.slice(fullLength);
+    } else if (first.type === "tool_call_tag") {
+      const endMatch = rest.match(/<\/tool_call>/);
+      if (!endMatch) { state._xmlInvokeBuffer = rest; break; }
+      const innerJson = rest.slice("<tool_call>".length, endMatch.index!).trim();
+      const fullLength = endMatch.index! + "</tool_call>".length;
+      try {
+        const parsed = JSON.parse(innerJson) as Record<string, unknown>;
+        const name = (parsed.name || parsed.tool_name || "") as string;
+        const rawArgs = parsed.arguments || parsed.args || parsed.parameters || {};
+        const args: Record<string, unknown> = typeof rawArgs === "string" ? JSON.parse(rawArgs) : (rawArgs as Record<string, unknown>);
+        if (name) { toolCalls.push({ id: `toolu_txt_${Date.now()}_${toolCalls.length}`, name, args }); }
+      } catch { cleaned += rest.slice(0, fullLength); }
+      remaining = rest.slice(fullLength);
+    } else {
+      const startMatch = first.data;
+      const toolName = startMatch[1];
+      const afterPrefix = rest.slice(startMatch[0].length);
+      let depth = 0, inString = false, escape = false, jsonEndIndex = -1;
+      for (let i = 0; i < afterPrefix.length; i++) {
+        const c = afterPrefix[i];
+        if (escape) { escape = false; continue; }
+        if (c === "\\" && inString) { escape = true; continue; }
+        if (c === '"') { inString = !inString; continue; }
+        if (!inString) {
+          if (c === "{") depth++;
+          else if (c === "}") { depth--; if (depth === 0) { jsonEndIndex = i + 1; break; } }
+        }
+      }
+      if (jsonEndIndex === -1) { state._xmlInvokeBuffer = rest; break; }
+      const jsonStr = afterPrefix.slice(0, jsonEndIndex);
+      const fullLength = startMatch[0].length + jsonEndIndex;
+      try {
+        const args = JSON.parse(jsonStr) as Record<string, unknown>;
+        toolCalls.push({ id: `toolu_txt_${Date.now()}_${toolCalls.length}`, name: toolName, args });
+      } catch { cleaned += rest.slice(0, fullLength); }
+      remaining = rest.slice(fullLength);
+    }
+  }
+
+  return { cleaned, toolCalls };
+}
+
 /**
  * Direct Gemini → Claude response translator.
  * Converts Gemini streaming chunks directly to Claude Messages API
@@ -134,22 +218,51 @@ export function geminiToClaudeResponse(chunk, state) {
         !part.functionCall;
 
       if (isRegularText || isTextAfterThinking) {
-        // Open a new text block only if none is open yet
-        if (state.openTextBlockIdx === null) {
-          const idx = state.contentBlockIndex++;
-          state.openTextBlockIdx = idx;
+        const { cleaned, toolCalls: textToolCalls } = extractXmlInvokeBlocks(part.text, state);
+
+        // Process any extracted text-format tool calls (<tool_call>, TOOL_CALL, <invoke>)
+        if (textToolCalls.length > 0) {
+          if (state.openTextBlockIdx !== null) {
+            results.push({ type: "content_block_stop", index: state.openTextBlockIdx });
+            state.openTextBlockIdx = null;
+          }
+          for (const tc of textToolCalls) {
+            const idx = state.contentBlockIndex++;
+            const restoredToolName = restoreClaudeToolName(
+              state.toolNameMap?.get(tc.name) || tc.name
+            );
+            results.push({
+              type: "content_block_start",
+              index: idx,
+              content_block: { type: "tool_use", id: tc.id, name: restoredToolName, input: {} },
+            });
+            results.push({
+              type: "content_block_delta",
+              index: idx,
+              delta: { type: "input_json_delta", partial_json: JSON.stringify(tc.args || {}) },
+            });
+            results.push({ type: "content_block_stop", index: idx });
+          }
+          if (!state.hasToolUse) state.hasToolUse = true;
+        }
+
+        // Emit remaining non-tool text content into the SAME open block
+        if (cleaned) {
+          if (state.openTextBlockIdx === null) {
+            const idx = state.contentBlockIndex++;
+            state.openTextBlockIdx = idx;
+            results.push({
+              type: "content_block_start",
+              index: idx,
+              content_block: { type: "text", text: "" },
+            });
+          }
           results.push({
-            type: "content_block_start",
-            index: idx,
-            content_block: { type: "text", text: "" },
+            type: "content_block_delta",
+            index: state.openTextBlockIdx,
+            delta: { type: "text_delta", text: cleaned },
           });
         }
-        // Always emit delta into the SAME open block (no open+close per chunk)
-        results.push({
-          type: "content_block_delta",
-          index: state.openTextBlockIdx,
-          delta: { type: "text_delta", text: part.text },
-        });
       }
     }
   }
