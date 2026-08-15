@@ -1,7 +1,7 @@
 import { register } from "../registry.ts";
 import { FORMATS } from "../formats.ts";
 import { isAbortFinishReason } from "../../utils/finishReason.ts";
-import { REVERSE_MAP } from "../../services/claudeCodeToolRemapper.ts";
+import { REVERSE_MAP, restoreClaudeToolName } from "../../services/claudeCodeToolRemapper.ts";
 
 function normalizeToolName(name: string): string {
   const TOOL_CASE_MAP: Record<string, string> = {
