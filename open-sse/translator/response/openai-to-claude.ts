@@ -9,6 +9,7 @@ import {
   stripInternalReasoningPlaceholder,
 } from "../../utils/reasoningPlaceholder.ts";
 import { REVERSE_MAP, restoreClaudeToolName } from "../../services/claudeCodeToolRemapper.ts";
+import { sanitizeToolId } from "../helpers/schemaCoercion.ts";
 
 function normalizeToolName(name: string): string {
   return REVERSE_MAP[name] ?? name;
@@ -351,8 +352,9 @@ export function openaiToClaudeResponse(chunk, state) {
         stopThinkingBlock(state, results);
         stopTextBlock(state, results);
 
+        const sanitizedId = sanitizeToolId(tc.id);
         state.toolCalls.set(idx, {
-          id: tc.id,
+          id: sanitizedId,
           name: incomingName,
           blockIndex: state.nextBlockIndex++,
           // Shimmed tools buffer their raw args and emit a single corrected
@@ -366,7 +368,7 @@ export function openaiToClaudeResponse(chunk, state) {
       const toolInfo = state.toolCalls.get(idx);
       if (toolInfo) {
         // Capture a late-arriving id or name (streamed after the initial chunk).
-        if (tc.id && !toolInfo.id) toolInfo.id = tc.id;
+        if (tc.id && !toolInfo.id) toolInfo.id = sanitizeToolId(tc.id);
         if (incomingName && !toolInfo.startEmitted && !toolInfo.name) {
           toolInfo.name = incomingName;
           toolInfo.shimmed = hasToolCallShim(incomingName);
