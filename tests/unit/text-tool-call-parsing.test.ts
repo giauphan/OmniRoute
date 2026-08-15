@@ -86,7 +86,7 @@ describe("Text Tool Call Parsing Fixes", () => {
           content: {
             parts: [
               {
-                text: '<tool_call>{"name":"Bash","arguments":{"command":"pwd"}}</tool_call>',
+                text: '<tool_call>{"name":"bash","arguments":{"command":"pwd"}}</tool_call>',
               },
             ],
           },

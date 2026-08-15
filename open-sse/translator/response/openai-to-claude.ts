@@ -8,7 +8,7 @@ import {
   isInternalReasoningPlaceholder,
   stripInternalReasoningPlaceholder,
 } from "../../utils/reasoningPlaceholder.ts";
-import { REVERSE_MAP } from "../../services/claudeCodeToolRemapper.ts";
+import { REVERSE_MAP, restoreClaudeToolName } from "../../services/claudeCodeToolRemapper.ts";
 
 function normalizeToolName(name: string): string {
   return REVERSE_MAP[name] ?? name;
@@ -339,16 +339,7 @@ export function openaiToClaudeResponse(chunk, state) {
       const incomingName = (() => {
         let n = tc.function?.name || "";
         if (n.startsWith(CLAUDE_OAUTH_TOOL_PREFIX)) n = n.slice(CLAUDE_OAUTH_TOOL_PREFIX.length);
-        const TOOL_CASE_MAP: Record<string, string> = {
-          'bash': 'Bash',
-          'read': 'Read',
-          'edit': 'Edit',
-          'write': 'Write',
-          'websearch': 'WebSearch',
-          'webfetch': 'WebFetch',
-          'agent': 'Agent'
-        };
-        return TOOL_CASE_MAP[n.toLowerCase()] || n;
+        return restoreClaudeToolName(n, state.toolNameMap);
       })();
 
       // A tool call is identified by its id. Some OpenAI-compatible upstreams
@@ -493,7 +484,10 @@ export function openaiToClaudeResponse(chunk, state) {
         content_block: {
           type: "tool_use",
           id: tc.id,
-          name: normalizeToolName(tc.name),
+          name: restoreClaudeToolName(
+            tc.name,
+            state.toolNameMap instanceof Map ? state.toolNameMap : null
+          ),
           input: tc.args,
         },
       });

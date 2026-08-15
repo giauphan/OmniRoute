@@ -13,6 +13,8 @@
  *       content_block_stop, message_delta, message_stop
  */
 
+import { restoreClaudeToolName } from "@omniroute/open-sse/services/claudeCodeToolRemapper";
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface AnthropicImageSource {
@@ -335,16 +337,7 @@ export function xaiCompletedToClaudeJson(
         inputObj = { _raw: item.arguments };
       }
       // Fix: Map lowercase tool names from providers to Claude Code expected PascalCase
-      const TOOL_CASE_MAP: Record<string, string> = {
-        'bash': 'Bash',
-        'read': 'Read',
-        'edit': 'Edit',
-        'write': 'Write',
-        'websearch': 'WebSearch',
-        'webfetch': 'WebFetch',
-        'agent': 'Agent'
-      };
-      const correctedName = TOOL_CASE_MAP[item.name.toLowerCase()] || item.name;
+      const correctedName = restoreClaudeToolName(item.name);
       content.push({
         type: "tool_use",
         id: item.call_id ?? item.id ?? genId("toolu"),

@@ -21,16 +21,42 @@ const TOOL_RENAME_MAP: Record<string, string> = {
   glob: "Glob",
   grep: "Grep",
   task: "Task",
+  agent: "Agent",
   webfetch: "WebFetch",
   websearch: "WebSearch",
   todowrite: "TodoWrite",
   todoread: "TodoRead",
   question: "Question",
+  askuserquestion: "AskUserQuestion",
   skill: "Skill",
+  slashcommand: "SlashCommand",
   multiedit: "MultiEdit",
   notebook: "Notebook",
+  notebookedit: "NotebookEdit",
+  notebookread: "NotebookRead",
   lsp: "Lsp",
   apply_patch: "ApplyPatch",
+  bashoutput: "BashOutput",
+  killshell: "KillShell",
+  killbash: "KillBash",
+  enterplanmode: "EnterPlanMode",
+  exitplanmode: "ExitPlanMode",
+  enterworktree: "EnterWorktree",
+  exitworktree: "ExitWorktree",
+  artifact: "Artifact",
+  designsync: "DesignSync",
+  monitor: "Monitor",
+  sendmessage: "SendMessage",
+  listagents: "ListAgents",
+  pushnotification: "PushNotification",
+  reportfindings: "ReportFindings",
+  schedulewakeup: "ScheduleWakeup",
+  croncreate: "CronCreate",
+  crondelete: "CronDelete",
+  cronlist: "CronList",
+  taskoutput: "TaskOutput",
+  taskstop: "TaskStop",
+  workflow: "Workflow",
 };
 
 const REVERSE_MAP: Record<string, string> = {};
@@ -160,19 +186,6 @@ export function remapToolNamesInResponse(
 ): string {
   if (!forceLowercase) return text;
 
-  // Replace TitleCase tool names back to lowercase in SSE chunks
-  const FALLBACK_CASE_MAP: Record<string, string> = {
-    "bash": "Bash",
-    "read": "Read",
-    "edit": "Edit",
-    "write": "Write",
-    "websearch": "WebSearch",
-    "webfetch": "WebFetch",
-    "agent": "Agent"
-  };
-  const fallback = FALLBACK_CASE_MAP[rawName.toLowerCase()];
-  if (fallback) return fallback;
-
   if (toolNameMap?.size) {
     for (const [mapped, original] of toolNameMap.entries()) {
       text = text.replaceAll(`"name":"${mapped}"`, `"name":"${original}"`);
@@ -218,16 +231,16 @@ export function restoreClaudeToolName(
     }
   }
 
-  const TOOL_CASE_MAP: Record<string, string> = {
-    "bash": "Bash",
-    "read": "Read",
-    "edit": "Edit",
-    "write": "Write",
-    "websearch": "WebSearch",
-    "webfetch": "WebFetch",
-    "agent": "Agent"
-  };
-  return TOOL_CASE_MAP[rawName.toLowerCase()] ?? (REVERSE_MAP[rawName] ?? rawName);
+  // When no request toolNameMap is provided (e.g. non-Claude client):
+  // If rawName is already TitleCase, apply REVERSE_MAP for #7926 backward compatibility (Bash → bash).
+  if (!toolNameMap && REVERSE_MAP[rawName]) {
+    return REVERSE_MAP[rawName];
+  }
+
+  const canonical = TOOL_RENAME_MAP[rawName.toLowerCase()];
+  if (canonical) return canonical;
+
+  return REVERSE_MAP[rawName] ?? rawName;
 }
 
 export { TOOL_RENAME_MAP, REVERSE_MAP };

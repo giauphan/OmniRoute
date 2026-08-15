@@ -1,20 +1,14 @@
 import { register } from "../registry.ts";
 import { FORMATS } from "../formats.ts";
 import { isAbortFinishReason } from "../../utils/finishReason.ts";
-import { REVERSE_MAP, restoreClaudeToolName } from "../../services/claudeCodeToolRemapper.ts";
+import { restoreClaudeToolName } from "../../services/claudeCodeToolRemapper.ts";
+import {
+  buildGeminiThoughtSignatureKey,
+  storeGeminiThoughtSignature,
+} from "../../services/geminiThoughtSignatureStore.ts";
 
-function normalizeToolName(name: string): string {
-  const TOOL_CASE_MAP: Record<string, string> = {
-    'bash': 'Bash',
-    'read': 'Read',
-    'edit': 'Edit',
-    'write': 'Write',
-    'websearch': 'WebSearch',
-    'webfetch': 'WebFetch',
-    'agent': 'Agent'
-  };
-  const mapped = TOOL_CASE_MAP[name.toLowerCase()] || name;
-  return mapped;
+function normalizeToolName(name: string, toolNameMap?: Map<string, string> | null): string {
+  return restoreClaudeToolName(name, toolNameMap);
 }
 
 function extractXmlInvokeBlocks(
@@ -150,6 +144,12 @@ export function geminiToClaudeResponse(chunk, state) {
       const hasThoughtSig = part.thoughtSignature || part.thought_signature;
       const isThought = part.thought === true;
 
+      // Capture thoughtSignature so the next functionCall (or same-part call)
+      // can persist it for Claude→Gemini follow-up turns (#8979 / #2504 parity).
+      if (typeof hasThoughtSig === "string" && hasThoughtSig.length > 0) {
+        state.pendingThoughtSignature = hasThoughtSig;
+      }
+
       // Thinking content → thinking block (always open+close per chunk)
       if (isThought && part.text) {
         // Close any open text block first
@@ -172,6 +172,17 @@ export function geminiToClaudeResponse(chunk, state) {
         continue;
       }
 
+      // Standalone thoughtSignature part (no text / no functionCall): keep
+      // pending and wait for the following functionCall — do not emit to Claude.
+      if (
+        typeof hasThoughtSig === "string" &&
+        hasThoughtSig.length > 0 &&
+        (part.text === undefined || part.text === "") &&
+        !part.functionCall
+      ) {
+        continue;
+      }
+
       // Function call → tool_use block
       if (part.functionCall) {
         // Close any open text block first
@@ -181,9 +192,26 @@ export function geminiToClaudeResponse(chunk, state) {
         }
         const fc = part.functionCall;
         const rawToolName = fc.name;
-        const restoredToolName = normalizeToolName(state.toolNameMap?.get(rawToolName) || rawToolName);
+        const restoredToolName = normalizeToolName(
+          typeof rawToolName === "string" ? rawToolName : "",
+          state.toolNameMap instanceof Map ? state.toolNameMap : null
+        );
         const idx = state.contentBlockIndex++;
         const toolId = fc.id || `toolu_${Date.now()}_${idx}`;
+
+        const signatureForToolCall =
+          (typeof hasThoughtSig === "string" && hasThoughtSig.length > 0 ? hasThoughtSig : null) ||
+          (typeof state.pendingThoughtSignature === "string" &&
+          state.pendingThoughtSignature.length > 0
+            ? state.pendingThoughtSignature
+            : null);
+        if (signatureForToolCall) {
+          storeGeminiThoughtSignature(
+            buildGeminiThoughtSignatureKey(state.signatureNamespace, toolId),
+            signatureForToolCall
+          );
+          state.pendingThoughtSignature = null;
+        }
 
         results.push({
           type: "content_block_start",
@@ -229,8 +257,23 @@ export function geminiToClaudeResponse(chunk, state) {
           for (const tc of textToolCalls) {
             const idx = state.contentBlockIndex++;
             const restoredToolName = restoreClaudeToolName(
-              state.toolNameMap?.get(tc.name) || tc.name
+              tc.name,
+              state.toolNameMap instanceof Map ? state.toolNameMap : null
             );
+            const signatureForToolCall =
+              (typeof hasThoughtSig === "string" && hasThoughtSig.length > 0 ? hasThoughtSig : null) ||
+              (typeof state.pendingThoughtSignature === "string" &&
+              state.pendingThoughtSignature.length > 0
+                ? state.pendingThoughtSignature
+                : null);
+            if (signatureForToolCall) {
+              storeGeminiThoughtSignature(
+                buildGeminiThoughtSignatureKey(state.signatureNamespace, tc.id),
+                signatureForToolCall
+              );
+              state.pendingThoughtSignature = null;
+            }
+
             results.push({
               type: "content_block_start",
               index: idx,
@@ -242,12 +285,12 @@ export function geminiToClaudeResponse(chunk, state) {
               delta: { type: "input_json_delta", partial_json: JSON.stringify(tc.args || {}) },
             });
             results.push({ type: "content_block_stop", index: idx });
+            if (!state.hasToolUse) state.hasToolUse = true;
           }
-          if (!state.hasToolUse) state.hasToolUse = true;
         }
 
-        // Emit remaining non-tool text content into the SAME open block
         if (cleaned) {
+          // Open a new text block only if none is open yet
           if (state.openTextBlockIdx === null) {
             const idx = state.contentBlockIndex++;
             state.openTextBlockIdx = idx;
@@ -303,17 +346,8 @@ export function geminiToClaudeResponse(chunk, state) {
     } else if (reason === "max_tokens" || reason === "length") {
       stopReason = "max_tokens";
     } else if (reason === "safety" || reason === "recitation" || reason === "blocklist") {
-      // Content blocked by Gemini safety. Any text streamed before this finish
-      // reason has already been emitted to the client — this is unavoidable in
-      // SSE streaming. Map to end_turn (Claude has no "content blocked" reason).
       stopReason = "end_turn";
     } else if (isAbortFinishReason(reason)) {
-      // Aborted/malformed tool call (e.g. MALFORMED_FUNCTION_CALL,
-      // UNEXPECTED_TOOL_CALL). Surface as tool_use rather than a clean end_turn
-      // so the client sees the turn did not complete normally. Same fix as the
-      // hub path (openai-to-claude.ts) — this direct Gemini→Claude translator is
-      // the one Claude Code hits through an antigravity/Gemini-routed model.
-      // Port of decolua/9router#2462 by @anhdiepmmk.
       stopReason = "tool_use";
     } else {
       stopReason = "end_turn";
@@ -324,13 +358,11 @@ export function geminiToClaudeResponse(chunk, state) {
       delta: { stop_reason: stopReason, stop_sequence: null },
       usage: state.usage || { input_tokens: 0, output_tokens: 0 },
     });
-
     results.push({ type: "message_stop" });
   }
 
   return results.length > 0 ? results : null;
 }
 
-// Register as direct path: Gemini → Claude
 register(FORMATS.GEMINI, FORMATS.CLAUDE, null, geminiToClaudeResponse);
 register(FORMATS.ANTIGRAVITY, FORMATS.CLAUDE, null, geminiToClaudeResponse);
