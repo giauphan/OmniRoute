@@ -47,6 +47,7 @@ import {
 import {
   shouldUseNativeCodexPassthrough,
   shouldUseNativeXaiResponsesPassthrough,
+  shouldUseNativeOpenAICompatibleResponsesPassthrough,
   stampNativeResponsesPassthroughBody,
   redactPassthroughThinkingSignatures,
   isClaudeCodeSemanticPassthroughRequest,
@@ -660,6 +661,12 @@ export async function handleChatCore({
     copilotCompatibleReasoning,
     clientResponseFormat,
   } = resolveChatCoreRequestFormat({ clientRawRequest, body, provider, userAgent });
+  const nativeOpenAICompatibleResponsesPassthrough = shouldUseNativeOpenAICompatibleResponsesPassthrough({
+    provider,
+    sourceFormat,
+    endpointPath,
+    providerSpecificData: credentials?.providerSpecificData,
+  });
   const responsesInputItems = Array.isArray(body?.input) ? body.input : [];
   const customToolNames = collectCustomToolNamesForSourceFormat(
     sourceFormat,
@@ -779,8 +786,12 @@ export async function handleChatCore({
     customModelTargetFormat,
     providerSpecificData: credentials?.providerSpecificData,
     nativeXaiResponsesPassthrough,
+    nativeOpenAICompatibleResponsesPassthrough,
   });
-  const nativeResponsesPassthrough = nativeCodexPassthrough || nativeXaiResponsesPassthrough;
+  const nativeResponsesPassthrough =
+    nativeCodexPassthrough ||
+    nativeXaiResponsesPassthrough ||
+    nativeOpenAICompatibleResponsesPassthrough;
 
   const initialProviderRequest =
     body && typeof body === "object" && !Array.isArray(body)
@@ -2026,13 +2037,19 @@ export async function handleChatCore({
     if (nativeResponsesPassthrough) {
       translatedBody = stampNativeResponsesPassthroughBody(
         body,
-        nativeCodexPassthrough ? "codex" : "xai"
+        nativeCodexPassthrough
+          ? "codex"
+          : nativeXaiResponsesPassthrough
+            ? "xai"
+            : "openai-compatible"
       );
       log?.debug?.(
         "FORMAT",
         nativeCodexPassthrough
           ? "native codex passthrough enabled"
-          : "native xAI Responses Agent Tools passthrough enabled"
+          : nativeXaiResponsesPassthrough
+            ? "native xAI Responses Agent Tools passthrough enabled"
+            : "native openai-compatible Responses passthrough enabled"
       );
     } else if (isClaudeCodeCompatible) {
       let normalizedForCc = { ...body };
@@ -2191,7 +2208,13 @@ export async function handleChatCore({
       //   - tools with a name → converted to function format in-place before translation
       //   - tools without a name AND without .function → dropped (unconvertible)
       // This must happen before translateRequest, which validates and throws on unknown types.
-      if (provider?.startsWith("openai-compatible-") && Array.isArray(translatedBody.tools)) {
+      // Skip normalization when we are in native openai-compatible Responses passthrough mode
+      // to preserve native tool definitions (exec with lark grammar, collaboration namespace, etc.).
+      if (
+        !nativeOpenAICompatibleResponsesPassthrough &&
+        provider?.startsWith("openai-compatible-") &&
+        Array.isArray(translatedBody.tools)
+      ) {
         const normalized = normalizeOpenAICompatibleTools(
           translatedBody.tools as Record<string, unknown>[],
           sourceFormat

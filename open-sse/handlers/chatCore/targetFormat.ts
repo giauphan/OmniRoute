@@ -22,6 +22,7 @@ export function resolveChatCoreTargetFormat(opts: {
   customModelTargetFormat: string | undefined;
   providerSpecificData: unknown;
   nativeXaiResponsesPassthrough?: boolean;
+  nativeOpenAICompatibleResponsesPassthrough?: boolean;
 }) {
   const {
     provider,
@@ -31,6 +32,7 @@ export function resolveChatCoreTargetFormat(opts: {
     customModelTargetFormat,
     providerSpecificData,
     nativeXaiResponsesPassthrough = false,
+    nativeOpenAICompatibleResponsesPassthrough = false,
   } = opts;
   const alias = PROVIDER_ID_TO_ALIAS[provider] || provider;
   const modelTargetFormat = getModelTargetFormat(alias, resolvedModel);
@@ -58,7 +60,9 @@ export function resolveChatCoreTargetFormat(opts: {
     (apiFormat === "responses" && !customOpenAICompatible
       ? FORMATS.OPENAI_RESPONSES
       : inferredAgentRouterTargetFormat || providerTargetFormat);
-  if (nativeXaiResponsesPassthrough) targetFormat = FORMATS.OPENAI_RESPONSES;
+  if (nativeXaiResponsesPassthrough || nativeOpenAICompatibleResponsesPassthrough) {
+    targetFormat = FORMATS.OPENAI_RESPONSES;
+  }
   return { alias, targetFormat };
 }
 
