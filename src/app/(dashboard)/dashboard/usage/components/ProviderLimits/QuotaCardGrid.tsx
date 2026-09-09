@@ -59,13 +59,15 @@ function getRemainingPercentage(quota: any): number {
   return 100;
 }
 
-function getLowestRemainingPercentage(quotas: any[] | undefined): number {
+function getBestQuotaRemaining(quotas: any[] | undefined): number {
   if (!Array.isArray(quotas) || quotas.length === 0) return 100;
-  let lowest = 100;
-  for (const quota of quotas) {
-    lowest = Math.min(lowest, getRemainingPercentage(quota));
-  }
-  return lowest;
+
+  const remainingValues = quotas
+    .map((quota) => getRemainingPercentage(quota))
+    .filter((rem) => Number.isFinite(rem));
+
+  if (remainingValues.length === 0) return 100;
+  return Math.max(...remainingValues);
 }
 
 function hasUsableQuota(quotas: any[] | undefined): boolean {
@@ -100,8 +102,7 @@ export function sortProviderConnectionsByPriority(
     const resetDiff = getSoonestResetMs(aQuotas) - getSoonestResetMs(bQuotas);
     if (resetDiff !== 0) return resetDiff;
 
-    const remainingDiff =
-      getLowestRemainingPercentage(aQuotas) - getLowestRemainingPercentage(bQuotas);
+    const remainingDiff = getBestQuotaRemaining(aQuotas) - getBestQuotaRemaining(bQuotas);
     if (remainingDiff !== 0) return remainingDiff;
 
     return getConnectionLabel(a).localeCompare(getConnectionLabel(b));

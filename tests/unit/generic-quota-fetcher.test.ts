@@ -128,6 +128,34 @@ test("convertUsageToQuotaInfo does not let an unreported window inflate worstPer
   assert.equal(result!.limitReached, false);
 });
 
+test("convertUsageToQuotaInfo #1328: freetrial alternative pools use min within group, max across groups", () => {
+  const usage = {
+    quotas: {
+      credit: { used: 50, total: 50 },
+      credit_freetrial: { used: 100, total: 500 },
+      session: { used: 50, total: 100 },
+    },
+  };
+  const result = convertUsageToQuotaInfo(usage);
+  assert.ok(result, "should produce quota");
+  assert.equal(result!.percentUsed, 0.5);
+  assert.equal(result!.limitReached, false);
+  assert.ok(result!.windows!.credit);
+  assert.ok(result!.windows!.credit_freetrial);
+});
+
+test("convertUsageToQuotaInfo #1328: both freetrial pools exhausted → limitReached true", () => {
+  const usage = {
+    quotas: {
+      credit: { used: 50, total: 50 },
+      credit_freetrial: { used: 500, total: 500 },
+    },
+  };
+  const result = convertUsageToQuotaInfo(usage);
+  assert.equal(result!.percentUsed, 1);
+  assert.equal(result!.limitReached, true);
+});
+
 test("registerGenericQuotaFetchers registers Claude, GLM, and OpenCode Go via the generic adapter", () => {
   registerGenericQuotaFetchers();
   // Claude has no bespoke fetcher → should be registered.
@@ -329,7 +357,11 @@ test("in-flight fetch must not drop a concurrent 429 force-refresh", async () =>
   assert.equal(first?.percentUsed, 0.2);
 
   const second = await fetchGenericQuota(connectionId, connection);
-  assert.equal(calls.length, 2, "concurrent 429 must not let the in-flight recache wipe force-refresh");
+  assert.equal(
+    calls.length,
+    2,
+    "concurrent 429 must not let the in-flight recache wipe force-refresh"
+  );
   assert.equal(calls[1]?.forceRefresh, true);
   assert.equal(second?.percentUsed, 0.9);
   invalidateGenericQuotaCache("agy", connectionId);
