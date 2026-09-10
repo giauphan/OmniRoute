@@ -128,7 +128,7 @@ OmniRoute solves the problem of managing multiple AI provider subscriptions, quo
 │   │   │   ├── secrets.ts        # Secrets management
 │   │   │   ├── stateReset.ts     # State reset utilities
 │   │   │   ├── migrationRunner.ts # Schema migration runner
-│   │   │   └── migrations/       # 171 versioned SQL migration files
+│   │   │   └── migrations/       # 172 versioned SQL migration files
 │   │   ├── evals/                # Eval runner and scheduler
 │   │   ├── memory/               # Persistent conversational memory
 │   │   │   ├── extraction.ts     # Memory extraction from conversations
@@ -393,7 +393,7 @@ diagnostics) plus **memory**, **skill**, **agentSkill**, **githubSkill**, **pool
 
 8. **ProviderIcon component:** Unified icon system using `@lobehub/icons` (130+ SVG) with PNG fallback and generic icon fallback chain. Used on providers, dashboard, and agents pages.
 
-9. **DB architecture:** `localDb.ts` is a re-export layer only — real logic lives in 122 `src/lib/db/` modules with 171 SQL migrations.
+9. **DB architecture:** `localDb.ts` is a re-export layer only — real logic lives in 122 `src/lib/db/` modules with 172 SQL migrations.
 
 10. **Upstream headers:** Custom headers merged in executors after default auth; same header name replaces executor value. Forbidden header names in `src/shared/constants/upstreamHeaders.ts`.
 
