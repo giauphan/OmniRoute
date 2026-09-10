@@ -219,6 +219,49 @@ type UsageToQuotaContext = {
   provider?: string | null;
 };
 
+function getProviderScopedWindows(
+  windows: Record<string, { percentUsed: number; resetAt: string | null }>,
+  context: UsageToQuotaContext
+): Record<string, { percentUsed: number; resetAt: string | null }> {
+  const requestedFamily =
+    isAntigravityProvider(context.provider) && context.requestedModel
+      ? getAntigravityQuotaFamily(context.requestedModel)
+      : null;
+  if (requestedFamily === "gemini" || requestedFamily === "claude") {
+    return Object.fromEntries(
+      Object.entries(windows).filter(([key]) => {
+        if (key.endsWith("_weekly")) {
+          return antigravityWeeklyWindowMatchesFamily(key, requestedFamily);
+        }
+        return getAntigravityQuotaFamily(key) === requestedFamily;
+      })
+    );
+  }
+  return windows;
+}
+
+function aggregateGroupedQuotaValues(
+  windows: Record<string, { percentUsed: number; resetAt: string | null }>
+): { percentUsed: number; resetAt: string | null } {
+  const effectiveByBase = new Map<string, { percentUsed: number; resetAt: string | null }>();
+  for (const [key, entry] of Object.entries(windows)) {
+    const base = key.endsWith("_freetrial") ? key.slice(0, -10) : key;
+    const cur = effectiveByBase.get(base);
+    if (!cur || entry.percentUsed < cur.percentUsed) {
+      effectiveByBase.set(base, { percentUsed: entry.percentUsed, resetAt: entry.resetAt ?? null });
+    }
+  }
+  let percentUsed = 0;
+  let resetAt: string | null = null;
+  for (const eff of effectiveByBase.values()) {
+    if (eff.percentUsed > percentUsed) {
+      percentUsed = eff.percentUsed;
+      resetAt = eff.resetAt;
+    }
+  }
+  return { percentUsed, resetAt };
+}
+
 export function convertUsageToQuotaInfo(
   usage: unknown,
   context: UsageToQuotaContext = {}
@@ -249,40 +292,11 @@ export function convertUsageToQuotaInfo(
 
   if (Object.keys(windows).length === 0) return null;
 
-  const requestedFamily =
-    isAntigravityProvider(context.provider) && context.requestedModel
-      ? getAntigravityQuotaFamily(context.requestedModel)
-      : null;
-  const providerScopedWindows =
-    requestedFamily === "gemini" || requestedFamily === "claude"
-      ? Object.fromEntries(
-          Object.entries(windows).filter(([key]) => {
-            if (key.endsWith("_weekly")) {
-              return antigravityWeeklyWindowMatchesFamily(key, requestedFamily);
-            }
-            return getAntigravityQuotaFamily(key) === requestedFamily;
-          })
-        )
-      : windows;
+  const providerScopedWindows = getProviderScopedWindows(windows, context);
   if (Object.keys(providerScopedWindows).length === 0) return null;
 
   const normalized = normalizeQuotaWindows(providerScopedWindows, context);
-  const effectiveByBase = new Map<string, { percentUsed: number; resetAt: string | null }>();
-  for (const [key, entry] of Object.entries(providerScopedWindows)) {
-    const base = key.endsWith("_freetrial") ? key.slice(0, -10) : key;
-    const cur = effectiveByBase.get(base);
-    if (!cur || entry.percentUsed < cur.percentUsed) {
-      effectiveByBase.set(base, { percentUsed: entry.percentUsed, resetAt: entry.resetAt ?? null });
-    }
-  }
-  let percentUsed = 0;
-  let resetAt: string | null = null;
-  for (const eff of effectiveByBase.values()) {
-    if (eff.percentUsed > percentUsed) {
-      percentUsed = eff.percentUsed;
-      resetAt = eff.resetAt;
-    }
-  }
+  const { percentUsed, resetAt } = aggregateGroupedQuotaValues(providerScopedWindows);
   return {
     used: 0,
     total: 0,

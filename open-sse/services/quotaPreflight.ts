@@ -205,10 +205,48 @@ function limitReachedResult(quota: QuotaInfo): PreflightQuotaResult {
   );
 }
 
-function quotaWindowCutoffResult(
-  windows: NonNullable<QuotaInfo["windows"]>,
+function isEntryExhausted(
+  windowName: string,
+  percentUsed: number,
   thresholds?: PreflightQuotaThresholds
-): PreflightQuotaResult | null {
+): boolean {
+  const minRemainingPercent = resolveOrDefault(
+    thresholds?.resolveMinRemainingPercent,
+    windowName,
+    DEFAULT_MIN_REMAINING_PERCENT
+  );
+  return isRemainingAtOrBelowThreshold(remainingPercentFrom(percentUsed), minRemainingPercent);
+}
+
+function evaluateQuotaGroup(
+  entries: Array<[string, QuotaWindowInfo]>,
+  thresholds?: PreflightQuotaThresholds
+): {
+  exhausted: boolean;
+  worstPercent: number;
+  worstWindow: string | null;
+  worstResetAt: string | null;
+} {
+  let exhausted = true;
+  let worstPercent = -1;
+  let worstWindow: string | null = null;
+  let worstResetAt: string | null = null;
+  for (const [windowName, windowInfo] of entries) {
+    if (!isEntryExhausted(windowName, windowInfo.percentUsed, thresholds)) {
+      exhausted = false;
+    }
+    if (windowInfo.percentUsed > worstPercent) {
+      worstPercent = windowInfo.percentUsed;
+      worstWindow = windowName;
+      worstResetAt = windowInfo.resetAt ?? null;
+    }
+  }
+  return { exhausted, worstPercent: Math.max(0, worstPercent), worstWindow, worstResetAt };
+}
+
+function groupQuotaWindowsByBase(
+  windows: NonNullable<QuotaInfo["windows"]>
+): Map<string, Array<[string, QuotaWindowInfo]>> {
   const groups = new Map<string, Array<[string, QuotaWindowInfo]>>();
   for (const [windowName, windowInfo] of Object.entries(windows)) {
     if (!Number.isFinite(windowInfo.percentUsed)) continue;
@@ -217,6 +255,14 @@ function quotaWindowCutoffResult(
     if (list) list.push([windowName, windowInfo]);
     else groups.set(base, [[windowName, windowInfo]]);
   }
+  return groups;
+}
+
+function quotaWindowCutoffResult(
+  windows: NonNullable<QuotaInfo["windows"]>,
+  thresholds?: PreflightQuotaThresholds
+): PreflightQuotaResult | null {
+  const groups = groupQuotaWindowsByBase(windows);
   if (groups.size === 0) return null;
 
   let worstExhaustedPercent = 0;
@@ -225,32 +271,16 @@ function quotaWindowCutoffResult(
   let hasExhaustedGroup = false;
 
   for (const entries of groups.values()) {
-    let groupExhausted = true;
-    let groupWorstPercent = 0;
-    let groupWorstWindow: string | null = null;
-    let groupWorstResetAt: string | null = null;
-    for (const [windowName, windowInfo] of entries) {
-      const minRemainingPercent = resolveOrDefault(
-        thresholds?.resolveMinRemainingPercent,
-        windowName,
-        DEFAULT_MIN_REMAINING_PERCENT
-      );
-      const remaining = remainingPercentFrom(windowInfo.percentUsed);
-      if (!isRemainingAtOrBelowThreshold(remaining, minRemainingPercent)) {
-        groupExhausted = false;
-      }
-      if (windowInfo.percentUsed > groupWorstPercent || groupWorstWindow === null) {
-        groupWorstPercent = windowInfo.percentUsed;
-        groupWorstWindow = windowName;
-        groupWorstResetAt = windowInfo.resetAt ?? null;
-      }
-    }
-    if (groupExhausted) {
+    const { exhausted, worstPercent, worstWindow, worstResetAt } = evaluateQuotaGroup(
+      entries,
+      thresholds
+    );
+    if (exhausted) {
       hasExhaustedGroup = true;
-      if (groupWorstPercent > worstExhaustedPercent || worstExhaustedWindow === null) {
-        worstExhaustedPercent = groupWorstPercent;
-        worstExhaustedWindow = groupWorstWindow;
-        worstExhaustedResetAt = groupWorstResetAt;
+      if (worstPercent > worstExhaustedPercent || worstExhaustedWindow === null) {
+        worstExhaustedPercent = worstPercent;
+        worstExhaustedWindow = worstWindow;
+        worstExhaustedResetAt = worstResetAt;
       }
     }
   }
