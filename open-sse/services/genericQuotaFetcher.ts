@@ -24,10 +24,7 @@ import {
   type QuotaFetcher,
   type QuotaInfo,
 } from "./quotaPreflight.ts";
-import {
-  getAntigravityQuotaFamily,
-  getQuotaFetchScope,
-} from "./antigravityQuotaFamily.ts";
+import { getAntigravityQuotaFamily, getQuotaFetchScope } from "./antigravityQuotaFamily.ts";
 
 type UsageFetcher = (
   connection: Parameters<typeof getUsageForProvider>[0],
@@ -88,18 +85,11 @@ function connectionKey(provider: string, connectionId: string): string {
   return `${provider.trim()}::${connectionId.trim()}`;
 }
 
-function quotaCacheScope(
-  provider: string,
-  requestedModel?: string | null
-): string {
+function quotaCacheScope(provider: string, requestedModel?: string | null): string {
   return getQuotaFetchScope(provider, requestedModel);
 }
 
-function cacheKey(
-  provider: string,
-  connectionId: string,
-  requestedModel?: string | null
-): string {
+function cacheKey(provider: string, connectionId: string, requestedModel?: string | null): string {
   return `${connectionKey(provider, connectionId)}::${quotaCacheScope(provider, requestedModel)}`;
 }
 
@@ -125,22 +115,14 @@ function markPendingForceRefreshMiss(key: string): void {
   if (isPendingForceRefresh(key)) pendingForceRefreshMiss.set(key, Date.now());
 }
 
-function cachedQuotaIfFresh(
-  key: string,
-  forceRefresh: boolean,
-  now: number
-): QuotaInfo | null {
+function cachedQuotaIfFresh(key: string, forceRefresh: boolean, now: number): QuotaInfo | null {
   if (forceRefresh) return null;
   const cached = cache.get(key);
   if (cached && now - cached.fetchedAt < CACHE_TTL_MS) return cached.quota;
   return null;
 }
 
-function isForceRefreshMissCooling(
-  key: string,
-  forceRefresh: boolean,
-  now: number
-): boolean {
+function isForceRefreshMissCooling(key: string, forceRefresh: boolean, now: number): boolean {
   if (!forceRefresh) return false;
   const missedAt = pendingForceRefreshMiss.get(key);
   return missedAt !== undefined && now - missedAt < CACHE_TTL_MS;
@@ -150,10 +132,7 @@ function isForceRefreshMissCooling(
 function isConcurrentForceRefresh(key: string, refreshStamp: number | undefined): boolean {
   const currentStamp = pendingForceRefresh.get(key);
   if (currentStamp === refreshStamp) return false;
-  return (
-    currentStamp !== undefined &&
-    Date.now() - currentStamp <= PENDING_FORCE_REFRESH_TTL_MS
-  );
+  return currentStamp !== undefined && Date.now() - currentStamp <= PENDING_FORCE_REFRESH_TTL_MS;
 }
 
 // 5min — same as Codex. Expiry is lazy on read (`isPendingForceRefresh`);
@@ -240,6 +219,49 @@ type UsageToQuotaContext = {
   provider?: string | null;
 };
 
+function getProviderScopedWindows(
+  windows: Record<string, { percentUsed: number; resetAt: string | null }>,
+  context: UsageToQuotaContext
+): Record<string, { percentUsed: number; resetAt: string | null }> {
+  const requestedFamily =
+    isAntigravityProvider(context.provider) && context.requestedModel
+      ? getAntigravityQuotaFamily(context.requestedModel)
+      : null;
+  if (requestedFamily === "gemini" || requestedFamily === "claude") {
+    return Object.fromEntries(
+      Object.entries(windows).filter(([key]) => {
+        if (key.endsWith("_weekly")) {
+          return antigravityWeeklyWindowMatchesFamily(key, requestedFamily);
+        }
+        return getAntigravityQuotaFamily(key) === requestedFamily;
+      })
+    );
+  }
+  return windows;
+}
+
+function aggregateGroupedQuotaValues(
+  windows: Record<string, { percentUsed: number; resetAt: string | null }>
+): { percentUsed: number; resetAt: string | null } {
+  const effectiveByBase = new Map<string, { percentUsed: number; resetAt: string | null }>();
+  for (const [key, entry] of Object.entries(windows)) {
+    const base = key.endsWith("_freetrial") ? key.slice(0, -10) : key;
+    const cur = effectiveByBase.get(base);
+    if (!cur || entry.percentUsed < cur.percentUsed) {
+      effectiveByBase.set(base, { percentUsed: entry.percentUsed, resetAt: entry.resetAt ?? null });
+    }
+  }
+  let percentUsed = 0;
+  let resetAt: string | null = null;
+  for (const eff of effectiveByBase.values()) {
+    if (eff.percentUsed > percentUsed) {
+      percentUsed = eff.percentUsed;
+      resetAt = eff.resetAt;
+    }
+  }
+  return { percentUsed, resetAt };
+}
+
 export function convertUsageToQuotaInfo(
   usage: unknown,
   context: UsageToQuotaContext = {}
@@ -270,35 +292,11 @@ export function convertUsageToQuotaInfo(
 
   if (Object.keys(windows).length === 0) return null;
 
-  const requestedFamily =
-    isAntigravityProvider(context.provider) && context.requestedModel
-      ? getAntigravityQuotaFamily(context.requestedModel)
-      : null;
-  const providerScopedWindows =
-    requestedFamily === "gemini" || requestedFamily === "claude"
-      ? Object.fromEntries(
-          Object.entries(windows).filter(([key]) => {
-            if (key.endsWith("_weekly")) {
-              return antigravityWeeklyWindowMatchesFamily(key, requestedFamily);
-            }
-            return getAntigravityQuotaFamily(key) === requestedFamily;
-          })
-        )
-      : windows;
+  const providerScopedWindows = getProviderScopedWindows(windows, context);
   if (Object.keys(providerScopedWindows).length === 0) return null;
 
   const normalized = normalizeQuotaWindows(providerScopedWindows, context);
-  const scopedEntries = Object.values(providerScopedWindows);
-  const percentUsed = scopedEntries.reduce(
-    (worst, entry) => Math.max(worst, entry.percentUsed),
-    0
-  );
-  const resetAt =
-    scopedEntries.reduce<{ percentUsed: number; resetAt: string | null } | null>(
-      (worst, entry) => (!worst || entry.percentUsed > worst.percentUsed ? entry : worst),
-      null
-    )?.resetAt ?? null;
-
+  const { percentUsed, resetAt } = aggregateGroupedQuotaValues(providerScopedWindows);
   return {
     used: 0,
     total: 0,
@@ -322,10 +320,7 @@ function isAntigravityProvider(provider: string | null | undefined): boolean {
   return provider === "antigravity" || provider === "agy";
 }
 
-function antigravityWeeklyWindowMatchesFamily(
-  key: string,
-  family: "gemini" | "claude"
-): boolean {
+function antigravityWeeklyWindowMatchesFamily(key: string, family: "gemini" | "claude"): boolean {
   if (!key.endsWith("_weekly")) return false;
   return family === "gemini" ? key === "gemini_weekly" : key === "claude_gpt_weekly";
 }
