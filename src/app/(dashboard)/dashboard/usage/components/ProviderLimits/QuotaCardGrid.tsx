@@ -61,11 +61,9 @@ function getRemainingPercentage(quota: any): number {
 
 function getBestQuotaRemaining(quotas: any[] | undefined): number {
   if (!Array.isArray(quotas) || quotas.length === 0) return 100;
-
   const remainingValues = quotas
     .map((quota) => getRemainingPercentage(quota))
     .filter((rem) => Number.isFinite(rem));
-
   if (remainingValues.length === 0) return 100;
   return Math.max(...remainingValues);
 }

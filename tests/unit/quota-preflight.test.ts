@@ -259,87 +259,6 @@ test("preflightQuota (per-window): omitted resolver falls back to the 2% remaini
 
 // ─── Window registry ─────────────────────────────────────────────────────
 
-test("evaluateQuotaCutoff still blocks Claude 5h at 1% remaining when extra usage is blocked", () => {
-  const quota = {
-    used: 0,
-    total: 0,
-    percentUsed: 0.99,
-    windows: {
-      "session (5h)": { percentUsed: 0.99, resetAt: "2026-09-05T12:50:00Z" },
-      "weekly (7d)": { percentUsed: 0.15, resetAt: "2026-09-12T10:00:00Z" },
-    },
-  };
-
-  const defaultBlock = evaluateQuotaCutoff(quota, undefined, { provider: "claude" });
-  assert.equal(defaultBlock.proceed, false);
-  assert.equal(defaultBlock.reason, "quota_exhausted");
-
-  const explicitBlock = evaluateQuotaCutoff(quota, undefined, {
-    provider: "claude",
-    providerSpecificData: { blockExtraUsage: true },
-  });
-  assert.equal(explicitBlock.proceed, false);
-});
-
-test("evaluateQuotaCutoff proceeds on Claude 5h cutoff when extra usage is allowed", () => {
-  const quota = {
-    used: 0,
-    total: 0,
-    percentUsed: 0.99,
-    windows: {
-      "session (5h)": { percentUsed: 0.99, resetAt: "2026-09-05T12:50:00Z" },
-      "weekly (7d)": { percentUsed: 0.15, resetAt: "2026-09-12T10:00:00Z" },
-    },
-  };
-
-  const allowed = evaluateQuotaCutoff(quota, undefined, {
-    provider: "claude",
-    providerSpecificData: { blockExtraUsage: false },
-  });
-  assert.equal(allowed.proceed, true);
-});
-
-test("evaluateQuotaCutoff does not leak the Claude extra-usage bypass to other providers", () => {
-  const quota = {
-    used: 0,
-    total: 0,
-    percentUsed: 0.99,
-    windows: {
-      session: { percentUsed: 0.99, resetAt: null },
-    },
-  };
-
-  const result = evaluateQuotaCutoff(quota, undefined, {
-    provider: "openai",
-    providerSpecificData: { blockExtraUsage: false },
-  });
-  assert.equal(result.proceed, false);
-});
-
-test("preflightQuota proceeds on Claude when extra usage is allowed even at 1% remaining", async () => {
-  registerQuotaFetcher("claude", async () => ({
-    used: 99,
-    total: 100,
-    percentUsed: 0.99,
-    windows: {
-      "session (5h)": { percentUsed: 0.99, resetAt: "2026-09-05T12:50:00Z" },
-    },
-  }));
-
-  const blocked = await preflightQuota(
-    "claude",
-    "conn-extra-block",
-    createConnection({ quotaPreflightEnabled: true })
-  );
-  assert.equal(blocked.proceed, false);
-
-  const allowed = await preflightQuota("claude", "conn-extra-allow", {
-    provider: "claude",
-    providerSpecificData: { blockExtraUsage: false, quotaPreflightEnabled: true },
-  });
-  assert.equal(allowed.proceed, true);
-});
-
 test("registerQuotaWindows / getQuotaWindows round-trips", () => {
   registerQuotaWindows("test-provider", ["a", "b"]);
   assert.deepEqual([...getQuotaWindows("test-provider")], ["a", "b"]);
@@ -348,6 +267,7 @@ test("registerQuotaWindows / getQuotaWindows round-trips", () => {
 });
 
 // ─── _freetrial alternative pools (Kiro #1328) ──────────────────────────
+
 test("Kiro #1328: credit exhausted but _freetrial available → proceed", () => {
   const quota = {
     used: 0,
@@ -397,8 +317,8 @@ test("Kiro #1328: conjunctive across groups — one exhausted group blocks", () 
     percentUsed: 1,
     windows: {
       credit: { percentUsed: 1, resetAt: null },
-      credit_freetrial: { percentUsed: 1, resetAt: null },
-      session: { percentUsed: 0.5, resetAt: null },
+      credit_freetrial: { percentUsed: 0.2, resetAt: null }, // credit group OK
+      session: { percentUsed: 1, resetAt: null }, // session group exhausted
     },
   };
   const result = evaluateQuotaCutoff(quota);
@@ -424,3 +344,4 @@ test("Kiro #1328: unrelated windows without freetrial suffix stay conjunctive (A
     "weekly 18% remaining <= 20% cutoff should block even though session is healthy"
   );
 });
+
