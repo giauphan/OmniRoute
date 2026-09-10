@@ -110,6 +110,28 @@ interface ConnectionInputs {
   email?: string;
 }
 
+function aggregateGroupedQuotaValues(
+  windows: Record<string, { percentUsed: number; resetAt: string | null }>
+): { percentUsed: number; resetAt: string | null } {
+  const effectiveByBase = new Map<string, { percentUsed: number; resetAt: string | null }>();
+  for (const [key, entry] of Object.entries(windows)) {
+    const base = key.endsWith("_freetrial") ? key.slice(0, -10) : key;
+    const cur = effectiveByBase.get(base);
+    if (!cur || entry.percentUsed < cur.percentUsed) {
+      effectiveByBase.set(base, { percentUsed: entry.percentUsed, resetAt: entry.resetAt ?? null });
+    }
+  }
+  let percentUsed = 0;
+  let resetAt: string | null = null;
+  for (const eff of effectiveByBase.values()) {
+    if (eff.percentUsed > percentUsed) {
+      percentUsed = eff.percentUsed;
+      resetAt = eff.resetAt;
+    }
+  }
+  return { percentUsed, resetAt };
+}
+
 /**
  * Reshape a raw `getUsageForProvider` response into the preflight `QuotaInfo`
  * contract. Returns `null` if there are no measurable windows (all unlimited
@@ -135,28 +157,23 @@ export function convertUsageToQuotaInfo(usage: unknown): QuotaInfo | null {
   }
 
   const windows: Record<string, { percentUsed: number; resetAt: string | null }> = {};
-  let worstPercent = 0;
-  let worstResetAt: string | null = null;
   for (const [name, entry] of Object.entries(quotasObj as Record<string, unknown>)) {
     const percentUsed = percentUsedForQuota(entry);
     if (percentUsed === null) continue;
-    const resetAt = resetAtForQuota(entry);
-    windows[name] = { percentUsed, resetAt };
-    if (percentUsed > worstPercent) {
-      worstPercent = percentUsed;
-      worstResetAt = resetAt;
-    }
+    windows[name] = { percentUsed, resetAt: resetAtForQuota(entry) };
   }
 
   if (Object.keys(windows).length === 0) return null;
 
+  const { percentUsed, resetAt } = aggregateGroupedQuotaValues(windows);
+
   return {
     used: 0,
     total: 0,
-    percentUsed: worstPercent,
-    resetAt: worstResetAt,
+    percentUsed,
+    resetAt,
     windows,
-    limitReached: worstPercent >= 1 - 1e-9,
+    limitReached: percentUsed >= 1 - 1e-9,
   };
 }
 

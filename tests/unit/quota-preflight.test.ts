@@ -9,6 +9,7 @@ const {
   getQuotaWindows,
   isQuotaPreflightEnabled,
   preflightQuota,
+  evaluateQuotaCutoff,
 } = quotaPreflight;
 
 function createConnection(providerSpecificData = {}) {
@@ -264,3 +265,83 @@ test("registerQuotaWindows / getQuotaWindows round-trips", () => {
   // Unknown provider returns an empty list rather than undefined.
   assert.deepEqual([...getQuotaWindows("provider-with-no-registration-anywhere")], []);
 });
+
+// ─── _freetrial alternative pools (Kiro #1328) ──────────────────────────
+
+test("Kiro #1328: credit exhausted but _freetrial available → proceed", () => {
+  const quota = {
+    used: 0,
+    total: 0,
+    percentUsed: 1,
+    windows: {
+      credit: { percentUsed: 1, resetAt: "2026-05-20T00:00:00Z" },
+      credit_freetrial: { percentUsed: 0.2, resetAt: "2026-05-20T00:00:00Z" },
+    },
+  };
+  const result = evaluateQuotaCutoff(quota);
+  assert.equal(result.proceed, true, "alternative _freetrial pool should keep account active");
+});
+
+test("Kiro #1328: both credit and _freetrial exhausted → block", () => {
+  const quota = {
+    used: 0,
+    total: 0,
+    percentUsed: 1,
+    windows: {
+      credit: { percentUsed: 1, resetAt: "2026-05-20T00:00:00Z" },
+      credit_freetrial: { percentUsed: 0.99, resetAt: "2026-05-20T00:00:00Z" },
+    },
+  };
+  const result = evaluateQuotaCutoff(quota);
+  assert.equal(result.proceed, false);
+  assert.equal(result.reason, "quota_exhausted");
+});
+
+test("Kiro #1328: symmetric — freetrial exhausted, base available → proceed", () => {
+  const quota = {
+    used: 0,
+    total: 0,
+    percentUsed: 1,
+    windows: {
+      credit: { percentUsed: 0.2, resetAt: null },
+      credit_freetrial: { percentUsed: 1, resetAt: null },
+    },
+  };
+  assert.equal(evaluateQuotaCutoff(quota).proceed, true);
+});
+
+test("Kiro #1328: conjunctive across groups — one exhausted group blocks", () => {
+  const quota = {
+    used: 0,
+    total: 0,
+    percentUsed: 1,
+    windows: {
+      credit: { percentUsed: 1, resetAt: null },
+      credit_freetrial: { percentUsed: 0.2, resetAt: null }, // credit group OK
+      session: { percentUsed: 1, resetAt: null }, // session group exhausted
+    },
+  };
+  const result = evaluateQuotaCutoff(quota);
+  assert.equal(result.proceed, false, "ANY exhausted group should still block");
+});
+
+test("Kiro #1328: unrelated windows without freetrial suffix stay conjunctive (ANY blocks)", () => {
+  const quota = {
+    used: 0,
+    total: 0,
+    percentUsed: 0.82,
+    windows: {
+      session: { percentUsed: 0.5, resetAt: null },
+      weekly: { percentUsed: 0.82, resetAt: null },
+    },
+  };
+  const result = evaluateQuotaCutoff(quota, {
+    resolveMinRemainingPercent: (w) => (w === "weekly" ? 20 : 5),
+  });
+  assert.equal(
+    result.proceed,
+    false,
+    "weekly 18% remaining <= 20% cutoff should block even though session is healthy"
+  );
+});
+
