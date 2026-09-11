@@ -28,6 +28,7 @@ import {
   getAntigravityQuotaFamily,
   getQuotaFetchScope,
 } from "./antigravityQuotaFamily.ts";
+import { toNumberOrNull } from "@/shared/utils/numeric";
 
 type UsageFetcher = (
   connection: Parameters<typeof getUsageForProvider>[0],
@@ -171,14 +172,6 @@ if (typeof _cacheCleanup === "object" && "unref" in _cacheCleanup) {
   (_cacheCleanup as { unref?: () => void }).unref?.();
 }
 
-function toNumber(value: unknown): number | null {
-  if (typeof value === "number" && Number.isFinite(value)) return value;
-  if (typeof value === "string") {
-    const parsed = parseFloat(value);
-    if (Number.isFinite(parsed)) return parsed;
-  }
-  return null;
-}
 
 /**
  * Compute percentUsed (0-1) for a single quota entry. Prefers the explicit
@@ -197,15 +190,15 @@ function percentUsedForQuota(entry: unknown): number | null {
   // otherwise one unreported model falsely exhausts the whole connection.
   if (q.fractionReported === false) return null;
 
-  const remainingPercentage = toNumber(q.remainingPercentage);
+  const remainingPercentage = toNumberOrNull(q.remainingPercentage);
   if (remainingPercentage !== null) {
     // remainingPercentage is 0-100 in the usage.ts contract.
     const used = (100 - Math.max(0, Math.min(100, remainingPercentage))) / 100;
     return used;
   }
 
-  const used = toNumber(q.used);
-  const total = toNumber(q.total);
+  const used = toNumberOrNull(q.used);
+  const total = toNumberOrNull(q.total);
   if (used !== null && total !== null && total > 0) {
     return Math.max(0, Math.min(1, used / total));
   }

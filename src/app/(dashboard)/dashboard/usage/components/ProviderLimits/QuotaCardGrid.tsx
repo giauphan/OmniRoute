@@ -49,14 +49,6 @@ function getSoonestResetMs(quotas: any[] | undefined): number {
   return soonest;
 }
 
-function getBestQuotaRemaining(quotas: any[] | undefined): number {
-  if (!Array.isArray(quotas) || quotas.length === 0) return 100;
-  const remainingValues = quotas
-    .map((quota) => getRemainingPercentage(quota))
-    .filter((rem) => Number.isFinite(rem));
-  if (remainingValues.length === 0) return 100;
-  return Math.max(...remainingValues);
-}
 
 function getRemainingPercentage(quota: any): number {
   if (quota?.unlimited) return 100;
