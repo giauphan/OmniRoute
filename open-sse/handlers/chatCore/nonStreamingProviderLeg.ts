@@ -88,8 +88,13 @@ export interface ProviderLegInput {
   effectiveModel?: string;
   translatedBody?: Record<string, unknown>;
   toolNameMap?: Map<string, string> | null;
+  customToolNames?: ReadonlySet<string>;
   requestToolIdentityMap?: Map<string, { namespace?: string; name: string }> | null;
   reasoningCacheScope?: string | null;
+  /** Normalized OpenAI transcript reported by translateRequest for Responses-API
+   *  targets (their body has `input`, not `messages`) — the replay-cache write
+   *  side must digest the same transcript the read side keyed plain turns on. */
+  reasoningReplayHistory?: unknown[] | null;
   clientHeaders?: Headers | Record<string, unknown> | null;
   isClaudeCodeCompatible?: boolean;
   sleep?: (ms: number) => Promise<void>;
@@ -281,9 +286,12 @@ function finishOk(
     provider: params.provider,
     model: params.model,
     requestBody: params.requestBody,
-    historyMessages: (input.translatedBody as { messages?: unknown[] } | null | undefined)
-      ?.messages,
+    historyMessages:
+      (input.translatedBody as { messages?: unknown[] } | null | undefined)?.messages ??
+      input.reasoningReplayHistory ??
+      null,
     responseToolNameMap,
+    customToolNames: input.customToolNames,
     requestToolIdentityMap: input.requestToolIdentityMap ?? null,
     reasoningCacheScope: input.reasoningCacheScope ?? null,
     clientHeaders: input.clientHeaders ?? null,

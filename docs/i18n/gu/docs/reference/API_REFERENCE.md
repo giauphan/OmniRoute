@@ -4,7 +4,7 @@
 
 ---
 
-🌐 **ભાષાઓ:** 🇺🇸 [English](./API_REFERENCE.md) | 🇪🇹 [አማርኛ](../i18n/am/docs/reference/API_REFERENCE.md) | 🇸🇦 [العربية](../i18n/ar/docs/reference/API_REFERENCE.md) | 🇦🇿 [Azərbaycan dili](../i18n/az/docs/reference/API_REFERENCE.md) | 🇧🇬 [Български](../i18n/bg/docs/reference/API_REFERENCE.md) | 🇧🇩 [বাংলা](../i18n/bn/docs/reference/API_REFERENCE.md) | 🇨🇿 [Čeština](../i18n/cs/docs/reference/API_REFERENCE.md) | 🇩🇰 [Dansk](../i18n/da/docs/reference/API_REFERENCE.md) | 🇩🇪 [Deutsch](../i18n/de/docs/reference/API_REFERENCE.md) | 🇬🇷 [Ελληνικά](../i18n/el/docs/reference/API_REFERENCE.md) | 🇪🇸 [Español](../i18n/es/docs/reference/API_REFERENCE.md) | 🇪🇪 [Eesti](../i18n/et/docs/reference/API_REFERENCE.md) | 🇮🇷 [فارسی](../i18n/fa/docs/reference/API_REFERENCE.md) | 🇫🇮 [Suomi](../i18n/fi/docs/reference/API_REFERENCE.md) | 🇫🇷 [Français](../i18n/fr/docs/reference/API_REFERENCE.md) | 🇮🇪 [Gaeilge](../i18n/ga/docs/reference/API_REFERENCE.md) | 🇮🇳 [ગુજરાતી](../i18n/gu/docs/reference/API_REFERENCE.md) | 🇳🇬 [Hausa](../i18n/ha/docs/reference/API_REFERENCE.md) | 🇮🇱 [עברית](../i18n/he/docs/reference/API_REFERENCE.md) | 🇮🇳 [हिन्दी](../i18n/hi/docs/reference/API_REFERENCE.md) | 🇭🇷 [Hrvatski](../i18n/hr/docs/reference/API_REFERENCE.md) | 🇭🇺 [Magyar](../i18n/hu/docs/reference/API_REFERENCE.md) | 🇦🇲 [Հայերեն](../i18n/hy/docs/reference/API_REFERENCE.md) | 🇮🇩 [Bahasa Indonesia](../i18n/id/docs/reference/API_REFERENCE.md) | 🇳🇬 [Igbo](../i18n/ig/docs/reference/API_REFERENCE.md) | 🇮🇹 [Italiano](../i18n/it/docs/reference/API_REFERENCE.md) | 🇯🇵 [日本語](../i18n/ja/docs/reference/API_REFERENCE.md) | 🇬🇪 [ქართული](../i18n/ka/docs/reference/API_REFERENCE.md) | 🇰🇭 [ខ្មែរ](../i18n/km/docs/reference/API_REFERENCE.md) | 🇮🇳 [ಕನ್ನಡ](../i18n/kn/docs/reference/API_REFERENCE.md) | 🇰🇷 [한국어](../i18n/ko/docs/reference/API_REFERENCE.md) | 🇱🇹 [Lietuvių](../i18n/lt/docs/reference/API_REFERENCE.md) | 🇱🇻 [Latviešu](../i18n/lv/docs/reference/API_REFERENCE.md) | 🇮🇳 [മലയാളം](../i18n/ml/docs/reference/API_REFERENCE.md) | 🇮🇳 [मराठी](../i18n/mr/docs/reference/API_REFERENCE.md) | 🇲🇾 [Bahasa Melayu](../i18n/ms/docs/reference/API_REFERENCE.md) | 🇲🇹 [Malti](../i18n/mt/docs/reference/API_REFERENCE.md) | 🇲🇲 [မြန်မာ](../i18n/my/docs/reference/API_REFERENCE.md) | 🇳🇵 [नेपाली](../i18n/ne/docs/reference/API_REFERENCE.md) | 🇳🇱 [Nederlands](../i18n/nl/docs/reference/API_REFERENCE.md) | 🇳🇴 [Norsk](../i18n/no/docs/reference/API_REFERENCE.md) | 🇮🇳 [ଓଡ଼ିଆ](../i18n/or/docs/reference/API_REFERENCE.md) | 🇮🇳 [ਪੰਜਾਬੀ](../i18n/pa/docs/reference/API_REFERENCE.md) | 🇵🇭 [Filipino](../i18n/phi/docs/reference/API_REFERENCE.md) | 🇵🇱 [Polski](../i18n/pl/docs/reference/API_REFERENCE.md) | 🇵🇹 [Português (Portugal)](../i18n/pt/docs/reference/API_REFERENCE.md) | 🇧🇷 [Português (Brasil)](../i18n/pt-BR/docs/reference/API_REFERENCE.md) | 🇷🇴 [Română](../i18n/ro/docs/reference/API_REFERENCE.md) | 🇷🇺 [Русский](../i18n/ru/docs/reference/API_REFERENCE.md) | 🇱🇰 [සිංහල](../i18n/si/docs/reference/API_REFERENCE.md) | 🇸🇰 [Slovenčina](../i18n/sk/docs/reference/API_REFERENCE.md) | 🇸🇮 [Slovenščina](../i18n/sl/docs/reference/API_REFERENCE.md) | 🇷🇸 [Српски](../i18n/sr/docs/reference/API_REFERENCE.md) | 🇸🇪 [Svenska](../i18n/sv/docs/reference/API_REFERENCE.md) | 🇰🇪 [Kiswahili](../i18n/sw/docs/reference/API_REFERENCE.md) | 🇮🇳 [தமிழ்](../i18n/ta/docs/reference/API_REFERENCE.md) | 🇮🇳 [తెలుగు](../i18n/te/docs/reference/API_REFERENCE.md) | 🇹🇭 [ไทย](../i18n/th/docs/reference/API_REFERENCE.md) | 🇹🇷 [Türkçe](../i18n/tr/docs/reference/API_REFERENCE.md) | 🇺🇦 [Українська](../i18n/uk-UA/docs/reference/API_REFERENCE.md) | 🇵🇰 [اردو](../i18n/ur/docs/reference/API_REFERENCE.md) | 🇺🇿 [Oʻzbekcha](../i18n/uz/docs/reference/API_REFERENCE.md) | 🇻🇳 [Tiếng Việt](../i18n/vi/docs/reference/API_REFERENCE.md) | 🇳🇬 [Yorùbá](../i18n/yo/docs/reference/API_REFERENCE.md) | 🇨🇳 [中文 (简体)](../i18n/zh-CN/docs/reference/API_REFERENCE.md) | 🇹🇼 [中文 (繁體)](../i18n/zh-TW/docs/reference/API_REFERENCE.md)
+🌐 **Languages:** 🇺🇸 [English](../../../../reference/API_REFERENCE.md) · 🇪🇹 [am](../../../am/docs/reference/API_REFERENCE.md) · 🇸🇦 [ar](../../../ar/docs/reference/API_REFERENCE.md) · 🇦🇿 [az](../../../az/docs/reference/API_REFERENCE.md) · 🇧🇬 [bg](../../../bg/docs/reference/API_REFERENCE.md) · 🇧🇩 [bn](../../../bn/docs/reference/API_REFERENCE.md) · 🇨🇿 [cs](../../../cs/docs/reference/API_REFERENCE.md) · 🇩🇰 [da](../../../da/docs/reference/API_REFERENCE.md) · 🇩🇪 [de](../../../de/docs/reference/API_REFERENCE.md) · 🇬🇷 [el](../../../el/docs/reference/API_REFERENCE.md) · 🇪🇸 [es](../../../es/docs/reference/API_REFERENCE.md) · 🇪🇪 [et](../../../et/docs/reference/API_REFERENCE.md) · 🇮🇷 [fa](../../../fa/docs/reference/API_REFERENCE.md) · 🇫🇮 [fi](../../../fi/docs/reference/API_REFERENCE.md) · 🇫🇷 [fr](../../../fr/docs/reference/API_REFERENCE.md) · 🇮🇪 [ga](../../../ga/docs/reference/API_REFERENCE.md) · 🇳🇬 [ha](../../../ha/docs/reference/API_REFERENCE.md) · 🇮🇱 [he](../../../he/docs/reference/API_REFERENCE.md) · 🇮🇳 [hi](../../../hi/docs/reference/API_REFERENCE.md) · 🇭🇷 [hr](../../../hr/docs/reference/API_REFERENCE.md) · 🇭🇺 [hu](../../../hu/docs/reference/API_REFERENCE.md) · 🇦🇲 [hy](../../../hy/docs/reference/API_REFERENCE.md) · 🇮🇩 [id](../../../id/docs/reference/API_REFERENCE.md) · 🇳🇬 [ig](../../../ig/docs/reference/API_REFERENCE.md) · 🇮🇹 [it](../../../it/docs/reference/API_REFERENCE.md) · 🇯🇵 [ja](../../../ja/docs/reference/API_REFERENCE.md) · 🇬🇪 [ka](../../../ka/docs/reference/API_REFERENCE.md) · 🇰🇭 [km](../../../km/docs/reference/API_REFERENCE.md) · 🇮🇳 [kn](../../../kn/docs/reference/API_REFERENCE.md) · 🇰🇷 [ko](../../../ko/docs/reference/API_REFERENCE.md) · 🇱🇹 [lt](../../../lt/docs/reference/API_REFERENCE.md) · 🇱🇻 [lv](../../../lv/docs/reference/API_REFERENCE.md) · 🇮🇳 [ml](../../../ml/docs/reference/API_REFERENCE.md) · 🇮🇳 [mr](../../../mr/docs/reference/API_REFERENCE.md) · 🇲🇾 [ms](../../../ms/docs/reference/API_REFERENCE.md) · 🇲🇹 [mt](../../../mt/docs/reference/API_REFERENCE.md) · 🇲🇲 [my](../../../my/docs/reference/API_REFERENCE.md) · 🇳🇵 [ne](../../../ne/docs/reference/API_REFERENCE.md) · 🇳🇱 [nl](../../../nl/docs/reference/API_REFERENCE.md) · 🇳🇴 [no](../../../no/docs/reference/API_REFERENCE.md) · 🇮🇳 [or](../../../or/docs/reference/API_REFERENCE.md) · 🇮🇳 [pa](../../../pa/docs/reference/API_REFERENCE.md) · 🇵🇭 [phi](../../../phi/docs/reference/API_REFERENCE.md) · 🇵🇱 [pl](../../../pl/docs/reference/API_REFERENCE.md) · 🇵🇹 [pt](../../../pt/docs/reference/API_REFERENCE.md) · 🇧🇷 [pt-BR](../../../pt-BR/docs/reference/API_REFERENCE.md) · 🇷🇴 [ro](../../../ro/docs/reference/API_REFERENCE.md) · 🇷🇺 [ru](../../../ru/docs/reference/API_REFERENCE.md) · 🇱🇰 [si](../../../si/docs/reference/API_REFERENCE.md) · 🇸🇰 [sk](../../../sk/docs/reference/API_REFERENCE.md) · 🇸🇮 [sl](../../../sl/docs/reference/API_REFERENCE.md) · 🇷🇸 [sr](../../../sr/docs/reference/API_REFERENCE.md) · 🇸🇪 [sv](../../../sv/docs/reference/API_REFERENCE.md) · 🇰🇪 [sw](../../../sw/docs/reference/API_REFERENCE.md) · 🇮🇳 [ta](../../../ta/docs/reference/API_REFERENCE.md) · 🇮🇳 [te](../../../te/docs/reference/API_REFERENCE.md) · 🇹🇭 [th](../../../th/docs/reference/API_REFERENCE.md) · 🇹🇷 [tr](../../../tr/docs/reference/API_REFERENCE.md) · 🇺🇦 [uk-UA](../../../uk-UA/docs/reference/API_REFERENCE.md) · 🇵🇰 [ur](../../../ur/docs/reference/API_REFERENCE.md) · 🇺🇿 [uz](../../../uz/docs/reference/API_REFERENCE.md) · 🇻🇳 [vi](../../../vi/docs/reference/API_REFERENCE.md) · 🇳🇬 [yo](../../../yo/docs/reference/API_REFERENCE.md) · 🇨🇳 [zh-CN](../../../zh-CN/docs/reference/API_REFERENCE.md) · 🇹🇼 [zh-TW](../../../zh-TW/docs/reference/API_REFERENCE.md)
 
 OmniRoute API માટેનો મુખ્ય સંદર્ભ. તે જાહેર `/v1` સપાટી અને સૌથી વધુ ઉપયોગમાં લેવાતા મેનેજમેન્ટ એન્ડપોઇન્ટ્સને આવરી લે છે; મશીન-વાંચનીય [`docs/openapi.yaml`](../openapi.yaml) અને `src/app/api/` હેઠળનું રૂટ ટ્રી સંપૂર્ણ સ્રોતો છે.
 
@@ -448,14 +448,14 @@ Bifrost, CLIProxyAPI અને ભવિષ્યના સાઇડકાર �
 | POST   | `/v1/responses`                           | OpenAI Responses                   |
 | POST   | `/v1/embeddings`                          | OpenAI                             |
 | POST   | `/v1/images/generations`                  | OpenAI Images                      |
-| POST   | `/v1/images/edits`                        | OpenAI Images (સંપાદન/ઇનપેઇન્ટ)    |
+| POST   | `/v1/images/edits`                        | OpenAI Images (સંપાદન/inpaint)     |
 | POST   | `/v1/videos/generations`                  | OpenAI-શૈલીનું વિડિયો જનરેશન       |
 | POST   | `/v1/music/generations`                   | OpenAI-શૈલીનું સંગીત જનરેશન        |
 | POST   | `/v1/audio/transcriptions`                | OpenAI Audio (STT)                 |
-| POST   | `/v1/audio/speech`                        | OpenAI TTS (ઑડિયો બોડી પરત કરે છે) |
-| POST   | `/v1/rerank`                              | Cohere/Voyage-શૈલીનું રીરૅન્ક      |
-| POST   | `/v1/classify`                            | Jina વર્ગીકરણ (`api.jina.ai`)      |
-| POST   | `/v1/segment`                             | Jina સેગમેન્ટર (`segment.jina.ai`) |
+| POST   | `/v1/audio/speech`                        | OpenAI TTS (ઑડિયો બૉડી પરત કરે છે) |
+| POST   | `/v1/rerank`                              | Cohere/Voyage-શૈલીનું rerank       |
+| POST   | `/v1/classify`                            | Jina classify (`api.jina.ai`)      |
+| POST   | `/v1/segment`                             | Jina segmenter (`segment.jina.ai`) |
 | POST   | `/v1/moderations`                         | OpenAI Moderations                 |
 | GET    | `/v1/models`                              | OpenAI                             |
 | POST   | `/v1/messages/count_tokens`               | Anthropic                          |
@@ -463,44 +463,66 @@ Bifrost, CLIProxyAPI અને ભવિષ્યના સાઇડકાર �
 | POST   | `/v1beta/models/{...path}`                | Gemini generateContent             |
 | POST   | `/v1/api/chat`                            | Ollama                             |
 | GET    | `/api/v1/vscode/{token}/`                 | OpenAI કૅટલૉગ ઉપનામ                |
-| GET    | `/api/v1/vscode/{token}/models`           | OpenAI મોડલ્સનું ઉપનામ             |
-| POST   | `/api/v1/vscode/{token}/chat/completions` | OpenAI ટોકનાઇઝ્ડ ઉપનામ             |
-| POST   | `/api/v1/vscode/{token}/responses`        | OpenAI Responses ટોકનાઇઝ્ડ ઉપનામ   |
-| POST   | `/api/v1/vscode/{token}/api/chat`         | Ollama ટોકનાઇઝ્ડ ઉપનામ             |
-| GET    | `/api/v1/vscode/{token}/api/tags`         | Ollama ટૅગ્સનું ટોકનાઇઝ્ડ ઉપનામ    |
+| GET    | `/api/v1/vscode/{token}/models`           | OpenAI મૉડલ્સ ઉપનામ                |
+| POST   | `/api/v1/vscode/{token}/chat/completions` | OpenAI ટોકનયુક્ત ઉપનામ             |
+| POST   | `/api/v1/vscode/{token}/responses`        | OpenAI Responses ટોકનયુક્ત ઉપનામ   |
+| POST   | `/api/v1/vscode/{token}/api/chat`         | Ollama ટોકનયુક્ત ઉપનામ             |
+| GET    | `/api/v1/vscode/{token}/api/tags`         | Ollama tags ટોકનયુક્ત ઉપનામ        |
 
-બધા POST રૂટ્સ સમાન માળખાને અનુસરે છે: `Bearer your-api-key` + Zod દ્વારા માન્ય કરાયેલ JSON બોડી (`v1RerankSchema`, `v1ModerationSchema`, `v1AudioSpeechSchema` વગેરે, `src/shared/validation/schemas.ts` જુઓ). સ્કીમા નિષ્ફળ જાય ત્યારે 4xx પરત કરવામાં આવે છે.
+બધા POST રૂટ્સ સમાન માળખું અનુસરે છે: `Bearer your-api-key` + Zod દ્વારા માન્ય કરાયેલ JSON બૉડી (`v1RerankSchema`, `v1ModerationSchema`, `v1AudioSpeechSchema`, વગેરે, `src/shared/validation/schemas.ts` જુઓ). સ્કીમા નિષ્ફળ જાય ત્યારે 4xx પરત કરવામાં આવે છે.
 
-જે ક્લાયન્ટ્સ `Authorization: Bearer ...` જોડી શકતા નથી તેમના માટે OmniRoute, ક્વેરી-સ્ટ્રિંગ સુસંગતતા (`?token=...`, `?apiKey=...`, `?api_key=...`, `?key=...`) અથવા નીચે દસ્તાવેજીકૃત સમર્પિત `/api/v1/vscode/{token}/...` એન્ડપોઇન્ટ્સ દ્વારા URLમાં API કીઝ પણ સ્વીકારે છે.
+જે ક્લાયન્ટ્સ `Authorization: Bearer ...` જોડી શકતા નથી, તેમના માટે OmniRoute URLમાં API કીઝ પણ સ્વીકારે છે—કાં તો ક્વેરી-સ્ટ્રિંગ સુસંગતતા (`?token=...`, `?apiKey=...`, `?api_key=...`, `?key=...`) દ્વારા અથવા નીચે દસ્તાવેજીકૃત સમર્પિત `/api/v1/vscode/{token}/...` એન્ડપોઇન્ટ્સ દ્વારા.
 
 ```bash
-# રીરૅન્ક
+# Rerank (ક્લાઉડ રજિસ્ટ્રી પ્રદાતા અથવા "<prefix>/<model>" તરીકે OpenAI-સુસંગત પ્રદાતા નોડ)
 POST /v1/rerank      { "model": "jina-ai/jina-reranker-v3.5", "query": "...", "documents": ["..."] }
 
-# Jina વર્ગીકરણ (Foundation API ઓળખપત્રો)
+# Jina classify (Foundation API ઓળખપત્રો)
 POST /v1/classify    { "model": "jina-embeddings-v5-text-small", "input": ["..."], "labels": ["a", "b"] }
 
-# Jina સેગમેન્ટર
+# Jina segmenter
 POST /v1/segment     { "content": "...", "return_chunks": true }
 
-# Jina શોધ (s.jina.ai; પ્રોવાઇડર ઉપનામો: jina-search, jina-ai, jina)
+# Jina search (s.jina.ai; પ્રદાતા ઉપનામો: jina-search, jina-ai, jina)
 POST /v1/search      { "query": "...", "provider": "jina-search" }
 
-# મોડરેશન્સ
+# Moderations
 POST /v1/moderations { "model": "omni-moderation-latest", "input": "..." }
 
-# TTS — audio/mpeg (અથવા વિનંતી કરાયેલ ફોર્મેટ) બોડી પરત કરે છે
+# TTS — audio/mpeg (અથવા વિનંતી કરાયેલ ફોર્મેટ) બૉડી પરત કરે છે
 POST /v1/audio/speech { "model": "openai/tts-1", "input": "Hello", "voice": "alloy" }
 
-# છબી સંપાદન (multipart)
+# ઇમેજ સંપાદન (multipart)
 POST /v1/images/edits  -F image=@input.png -F prompt="..." -F mask=@mask.png
 
-# વિડિયો / સંગીત જનરેશન (પ્રોવાઇડર-પ્રિફિક્સવાળી મોડલ id)
+# વિડિયો / સંગીત જનરેશન (પ્રદાતા-પૂર્વપ્રત્યયયુક્ત મૉડલ ID)
 POST /v1/videos/generations { "model": "runway/gen-3", "prompt": "..." }
 POST /v1/music/generations  { "model": "suno/v3.5",   "prompt": "..." }
 ```
 
-### સમર્પિત પ્રોવાઇડર રૂટ્સ
+> **Rerank પ્રદાતા નોડ્સ:** `POST /v1/rerank` OpenAI-સુસંગત પ્રદાતા નોડ્સ તરફ પણ રૂટ કરે છે
+> (ગેટવેની પાછળના oMLX, vLLM, Infinity, TEI, …), જેમને `<node-prefix>/<model>` તરીકે સંબોધવામાં આવે છે. લૂપબૅક
+> નોડ્સ (`localhost`, `127.0.0.1`, `172.16.0.0/12`) હંમેશાં પાત્ર હોય છે. અન્ય કોઈપણ
+> હોસ્ટ પરના નોડ્સ — LAN બૉક્સ અથવા Tailscale પિયર — માત્ર ત્યારે જ પાત્ર હોય છે જ્યારે ઑપરેટર
+> `RERANK_REMOTE_PROVIDER_NODES` ફીચર ફ્લૅગ સક્ષમ કરે **અને** નોડનો બેઝ URL પ્રદાતાની
+> આઉટબાઉન્ડ URL નીતિ (`OMNIROUTE_ALLOW_LOCAL_PROVIDER_URLS` / `OMNIROUTE_ALLOW_PRIVATE_PROVIDER_URLS`) પસાર કરે;
+> ક્લાઉડ-મેટાડેટા હોસ્ટ્સ તરફ ક્યારેય રૂટ કરવામાં આવતું નથી. મેમરી એન્જિનનું rerank પગલું આ રૂટને
+> લૂપબૅક દ્વારા કૉલ કરે છે, તેથી આ જ નિયમ Memory સેટિંગ્સમાં `rerankProviderModel`ને સંચાલિત કરે છે.
+>
+> **સ્થાનિક સર્વરનાં માળખાં:** નોડને `<base>/v1/rerank` પર અને 404 મળે ત્યારે `<base>/rerank`
+> (Infinity, TEI) પર કૉલ કરવામાં આવે છે. અપસ્ટ્રીમ બૉડી Cohere/OpenAI જોડણી (`documents`,
+> `return_documents`) અને TEI જોડણી (`texts`, `return_text`) બંને ધરાવે છે, અને અપસ્ટ્રીમ પ્રતિસાદને
+> Cohere એન્વલપમાં સામાન્યકૃત કરવામાં આવે છે: TEIનું મૂળ `[{index, score, text}]`, પાતળા ગેટવેમાંથી
+> `{results: [{index, score}]}`, અને Voyage-શૈલીનું `{data: [...]}`—આ બધું ક્લાયન્ટને
+> `{results: [{index, relevance_score, document?}]}` તરીકે પરત મળે છે, સ્કોર મુજબ ગોઠવાયેલું અને `top_n` સુધી મર્યાદિત.
+
+> **પ્રદાતા-નોડ શોધ:** OpenAI-સુસંગત પ્રદાતા નોડ પરના મૉડલ્સ `GET /v1/models`માં
+> નોડ પૂર્વપ્રત્યય હેઠળ દેખાય છે. જે પંક્તિઓમાં કોઈ એન્ડપોઇન્ટ મેટાડેટા ન હોય (સ્થાનિક `/v1/models` સૂચિઓ માટે સામાન્ય)
+> તે નોડનું `apiType` વારસામાં મેળવે છે, તેથી `embeddings` નોડનાં મૉડલ્સ ડિફૉલ્ટ રૂપે chat બનવાને બદલે
+> `type: "embedding"` અને `rerank` નોડનાં મૉડલ્સ `type: "rerank"` હોય છે; સિંક કરેલી અથવા મેન્યુઅલી
+> ઉમેરેલી પંક્તિ પર સ્પષ્ટ `supportedEndpoints` હજુ પણ પ્રાધાન્ય મેળવે છે.
+
+### સમર્પિત પ્રદાતા રૂટ્સ
 
 ```bash
 POST /v1/providers/{provider}/chat/completions
@@ -508,7 +530,7 @@ POST /v1/providers/{provider}/embeddings
 POST /v1/providers/{provider}/images/generations
 ```
 
-જો પ્રોવાઇડર પ્રિફિક્સ ન હોય તો તે આપમેળે ઉમેરવામાં આવે છે. મેળ ન ખાતાં મોડલ્સ `400` પરત કરે છે.
+જો પ્રદાતા ઉપસર્ગ ન હોય, તો તે આપમેળે ઉમેરવામાં આવે છે. મેળ ન ખાતાં મોડલ્સ માટે `400` પરત મળે છે.
 
 ---
 
@@ -1596,23 +1618,23 @@ GET /.well-known/agent.json
 
 ---
 
-## CLI ટૂલ્સનું વ્યવસ્થાપન
+## CLI ટૂલ્સનું સંચાલન
 
-OmniRoute સાથે સંકલિત થતા CLI ટૂલ્સનું વ્યવસ્થાપન કરો (antigravity, chipotle, commandCode,
-devin-cli, વગેરે). સંપૂર્ણ સૂચિ માટે [પ્રદાતા સંદર્ભ](./PROVIDER_REFERENCE.md) જુઓ.
+OmniRoute સાથે સંકલિત થતા CLI ટૂલ્સ (antigravity, commandCode,
+devin-cli વગેરે)નું સંચાલન કરો. સંપૂર્ણ સૂચિ માટે [પ્રદાતા સંદર્ભ](./PROVIDER_REFERENCE.md) જુઓ.
 
-| પદ્ધતિ | પાથ                                     | વર્ણન                                                                                                                                                                 |
-| ------ | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET    | `/api/cli-tools/all-statuses`           | તમામ CLI ટૂલ્સની સ્થિતિ (ઇન્સ્ટોલ થયેલ, વર્ઝન, છેલ્લે જોવામાં આવેલ)                                                                                                   |
-| GET    | `/api/cli-tools/status`                 | એક CLI ટૂલ માટે સ્થિતિની વિગતો (`?tool=` ક્વેરી)                                                                                                                      |
-| POST   | `/api/cli-tools/apply`                  | ટૂલનું જનરેટ કરેલું કૉન્ફિગ લખો (`dryRun` પૂર્વાવલોકન કરે છે; કન્ટેનરાઇઝ્ડ હોય ત્યારે `422` + `containerEphemeralTarget`; `migration` લેગસી Codex YAMLની નોંધ કરે છે) |
-| GET    | `/api/cli-tools/backups`                | CLI ટૂલ કૉન્ફિગરેશન બૅકઅપ્સની સૂચિ મેળવો                                                                                                                              |
-| POST   | `/api/cli-tools/backups`                | તમામ CLI ટૂલ કૉન્ફિગરેશન્સનો બૅકઅપ બનાવો                                                                                                                              |
-| POST   | `/api/cli-tools/backups`                | પુનઃસ્થાપિત કરો: બોડીમાં `{tool, backupId}` સાથે એ જ એન્ડપોઇન્ટ તે બૅકઅપને પુનઃસ્થાપિત કરે છે                                                                         |
-| GET    | `/api/cli-tools/antigravity-mitm`       | Antigravity MITM પ્રૉક્સીની સ્થિતિ ("antigravity-mitm" CLI ટૂલ)                                                                                                       |
-| POST   | `/api/cli-tools/antigravity-mitm/alias` | antigravity-mitm ઉપનામોને કૉન્ફિગર કરો                                                                                                                                |
+| પદ્ધતિ | પાથ                                     | વર્ણન                                                                                                                                                                    |
+| ------ | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| GET    | `/api/cli-tools/all-statuses`           | તમામ CLI ટૂલ્સની સ્થિતિ (ઇન્સ્ટોલ થયેલ, વર્ઝન, છેલ્લે જોવામાં આવેલ સમય)                                                                                                  |
+| GET    | `/api/cli-tools/status`                 | એક CLI ટૂલ માટેની વિગતવાર સ્થિતિ (`?tool=` ક્વેરી)                                                                                                                       |
+| POST   | `/api/cli-tools/apply`                  | ટૂલનું જનરેટ કરેલું કૉન્ફિગ લખે છે (`dryRun` પૂર્વાવલોકન કરે છે; કન્ટેનરાઇઝ્ડ હોય ત્યારે `422` + `containerEphemeralTarget`; `migration` લેગસી Codex YAMLની નોંધ કરે છે) |
+| GET    | `/api/cli-tools/backups`                | CLI ટૂલ કૉન્ફિગરેશન બૅકઅપ્સની સૂચિ આપે છે                                                                                                                                |
+| POST   | `/api/cli-tools/backups`                | તમામ CLI ટૂલ કૉન્ફિગરેશન્સનો બૅકઅપ બનાવે છે                                                                                                                              |
+| POST   | `/api/cli-tools/backups`                | પુનઃસ્થાપન: બોડીમાં `{tool, backupId}` સાથેનો સમાન એન્ડપોઇન્ટ તે બૅકઅપને પુનઃસ્થાપિત કરે છે                                                                              |
+| GET    | `/api/cli-tools/antigravity-mitm`       | Antigravity MITM પ્રૉક્સીની સ્થિતિ ("antigravity-mitm" CLI ટૂલ)                                                                                                          |
+| POST   | `/api/cli-tools/antigravity-mitm/alias` | antigravity-mitm ઉપનામો કૉન્ફિગર કરે છે                                                                                                                                  |
 
-**પ્રમાણીકરણ:** મેનેજમેન્ટ સત્ર જરૂરી છે.
+**પ્રમાણીકરણ:** મેનેજમેન્ટ સત્ર આવશ્યક છે.
 
 ---
 

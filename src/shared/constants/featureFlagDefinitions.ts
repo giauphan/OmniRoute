@@ -156,6 +156,18 @@ export const FEATURE_FLAG_DEFINITIONS: FeatureFlagDefinition[] = [
     warningLevel: "danger",
   },
   {
+    key: "RERANK_REMOTE_PROVIDER_NODES",
+    label: "Remote Rerank Provider Nodes",
+    description:
+      "Allow POST /v1/rerank (and the memory engine's rerank step, which calls it over loopback) to use OpenAI-compatible provider nodes hosted outside localhost — a LAN box or Tailscale peer running TEI, Infinity, vLLM, etc. Off by default — routing to a remote host changes egress identity and must be an explicit operator decision. Loopback nodes are always allowed and unaffected. Remote nodes must also pass the provider outbound URL policy (cloud-metadata hosts are never routed to).",
+    descriptionI18nKey: "settings.featureFlags.rerankRemoteProviderNodes",
+    category: "network",
+    defaultValue: "false",
+    type: "boolean",
+    requiresRestart: false,
+    warningLevel: "danger",
+  },
+  {
     key: "PROXY_AUTO_SELECT_ENABLED",
     label: "Proxy Auto-Selection Fallback",
     description:
@@ -737,6 +749,18 @@ export const FEATURE_FLAG_DEFINITIONS: FeatureFlagDefinition[] = [
     type: "boolean",
     requiresRestart: false,
     warningLevel: "danger",
+  },
+  {
+    key: "ANTIGRAVITY_ACCOUNT_LEASE_ENABLED",
+    label: "Antigravity Account Lease",
+    description:
+      "Reserve the selected Antigravity account for the streaming lifecycle of the request that picked it, so a concurrent retry or the credential handoff cannot re-pick an account already committed to an in-flight stream. The reservation is scoped to (connection, callable upstream model), so one account can still serve two different models at once. When every eligible account is already leased for that model, the request returns a structured 503 POOL_BUSY with a bounded Retry-After instead of piling onto a busy account. Off by default: account selection stays exactly as before, and no reservation is taken.",
+    descriptionI18nKey: "featureFlagAntigravityAccountLeaseEnabledDescription",
+    category: "runtime",
+    defaultValue: "false",
+    type: "boolean",
+    requiresRestart: false,
+    warningLevel: "caution",
   },
 
   // ──────────────── CLI (5) ────────────────

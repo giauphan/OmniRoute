@@ -436,7 +436,7 @@ Rozděleno do účelově zaměřených podadresářů:
 
 ## 4. `open-sse/` — pracovní prostor streamovacího enginu
 
-Samostatný npm pracovní prostor publikovaný jako `@omniroute/open-sse`. Zajišťuje zpracování požadavků, exekutory, překladače, služby, transformátor a MCP server.
+Samostatný pracovní prostor npm publikovaný jako `@omniroute/open-sse`. Zajišťuje zpracování požadavků, exekutory, překladače, služby, transformátor a server MCP.
 
 ```
 open-sse/
@@ -445,34 +445,34 @@ open-sse/
 ├── tsconfig.json
 ├── types.d.ts
 ├── config/                 Registry poskytovatelů, profily hlaviček, identita, …
-├── handlers/               Obslužné rutiny požadavků (chat, vnoření, zvuk, obrázky, …)
-├── executors/              108 HTTP exekutorů specifických pro jednotlivé poskytovatele
+├── handlers/               Obslužné rutiny požadavků (chat, embeddingy, zvuk, obrázky, …)
+├── executors/              108 HTTP exekutorů specifických pro poskytovatele
 ├── translator/             Převod formátů (OpenAI ↔ Claude ↔ Gemini ↔ Cursor ↔ Kiro)
 ├── transformer/            Transformátor streamů Responses API ↔ Chat Completions
-├── services/               Více než 80 modulů služeb (kombinace, záložní mechanismy, kvóty, identita, …)
-├── utils/                  Pomocné nástroje pro streamování, TLS klient, AWS SigV4, načítání přes proxy, …
-└── mcp-server/             MCP server (3 transporty, 33 rozsahů, 110 nástrojů)
+├── services/               Více než 80 modulů služeb (kombinace, záložní zpracování, kvóty, identita, …)
+├── utils/                  Pomocné nástroje pro streamování, klient TLS, AWS SigV4, proxy fetch, …
+└── mcp-server/             Server MCP (3 transporty, 33 rozsahů, 110 nástrojů)
 ```
 
 ### 4.1 `open-sse/handlers/`
 
-| Obslužná rutina         | Účel                                                                                               |
-| ----------------------- | -------------------------------------------------------------------------------------------------- |
-| `chatCore.ts`           | Hlavní chatovací pipeline (mezipaměť, omezení rychlosti, kombinované směrování, předání exekutoru) |
-| `responsesHandler.ts`   | Vstupní bod OpenAI Responses API                                                                   |
-| `embeddings.ts`         | Vnoření                                                                                            |
-| `imageGeneration.ts`    | Generování obrázků                                                                                 |
-| `audioSpeech.ts`        | Převod textu na řeč                                                                                |
-| `audioTranscription.ts` | Převod řeči na text                                                                                |
-| `videoGeneration.ts`    | Generování videa                                                                                   |
-| `musicGeneration.ts`    | Generování hudby                                                                                   |
-| `rerank.ts`             | Změna pořadí                                                                                       |
-| `moderations.ts`        | Moderování                                                                                         |
-| `search.ts`             | Vyhledávání na webu                                                                                |
-| `sseParser.ts`          | Parser událostí SSE                                                                                |
-| `usageExtractor.ts`     | Získávání počtů tokenů ze streamů nadřazených služeb                                               |
-| `responseSanitizer.ts`  | Odstranění rušivých prvků specifických pro poskytovatele                                           |
-| `responseTranslator.ts` | Propojení mezi odpovědí poskytovatele a překladovou vrstvou                                        |
+| Obslužná rutina         | Účel                                                                                           |
+| ----------------------- | ---------------------------------------------------------------------------------------------- |
+| `chatCore.ts`           | Hlavní pipeline chatu (mezipaměť, omezení rychlosti, kombinované směrování, předání exekutoru) |
+| `responsesHandler.ts`   | Vstupní bod OpenAI Responses API                                                               |
+| `embeddings.ts`         | Embeddingy                                                                                     |
+| `imageGeneration.ts`    | Generování obrázků                                                                             |
+| `audioSpeech.ts`        | Převod textu na řeč                                                                            |
+| `audioTranscription.ts` | Převod řeči na text                                                                            |
+| `videoGeneration.ts`    | Generování videa                                                                               |
+| `musicGeneration.ts`    | Generování hudby                                                                               |
+| `rerank.ts`             | Změna pořadí                                                                                   |
+| `moderations.ts`        | Moderování                                                                                     |
+| `search.ts`             | Vyhledávání na webu                                                                            |
+| `sseParser.ts`          | Parser událostí SSE                                                                            |
+| `usageExtractor.ts`     | Extrakce počtů tokenů z upstream streamů                                                       |
+| `responseSanitizer.ts`  | Odstranění šumu specifického pro poskytovatele                                                 |
+| `responseTranslator.ts` | Propojení mezi odpovědí poskytovatele a překladovou vrstvou                                    |
 
 ### 4.2 `open-sse/executors/`
 
@@ -482,7 +482,7 @@ open-sse/
 `chatgpt-web-codex`, `cloudflare-ai`, `codex`, `commandCode`, `cursor`, `default`, `devin-cli`,
 `muse-spark-web`, `nlpcloud`, `opencode`, `perplexity-web`, `petals`,
 `pollinations`, `qoder`, `vertex`, `devin-desktop`, dále `claudeIdentity.ts`
-(sdílená pomocná funkce pro identitu) a `index.ts` (registr).
+(sdílená pomocná komponenta pro identitu) a `index.ts` (registr).
 
 > Poznámka: poskytovatelé, kteří zde nejsou uvedeni, jsou obsluhováni souborem `default.ts` pomocí obecného
 > exekutoru kompatibilního s OpenAI. Úplný katalog poskytovatelů (355 poskytovatelů) se nachází v
@@ -490,7 +490,7 @@ open-sse/
 
 ### 4.3 `open-sse/translator/`
 
-Překlad podle modelu hub-and-spoke (OpenAI je centrálním uzlem).
+Překlad v modelu hub-and-spoke (OpenAI je centrálním uzlem).
 
 - **9 překladačů požadavků** (`translator/request/`):
   `antigravity-to-openai`, `claude-to-gemini`, `claude-to-openai`,
@@ -500,46 +500,46 @@ Překlad podle modelu hub-and-spoke (OpenAI je centrálním uzlem).
   `claude-to-openai`, `cursor-to-openai`, `gemini-to-claude`, `gemini-to-openai`,
   `kiro-to-openai`, `openai-responses`, `openai-to-antigravity`,
   `openai-to-claude`.
-- **9 pomocných nástrojů** (`translator/helpers/`):
+- **9 pomocných komponent** (`translator/helpers/`):
   `claudeHelper`, `geminiHelper`, `geminiToolsSanitizer`, `maxTokensHelper`,
   `openaiHelper`, `responsesApiHelper`, `schemaCoercion`, `toolCallHelper` a
-  testy pomocných nástrojů.
-- **Pomocné nástroje pro obrázky** (`translator/image/sizeMapper.ts`).
+  testy pomocných komponent.
+- **Pomocné komponenty pro obrázky** (`translator/image/sizeMapper.ts`).
 - Na nejvyšší úrovni: `bootstrap.ts`, `formats.ts`, `registry.ts`, `index.ts`.
 
 ### 4.4 `open-sse/transformer/`
 
 - `responsesTransformer.ts` — převodník Responses API ↔ Chat Completions založený na `TransformStream`
-  (používaný záchytnou trasou `responses/`).
+  (používaný univerzální routou `responses/`).
 
 ### 4.5 `open-sse/services/`
 
-Nejdůležitější části (úplný seznam se nachází v `open-sse/services/`):
+Hlavní části (úplný seznam v `open-sse/services/`):
 
-| Oblast                 | Soubory                                                                                                                                                                                                                                           |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Směrování Combo        | `combo.ts` (19 strategií), `comboConfig.ts`, `comboMetrics.ts`, `comboManifestMetrics.ts`, `comboAgentMiddleware.ts`                                                                                                                              |
-| Engine Auto Combo      | `autoCombo/` — `engine.ts`, `scoring.ts`, `taskFitness.ts`, `virtualFactory.ts`, `modePacks.ts`, `autoPrefix.ts`, `persistence.ts`, `providerDiversity.ts`, `providerRegistryAccessor.ts`, `routerStrategy.ts`, `selfHealing.ts`, `index.ts`      |
-| Odolnost               | `accountFallback.ts` (doba čekání + uzamčení), `errorClassifier.ts`, `emergencyFallback.ts`, `rateLimitManager.ts`, `rateLimitSemaphore.ts`, `accountSemaphore.ts`, `accountSelector.ts`                                                          |
-| Kvóty                  | `quotaMonitor.ts`, `quotaPreflight.ts`, `bailianQuotaFetcher.ts`, `codexQuotaFetcher.ts`, `deepseekQuotaFetcher.ts`, `openrouterQuotaFetcher.ts`, `openrouterFreeWindow.ts`, `crofUsageFetcher.ts`, `antigravityCredits.ts`                       |
-| Ukládání do mezipaměti | `reasoningCache.ts`, `searchCache.ts`, `signatureCache.ts`, `requestDedup.ts`                                                                                                                                                                     |
-| Inteligentní směrování | `intentClassifier.ts`, `taskAwareRouter.ts`, `backgroundTaskDetector.ts`, `volumeDetector.ts`, `wildcardRouter.ts`, `workflowFSM.ts`, `specificityDetector.ts`, `specificityRules.ts`, `specificityTypes.ts`                                      |
-| Zpracování modelů      | `modelCapabilities.ts`, `modelDeprecation.ts`, `modelFamilyFallback.ts`, `modelStrip.ts`, `model.ts`, `provider.ts`, `providerRequestDefaults.ts`, `providerCostData.ts`, `payloadRules.ts`                                                       |
-| Komprese               | `compression/` — kompletní propojení kompresního enginu                                                                                                                                                                                           |
-| Tokeny + relace        | `tokenRefresh.ts`, `sessionManager.ts`, `apiKeyRotator.ts`, `contextManager.ts`, `contextHandoff.ts`, `systemPrompt.ts`, `roleNormalizer.ts`, `responsesInputSanitizer.ts`, `toolSchemaSanitizer.ts`, `toolLimitDetector.ts`, `thinkingBudget.ts` |
-| Úroveň / manifest      | `tierResolver.ts`, `tierConfig.ts`, `tierDefaults.json`, `tierTypes.ts`, `manifestAdapter.ts`                                                                                                                                                     |
-| IP / síť               | `ipFilter.ts`, `webSearchFallback.ts`                                                                                                                                                                                                             |
-| Dávky                  | `batchProcessor.ts`                                                                                                                                                                                                                               |
-| Využití                | `usage.ts`                                                                                                                                                                                                                                        |
+| Oblast                 | Soubory                                                                                                                                                                                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Směrování Combo        | `combo.ts` (19 strategií), `comboConfig.ts`, `comboMetrics.ts`, `comboManifestMetrics.ts`, `comboAgentMiddleware.ts`                                                                                                                                     |
+| Engine Auto Combo      | `autoCombo/` — `engine.ts`, `scoring.ts`, `taskFitness.ts`, `virtualFactory.ts`, `modePacks.ts`, `autoPrefix.ts`, `persistence.ts`, `providerDiversity.ts`, `providerRegistryAccessor.ts`, `routerStrategy.ts`, `selfHealing.ts`, `index.ts`             |
+| Odolnost               | `accountFallback.ts` (prodleva + uzamčení), `errorClassifier.ts`, `requestRejectedStreak.ts`, `emergencyFallback.ts`, `rateLimitManager.ts`, `rateLimitSemaphore.ts`, `accountSemaphore.ts`, `accountSelector.ts`                                        |
+| Kvóty                  | `quotaMonitor.ts`, `quotaPreflight.ts`, `bailianQuotaFetcher.ts`, `codexQuotaFetcher.ts`, `deepseekQuotaFetcher.ts`, `openrouterQuotaFetcher.ts`, `openrouterFreeWindow.ts`, `llmgatewayQuotaFetcher.ts`, `crofUsageFetcher.ts`, `antigravityCredits.ts` |
+| Ukládání do mezipaměti | `reasoningCache.ts`, `searchCache.ts`, `signatureCache.ts`, `requestDedup.ts`                                                                                                                                                                            |
+| Inteligentní směrování | `intentClassifier.ts`, `taskAwareRouter.ts`, `backgroundTaskDetector.ts`, `volumeDetector.ts`, `wildcardRouter.ts`, `workflowFSM.ts`, `specificityDetector.ts`, `specificityRules.ts`, `specificityTypes.ts`                                             |
+| Zpracování modelů      | `modelCapabilities.ts`, `modelDeprecation.ts`, `modelFamilyFallback.ts`, `modelStrip.ts`, `model.ts`, `provider.ts`, `providerRequestDefaults.ts`, `providerCostData.ts`, `payloadRules.ts`                                                              |
+| Komprese               | `compression/` — kompletní propojení kompresního enginu                                                                                                                                                                                                  |
+| Tokeny + relace        | `tokenRefresh.ts`, `sessionManager.ts`, `apiKeyRotator.ts`, `contextManager.ts`, `contextHandoff.ts`, `systemPrompt.ts`, `roleNormalizer.ts`, `responsesInputSanitizer.ts`, `toolSchemaSanitizer.ts`, `toolLimitDetector.ts`, `thinkingBudget.ts`        |
+| Úroveň / manifest      | `tierResolver.ts`, `tierConfig.ts`, `tierDefaults.json`, `tierTypes.ts`, `manifestAdapter.ts`                                                                                                                                                            |
+| IP / síť               | `ipFilter.ts`, `webSearchFallback.ts`                                                                                                                                                                                                                    |
+| Dávky                  | `batchProcessor.ts`                                                                                                                                                                                                                                      |
+| Využití                | `usage.ts`                                                                                                                                                                                                                                               |
 
 ### 4.6 `open-sse/mcp-server/`
 
 - **110 jedinečných nástrojů** propojených v `server.ts` (45 kanonických v `schemas/tools.ts` +
-  moduly paměti, dovedností, GitHub dovedností, fondu, gamifikace, pluginů, Notionu, Obsidianu,
-  lokálního korpusu a komprese — sjednocení spočítané pomocí `countUniqueMcpTools`).
+  moduly pro paměť, dovednosti, dovednosti GitHubu, fond, gamifikaci, pluginy, Notion, Obsidian,
+  lokální korpus a kompresi — sjednocení počítá `countUniqueMcpTools`).
 - **3 transporty**: stdio, HTTP Streamable, SSE.
-- **33 rozsahů oprávnění** vynucovaných za běhu — základní seznam v `src/shared/constants/mcpScopes.ts`, úplná sada je sjednocením rozsahů deklarovaných jednotlivými moduly nástrojů.
-- Tabulka auditu: `mcp_tool_audit` (naplňovaná souborem `audit.ts`).
+- **33 rozsahů oprávnění** vynucovaných za běhu — základní seznam je v `src/shared/constants/mcpScopes.ts`, úplnou sadu tvoří sjednocení rozsahů deklarovaných jednotlivými moduly nástrojů.
+- Tabulka auditu: `mcp_tool_audit` (plněná modulem `audit.ts`).
 - Soubory: `server.ts`, `index.ts`, `httpTransport.ts`, `audit.ts`, `scopeEnforcement.ts`,
   `runtimeHeartbeat.ts`, `descriptionCompressor.ts`, `schemas/{tools, a2a, audit, index}.ts`,
   `tools/{advancedTools, compressionTools, memoryTools, skillTools}.ts`,
@@ -549,7 +549,7 @@ Nejdůležitější části (úplný seznam se nachází v `open-sse/services/`)
 ### 4.7 `open-sse/config/`
 
 Registry poskytovatelů (`providerRegistry.ts`, `providerModels.ts`,
-`providerHeaderProfiles.ts`), registry modelů pro jednotlivé formáty (`audioRegistry.ts`,
+`providerHeaderProfiles.ts`), registry modelů podle jednotlivých formátů (`audioRegistry.ts`,
 `embeddingRegistry.ts`, `imageRegistry.ts`, `moderationRegistry.ts`,
 `musicRegistry.ts`, `rerankRegistry.ts`, `searchRegistry.ts`, `videoRegistry.ts`),
 pomocné nástroje pro identitu (`codexIdentity.ts`, `codexInstructions.ts`,
@@ -562,7 +562,7 @@ adaptéry (`azureAi.ts`, `bedrock.ts`, `datarobot.ts`, `glmProvider.ts`,
 
 ### 4.8 `open-sse/utils/`
 
-Streamovací primitiva a pomocné nástroje poskytovatele: `stream.ts`, `streamHandler.ts`,
+Streamovací primitiva a pomocné nástroje poskytovatelů: `stream.ts`, `streamHandler.ts`,
 `streamHelpers.ts`, `streamPayloadCollector.ts`, `streamReadiness.ts`,
 `sseHeartbeat.ts`, `proxyFetch.ts`, `proxyDispatcher.ts`, `tlsClient.ts`,
 `networkProxy.ts`, `awsSigV4.ts`, `cacheControlPolicy.ts`,

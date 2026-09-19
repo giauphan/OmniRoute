@@ -55,6 +55,7 @@ export function translateNonStreamingClientResponse(
     model,
     requestBody,
     responseToolNameMap,
+    customToolNames,
     requestToolIdentityMap,
     reasoningCacheScope,
     clientHeaders,
@@ -123,19 +124,46 @@ export function translateNonStreamingClientResponse(
   } catch {
     // Cache capture is non-critical — never block the response
   }
-
   // ── Sanitize response for SDK compatibility ────────────────────────────────
   if (clientResponseFormat === FORMATS.OPENAI_RESPONSES) {
     translatedResponse = sanitizeResponsesApiResponse(translatedResponse);
-    // Restore {namespace, name} on function_call items for round-trip closure
+    const sanitizedOutput = translatedResponse?.output;
+    if (customToolNames && Array.isArray(sanitizedOutput)) {
+      for (const item of sanitizedOutput) {
+        if (item?.type !== "function_call" || !customToolNames.has(item.name)) continue;
+
+        let rawInput = item.arguments;
+        if (typeof item.arguments === "string") {
+          try {
+            const parsed = JSON.parse(item.arguments);
+            if (parsed && typeof parsed.input === "string") rawInput = parsed.input;
+          } catch {
+            // Non-JSON arguments are already the best available raw input.
+          }
+        } else if (
+          item.arguments &&
+          typeof item.arguments === "object" &&
+          typeof item.arguments.input === "string"
+        ) {
+          rawInput = item.arguments.input;
+        }
+
+        item.type = "custom_tool_call";
+        item.input = typeof rawInput === "string" ? rawInput : JSON.stringify(rawInput ?? "");
+        item.status ??= "completed";
+        delete item.arguments;
+      }
+    }
+
+    // Restore {namespace, name} on function_call / custom_tool_call items for round-trip
+    // closure — only after custom classification above, which uses wire names.
     // (#7936). Falls back to splitting the flattened `mcp__`-namespaced wire
     // name itself when the per-request identity map has no entry — e.g. a
     // follow-up turn in the same session that didn't re-declare its
     // `type:"namespace"` tools (#12996).
-    const responseOutput = translatedResponse?.output;
-    if (Array.isArray(responseOutput)) {
-      for (const item of responseOutput) {
-        if (item?.type !== "function_call") continue;
+    if (Array.isArray(sanitizedOutput)) {
+      for (const item of sanitizedOutput) {
+        if (item?.type !== "function_call" && item?.type !== "custom_tool_call") continue;
         // `requestToolIdentityMap` is typed as Map<string, NamespaceIdentity>, but
         // extractRequestToolIdentityMap() (chatCore/requestToolIdentity.ts) falls
         // back to `_toolNameMap` when no namespace tools were present — and that

@@ -3,12 +3,6 @@
   "_measured": "2026-09-10 — cada arquivo rodado isoladamente com as exclusões removidas",
   "excluded": [
     {
-      "file": "tests/unit/ui/logs-page-detail-modal-reopen-on-close.test.tsx",
-      "issue": "#13204",
-      "measured": "2026-09-10",
-      "status": "Tests 2 failed (2)"
-    },
-    {
       "file": "tests/unit/ui/agent-card.test.tsx",
       "issue": "#13204",
       "measured": "2026-09-10",

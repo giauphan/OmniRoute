@@ -4,7 +4,7 @@
 
 ---
 
-🌐 **שפות:** 🇺🇸 [אנגלית](./API_REFERENCE.md) | 🇪🇹 [አማርኛ](../i18n/am/docs/reference/API_REFERENCE.md) | 🇸🇦 [العربية](../i18n/ar/docs/reference/API_REFERENCE.md) | 🇦🇿 [Azərbaycan dili](../i18n/az/docs/reference/API_REFERENCE.md) | 🇧🇬 [Български](../i18n/bg/docs/reference/API_REFERENCE.md) | 🇧🇩 [বাংলা](../i18n/bn/docs/reference/API_REFERENCE.md) | 🇨🇿 [Čeština](../i18n/cs/docs/reference/API_REFERENCE.md) | 🇩🇰 [Dansk](../i18n/da/docs/reference/API_REFERENCE.md) | 🇩🇪 [Deutsch](../i18n/de/docs/reference/API_REFERENCE.md) | 🇬🇷 [Ελληνικά](../i18n/el/docs/reference/API_REFERENCE.md) | 🇪🇸 [Español](../i18n/es/docs/reference/API_REFERENCE.md) | 🇪🇪 [Eesti](../i18n/et/docs/reference/API_REFERENCE.md) | 🇮🇷 [فارسی](../i18n/fa/docs/reference/API_REFERENCE.md) | 🇫🇮 [Suomi](../i18n/fi/docs/reference/API_REFERENCE.md) | 🇫🇷 [Français](../i18n/fr/docs/reference/API_REFERENCE.md) | 🇮🇪 [Gaeilge](../i18n/ga/docs/reference/API_REFERENCE.md) | 🇮🇳 [ગુજરાતી](../i18n/gu/docs/reference/API_REFERENCE.md) | 🇳🇬 [Hausa](../i18n/ha/docs/reference/API_REFERENCE.md) | 🇮🇱 [עברית](../i18n/he/docs/reference/API_REFERENCE.md) | 🇮🇳 [हिन्दी](../i18n/hi/docs/reference/API_REFERENCE.md) | 🇭🇷 [Hrvatski](../i18n/hr/docs/reference/API_REFERENCE.md) | 🇭🇺 [Magyar](../i18n/hu/docs/reference/API_REFERENCE.md) | 🇦🇲 [Հայերեն](../i18n/hy/docs/reference/API_REFERENCE.md) | 🇮🇩 [Bahasa Indonesia](../i18n/id/docs/reference/API_REFERENCE.md) | 🇳🇬 [Igbo](../i18n/ig/docs/reference/API_REFERENCE.md) | 🇮🇹 [Italiano](../i18n/it/docs/reference/API_REFERENCE.md) | 🇯🇵 [日本語](../i18n/ja/docs/reference/API_REFERENCE.md) | 🇬🇪 [ქართული](../i18n/ka/docs/reference/API_REFERENCE.md) | 🇰🇭 [ខ្មែរ](../i18n/km/docs/reference/API_REFERENCE.md) | 🇮🇳 [ಕನ್ನಡ](../i18n/kn/docs/reference/API_REFERENCE.md) | 🇰🇷 [한국어](../i18n/ko/docs/reference/API_REFERENCE.md) | 🇱🇹 [Lietuvių](../i18n/lt/docs/reference/API_REFERENCE.md) | 🇱🇻 [Latviešu](../i18n/lv/docs/reference/API_REFERENCE.md) | 🇮🇳 [മലയാളം](../i18n/ml/docs/reference/API_REFERENCE.md) | 🇮🇳 [मराठी](../i18n/mr/docs/reference/API_REFERENCE.md) | 🇲🇾 [Bahasa Melayu](../i18n/ms/docs/reference/API_REFERENCE.md) | 🇲🇹 [Malti](../i18n/mt/docs/reference/API_REFERENCE.md) | 🇲🇲 [မြန်မာ](../i18n/my/docs/reference/API_REFERENCE.md) | 🇳🇵 [नेपाली](../i18n/ne/docs/reference/API_REFERENCE.md) | 🇳🇱 [Nederlands](../i18n/nl/docs/reference/API_REFERENCE.md) | 🇳🇴 [Norsk](../i18n/no/docs/reference/API_REFERENCE.md) | 🇮🇳 [ଓଡ଼ିଆ](../i18n/or/docs/reference/API_REFERENCE.md) | 🇮🇳 [ਪੰਜਾਬੀ](../i18n/pa/docs/reference/API_REFERENCE.md) | 🇵🇭 [Filipino](../i18n/phi/docs/reference/API_REFERENCE.md) | 🇵🇱 [Polski](../i18n/pl/docs/reference/API_REFERENCE.md) | 🇵🇹 [Português (Portugal)](../i18n/pt/docs/reference/API_REFERENCE.md) | 🇧🇷 [Português (Brasil)](../i18n/pt-BR/docs/reference/API_REFERENCE.md) | 🇷🇴 [Română](../i18n/ro/docs/reference/API_REFERENCE.md) | 🇷🇺 [Русский](../i18n/ru/docs/reference/API_REFERENCE.md) | 🇱🇰 [සිංහල](../i18n/si/docs/reference/API_REFERENCE.md) | 🇸🇰 [Slovenčina](../i18n/sk/docs/reference/API_REFERENCE.md) | 🇸🇮 [Slovenščina](../i18n/sl/docs/reference/API_REFERENCE.md) | 🇷🇸 [Српски](../i18n/sr/docs/reference/API_REFERENCE.md) | 🇸🇪 [Svenska](../i18n/sv/docs/reference/API_REFERENCE.md) | 🇰🇪 [Kiswahili](../i18n/sw/docs/reference/API_REFERENCE.md) | 🇮🇳 [தமிழ்](../i18n/ta/docs/reference/API_REFERENCE.md) | 🇮🇳 [తెలుగు](../i18n/te/docs/reference/API_REFERENCE.md) | 🇹🇭 [ไทย](../i18n/th/docs/reference/API_REFERENCE.md) | 🇹🇷 [Türkçe](../i18n/tr/docs/reference/API_REFERENCE.md) | 🇺🇦 [Українська](../i18n/uk-UA/docs/reference/API_REFERENCE.md) | 🇵🇰 [اردو](../i18n/ur/docs/reference/API_REFERENCE.md) | 🇺🇿 [Oʻzbekcha](../i18n/uz/docs/reference/API_REFERENCE.md) | 🇻🇳 [Tiếng Việt](../i18n/vi/docs/reference/API_REFERENCE.md) | 🇳🇬 [Yorùbá](../i18n/yo/docs/reference/API_REFERENCE.md) | 🇨🇳 [中文 (简体)](../i18n/zh-CN/docs/reference/API_REFERENCE.md) | 🇹🇼 [中文 (繁體)](../i18n/zh-TW/docs/reference/API_REFERENCE.md)
+🌐 **Languages:** 🇺🇸 [English](../../../../reference/API_REFERENCE.md) · 🇪🇹 [am](../../../am/docs/reference/API_REFERENCE.md) · 🇸🇦 [ar](../../../ar/docs/reference/API_REFERENCE.md) · 🇦🇿 [az](../../../az/docs/reference/API_REFERENCE.md) · 🇧🇬 [bg](../../../bg/docs/reference/API_REFERENCE.md) · 🇧🇩 [bn](../../../bn/docs/reference/API_REFERENCE.md) · 🇨🇿 [cs](../../../cs/docs/reference/API_REFERENCE.md) · 🇩🇰 [da](../../../da/docs/reference/API_REFERENCE.md) · 🇩🇪 [de](../../../de/docs/reference/API_REFERENCE.md) · 🇬🇷 [el](../../../el/docs/reference/API_REFERENCE.md) · 🇪🇸 [es](../../../es/docs/reference/API_REFERENCE.md) · 🇪🇪 [et](../../../et/docs/reference/API_REFERENCE.md) · 🇮🇷 [fa](../../../fa/docs/reference/API_REFERENCE.md) · 🇫🇮 [fi](../../../fi/docs/reference/API_REFERENCE.md) · 🇫🇷 [fr](../../../fr/docs/reference/API_REFERENCE.md) · 🇮🇪 [ga](../../../ga/docs/reference/API_REFERENCE.md) · 🇮🇳 [gu](../../../gu/docs/reference/API_REFERENCE.md) · 🇳🇬 [ha](../../../ha/docs/reference/API_REFERENCE.md) · 🇮🇳 [hi](../../../hi/docs/reference/API_REFERENCE.md) · 🇭🇷 [hr](../../../hr/docs/reference/API_REFERENCE.md) · 🇭🇺 [hu](../../../hu/docs/reference/API_REFERENCE.md) · 🇦🇲 [hy](../../../hy/docs/reference/API_REFERENCE.md) · 🇮🇩 [id](../../../id/docs/reference/API_REFERENCE.md) · 🇳🇬 [ig](../../../ig/docs/reference/API_REFERENCE.md) · 🇮🇹 [it](../../../it/docs/reference/API_REFERENCE.md) · 🇯🇵 [ja](../../../ja/docs/reference/API_REFERENCE.md) · 🇬🇪 [ka](../../../ka/docs/reference/API_REFERENCE.md) · 🇰🇭 [km](../../../km/docs/reference/API_REFERENCE.md) · 🇮🇳 [kn](../../../kn/docs/reference/API_REFERENCE.md) · 🇰🇷 [ko](../../../ko/docs/reference/API_REFERENCE.md) · 🇱🇹 [lt](../../../lt/docs/reference/API_REFERENCE.md) · 🇱🇻 [lv](../../../lv/docs/reference/API_REFERENCE.md) · 🇮🇳 [ml](../../../ml/docs/reference/API_REFERENCE.md) · 🇮🇳 [mr](../../../mr/docs/reference/API_REFERENCE.md) · 🇲🇾 [ms](../../../ms/docs/reference/API_REFERENCE.md) · 🇲🇹 [mt](../../../mt/docs/reference/API_REFERENCE.md) · 🇲🇲 [my](../../../my/docs/reference/API_REFERENCE.md) · 🇳🇵 [ne](../../../ne/docs/reference/API_REFERENCE.md) · 🇳🇱 [nl](../../../nl/docs/reference/API_REFERENCE.md) · 🇳🇴 [no](../../../no/docs/reference/API_REFERENCE.md) · 🇮🇳 [or](../../../or/docs/reference/API_REFERENCE.md) · 🇮🇳 [pa](../../../pa/docs/reference/API_REFERENCE.md) · 🇵🇭 [phi](../../../phi/docs/reference/API_REFERENCE.md) · 🇵🇱 [pl](../../../pl/docs/reference/API_REFERENCE.md) · 🇵🇹 [pt](../../../pt/docs/reference/API_REFERENCE.md) · 🇧🇷 [pt-BR](../../../pt-BR/docs/reference/API_REFERENCE.md) · 🇷🇴 [ro](../../../ro/docs/reference/API_REFERENCE.md) · 🇷🇺 [ru](../../../ru/docs/reference/API_REFERENCE.md) · 🇱🇰 [si](../../../si/docs/reference/API_REFERENCE.md) · 🇸🇰 [sk](../../../sk/docs/reference/API_REFERENCE.md) · 🇸🇮 [sl](../../../sl/docs/reference/API_REFERENCE.md) · 🇷🇸 [sr](../../../sr/docs/reference/API_REFERENCE.md) · 🇸🇪 [sv](../../../sv/docs/reference/API_REFERENCE.md) · 🇰🇪 [sw](../../../sw/docs/reference/API_REFERENCE.md) · 🇮🇳 [ta](../../../ta/docs/reference/API_REFERENCE.md) · 🇮🇳 [te](../../../te/docs/reference/API_REFERENCE.md) · 🇹🇭 [th](../../../th/docs/reference/API_REFERENCE.md) · 🇹🇷 [tr](../../../tr/docs/reference/API_REFERENCE.md) · 🇺🇦 [uk-UA](../../../uk-UA/docs/reference/API_REFERENCE.md) · 🇵🇰 [ur](../../../ur/docs/reference/API_REFERENCE.md) · 🇺🇿 [uz](../../../uz/docs/reference/API_REFERENCE.md) · 🇻🇳 [vi](../../../vi/docs/reference/API_REFERENCE.md) · 🇳🇬 [yo](../../../yo/docs/reference/API_REFERENCE.md) · 🇨🇳 [zh-CN](../../../zh-CN/docs/reference/API_REFERENCE.md) · 🇹🇼 [zh-TW](../../../zh-TW/docs/reference/API_REFERENCE.md)
 
 מסמך העזר המרכזי עבור OmniRoute API. הוא מכסה את הממשק הציבורי `/v1` ואת נקודות הקצה הנפוצות ביותר לניהול; הקובץ הניתן לקריאה על ידי מכונה [`docs/openapi.yaml`](../openapi.yaml) ועץ הנתיבים תחת `src/app/api/` הם המקורות המקיפים.
 
@@ -444,49 +444,49 @@ GET /api/v1/provider-plugin-manifest
 
 ## נקודות קצה לתאימות
 
-| שיטה | נתיב                                      | פורמט                                    |
-| ---- | ----------------------------------------- | ---------------------------------------- |
-| POST | `/v1/chat/completions`                    | OpenAI                                   |
-| POST | `/v1/messages`                            | Anthropic                                |
-| POST | `/v1/responses`                           | OpenAI Responses                         |
-| POST | `/v1/embeddings`                          | OpenAI                                   |
-| POST | `/v1/images/generations`                  | OpenAI Images                            |
-| POST | `/v1/images/edits`                        | OpenAI Images (עריכה/השלמת תמונה)        |
-| POST | `/v1/videos/generations`                  | יצירת וידאו בסגנון OpenAI                |
-| POST | `/v1/music/generations`                   | יצירת מוזיקה בסגנון OpenAI               |
-| POST | `/v1/audio/transcriptions`                | OpenAI Audio (דיבור לטקסט)               |
-| POST | `/v1/audio/speech`                        | OpenAI TTS (מחזיר גוף שמע)               |
-| POST | `/v1/rerank`                              | דירוג מחדש בסגנון Cohere/Voyage          |
-| POST | `/v1/classify`                            | סיווג Jina (`api.jina.ai`)               |
-| POST | `/v1/segment`                             | מחלק למקטעים של Jina (`segment.jina.ai`) |
-| POST | `/v1/moderations`                         | OpenAI Moderations                       |
-| GET  | `/v1/models`                              | OpenAI                                   |
-| POST | `/v1/messages/count_tokens`               | Anthropic                                |
-| GET  | `/v1beta/models`                          | Gemini                                   |
-| POST | `/v1beta/models/{...path}`                | Gemini generateContent                   |
-| POST | `/v1/api/chat`                            | Ollama                                   |
-| GET  | `/api/v1/vscode/{token}/`                 | כינוי לקטלוג OpenAI                      |
-| GET  | `/api/v1/vscode/{token}/models`           | כינוי למודלים של OpenAI                  |
-| POST | `/api/v1/vscode/{token}/chat/completions` | כינוי OpenAI מבוסס אסימון                |
-| POST | `/api/v1/vscode/{token}/responses`        | כינוי OpenAI Responses מבוסס אסימון      |
-| POST | `/api/v1/vscode/{token}/api/chat`         | כינוי Ollama מבוסס אסימון                |
-| GET  | `/api/v1/vscode/{token}/api/tags`         | כינוי תגיות Ollama מבוסס אסימון          |
+| שיטה | נתיב                                      | פורמט                            |
+| ---- | ----------------------------------------- | -------------------------------- |
+| POST | `/v1/chat/completions`                    | OpenAI                           |
+| POST | `/v1/messages`                            | Anthropic                        |
+| POST | `/v1/responses`                           | OpenAI Responses                 |
+| POST | `/v1/embeddings`                          | OpenAI                           |
+| POST | `/v1/images/generations`                  | OpenAI Images                    |
+| POST | `/v1/images/edits`                        | OpenAI Images (עריכה/השלמה)      |
+| POST | `/v1/videos/generations`                  | יצירת וידאו בסגנון OpenAI        |
+| POST | `/v1/music/generations`                   | יצירת מוזיקה בסגנון OpenAI       |
+| POST | `/v1/audio/transcriptions`                | OpenAI Audio (דיבור לטקסט)       |
+| POST | `/v1/audio/speech`                        | OpenAI TTS (מחזיר גוף שמע)       |
+| POST | `/v1/rerank`                              | דירוג מחדש בסגנון Cohere/Voyage  |
+| POST | `/v1/classify`                            | סיווג Jina (`api.jina.ai`)       |
+| POST | `/v1/segment`                             | מפלח Jina (`segment.jina.ai`)    |
+| POST | `/v1/moderations`                         | OpenAI Moderations               |
+| GET  | `/v1/models`                              | OpenAI                           |
+| POST | `/v1/messages/count_tokens`               | Anthropic                        |
+| GET  | `/v1beta/models`                          | Gemini                           |
+| POST | `/v1beta/models/{...path}`                | Gemini generateContent           |
+| POST | `/v1/api/chat`                            | Ollama                           |
+| GET  | `/api/v1/vscode/{token}/`                 | כינוי לקטלוג OpenAI              |
+| GET  | `/api/v1/vscode/{token}/models`           | כינוי למודלים של OpenAI          |
+| POST | `/api/v1/vscode/{token}/chat/completions` | כינוי OpenAI עם אסימון           |
+| POST | `/api/v1/vscode/{token}/responses`        | כינוי OpenAI Responses עם אסימון |
+| POST | `/api/v1/vscode/{token}/api/chat`         | כינוי Ollama עם אסימון           |
+| GET  | `/api/v1/vscode/{token}/api/tags`         | כינוי לתגיות Ollama עם אסימון    |
 
-כל נתיבי POST פועלים באותו מבנה: `Bearer your-api-key` + גוף JSON שעבר אימות באמצעות Zod (`v1RerankSchema`, `v1ModerationSchema`, `v1AudioSpeechSchema` וכו'; ראו `src/shared/validation/schemas.ts`). במקרה של כשל באימות הסכימה מוחזר 4xx.
+כל נתיבי POST פועלים באותו מבנה: `Bearer your-api-key` + גוף JSON מאומת באמצעות Zod‏ (`v1RerankSchema`, `v1ModerationSchema`, `v1AudioSpeechSchema` וכו'; ראו `src/shared/validation/schemas.ts`). במקרה של כשל באימות הסכמה מוחזרת תגובת 4xx.
 
-עבור לקוחות שאינם יכולים לצרף `Authorization: Bearer ...`, OmniRoute מקבל גם מפתחות API בכתובת ה-URL, באמצעות תאימות למחרוזת שאילתה (`?token=...`, `?apiKey=...`, `?api_key=...`, `?key=...`) או באמצעות נקודות הקצה הייעודיות `/api/v1/vscode/{token}/...` המתועדות להלן.
+עבור לקוחות שאינם יכולים לצרף `Authorization: Bearer ...`,‏ OmniRoute מקבל גם מפתחות API בכתובת ה-URL, באמצעות תאימות למחרוזת שאילתה (`?token=...`, `?apiKey=...`, `?api_key=...`, `?key=...`) או באמצעות נקודות הקצה הייעודיות `/api/v1/vscode/{token}/...` המתועדות להלן.
 
 ```bash
-# דירוג מחדש
+# דירוג מחדש (ספק ממרשם הענן, או צומת ספק תואם OpenAI בתור "<prefix>/<model>")
 POST /v1/rerank      { "model": "jina-ai/jina-reranker-v3.5", "query": "...", "documents": ["..."] }
 
 # סיווג Jina (פרטי גישה ל-Foundation API)
 POST /v1/classify    { "model": "jina-embeddings-v5-text-small", "input": ["..."], "labels": ["a", "b"] }
 
-# מחלק למקטעים של Jina
+# מפלח Jina
 POST /v1/segment     { "content": "...", "return_chunks": true }
 
-# חיפוש Jina‏ (s.jina.ai; כינויי ספקים: jina-search, jina-ai, jina)
+# חיפוש Jina‏ (s.jina.ai; כינויי ספק: jina-search, jina-ai, jina)
 POST /v1/search      { "query": "...", "provider": "jina-search" }
 
 # ניהול תוכן
@@ -502,6 +502,28 @@ POST /v1/images/edits  -F image=@input.png -F prompt="..." -F mask=@mask.png
 POST /v1/videos/generations { "model": "runway/gen-3", "prompt": "..." }
 POST /v1/music/generations  { "model": "suno/v3.5",   "prompt": "..." }
 ```
+
+> **צומתי ספק לדירוג מחדש:** `POST /v1/rerank` מנתב גם לצומתי ספק תואמי OpenAI
+> ‏(oMLX,‏ vLLM,‏ Infinity,‏ TEI מאחורי שער, …) הממוענים בתבנית `<node-prefix>/<model>`. צומתי
+> loopback‏ (`localhost`, `127.0.0.1`, `172.16.0.0/12`) תמיד כשירים. צמתים בכל מארח אחר
+> — מחשב ברשת LAN או עמית Tailscale — כשירים רק כאשר המפעיל מפעיל את דגל התכונה
+> `RERANK_REMOTE_PROVIDER_NODES` **וגם** כתובת ה-URL הבסיסית של הצומת עומדת במדיניות כתובות ה-URL
+> היוצאות של הספק (`OMNIROUTE_ALLOW_LOCAL_PROVIDER_URLS` / `OMNIROUTE_ALLOW_PRIVATE_PROVIDER_URLS`);
+> לעולם לא מתבצע ניתוב למארחי מטא-נתונים בענן. שלב הדירוג מחדש של מנוע הזיכרון קורא לנתיב זה דרך
+> loopback, ולכן אותו כלל חל על `rerankProviderModel` בהגדרות הזיכרון.
+>
+> **מבני שרת מקומי:** הקריאה לצומת מתבצעת ב-`<base>/v1/rerank`, ובמקרה של 404, ב-`<base>/rerank`
+> ‏(Infinity,‏ TEI). הגוף הנשלח במעלה הזרם כולל הן את האיות של Cohere/OpenAI‏ (`documents`,
+> `return_documents`) והן את האיות של TEI‏ (`texts`, `return_text`), והתגובה במעלה הזרם
+> מנורמלת למעטפת של Cohere: המערך הגולמי של TEI‏ `[{index, score, text}]`, המבנה `{results: [{index, score}]}`
+> משערים דקים, והמבנה בסגנון Voyage‏ `{data: [...]}` — כולם חוזרים ללקוח בתור
+> `{results: [{index, relevance_score, document?}]}`, כשהם ממוינים לפי ציון ומוגבלים ל-`top_n`.
+
+> **גילוי צומתי ספק:** מודלים בצומת ספק תואם OpenAI מופיעים ב-`GET /v1/models`
+> תחת קידומת הצומת. שורות שאינן כוללות מטא-נתונים של נקודת קצה (כמקובל ברשימות מקומיות של `/v1/models`)
+> יורשות את ה-`apiType` של הצומת, כך שהמודלים של צומת `embeddings` הם מסוג `type: "embedding"` והמודלים
+> של צומת `rerank` הם מסוג `type: "rerank"`, במקום שברירת המחדל שלהם תהיה צ'אט; הגדרה מפורשת של
+> `supportedEndpoints` בשורה מסונכרנת או בשורה שנוספה ידנית עדיין מקבלת קדימות.
 
 ### נתיבי ספק ייעודיים
 
@@ -1617,19 +1639,19 @@ GET /.well-known/agent.json
 
 ## ניהול כלי CLI
 
-ניהול כלי CLI המשתלבים עם OmniRoute‏ (antigravity, chipotle, commandCode,
+נהלו כלי CLI המשתלבים עם OmniRoute‏ (antigravity, commandCode,
 devin-cli וכו'). לרשימה המלאה, ראו [הפניית ספקים](./PROVIDER_REFERENCE.md).
 
-| שיטה | נתיב                                    | תיאור                                                                                                                                                      |
-| ---- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET  | `/api/cli-tools/all-statuses`           | מצבם של כל כלי ה-CLI (מותקן, גרסה, נראה לאחרונה)                                                                                                           |
-| GET  | `/api/cli-tools/status`                 | פרטי המצב של כלי CLI אחד (שאילתת `?tool=`)                                                                                                                 |
-| POST | `/api/cli-tools/apply`                  | כתיבת התצורה שנוצרה עבור כלי (`dryRun` מציג תצוגה מקדימה; `422` + `containerEphemeralTarget` בעת הרצה בקונטיינר; `migration` מציין קובץ YAML ישן של Codex) |
-| GET  | `/api/cli-tools/backups`                | הצגת רשימת הגיבויים של תצורות כלי ה-CLI                                                                                                                    |
-| POST | `/api/cli-tools/backups`                | יצירת גיבוי של כל תצורות כלי ה-CLI                                                                                                                         |
-| POST | `/api/cli-tools/backups`                | שחזור: אותה נקודת קצה עם `{tool, backupId}` בגוף הבקשה משחזרת את הגיבוי הזה                                                                                |
-| GET  | `/api/cli-tools/antigravity-mitm`       | מצב פרוקסי ה-MITM של Antigravity (כלי ה-CLI ‏"antigravity-mitm")                                                                                           |
-| POST | `/api/cli-tools/antigravity-mitm/alias` | הגדרת כינויים עבור antigravity-mitm                                                                                                                        |
+| שיטה | נתיב                                    | תיאור                                                                                                                                                        |
+| ---- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| GET  | `/api/cli-tools/all-statuses`           | הסטטוס של כל כלי ה-CLI (מותקן, גרסה, נראה לאחרונה)                                                                                                           |
+| GET  | `/api/cli-tools/status`                 | פרטי הסטטוס של כלי CLI אחד (שאילתת `?tool=`)                                                                                                                 |
+| POST | `/api/cli-tools/apply`                  | כתיבת התצורה שנוצרה עבור כלי (`dryRun` מציג תצוגה מקדימה; `422` + `containerEphemeralTarget` בסביבה מבוססת קונטיינר; `migration` מציין Codex YAML מדור קודם) |
+| GET  | `/api/cli-tools/backups`                | הצגת רשימת גיבויי התצורה של כלי CLI                                                                                                                          |
+| POST | `/api/cli-tools/backups`                | יצירת גיבוי של כל תצורות כלי ה-CLI                                                                                                                           |
+| POST | `/api/cli-tools/backups`                | שחזור: אותה נקודת קצה עם `{tool, backupId}` בגוף הבקשה משחזרת את הגיבוי                                                                                      |
+| GET  | `/api/cli-tools/antigravity-mitm`       | סטטוס שרת ה-proxy מסוג MITM של Antigravity (כלי ה-CLI‏ "antigravity-mitm")                                                                                   |
+| POST | `/api/cli-tools/antigravity-mitm/alias` | הגדרת כינויים עבור antigravity-mitm                                                                                                                          |
 
 **אימות:** נדרשת הפעלת ניהול.
 

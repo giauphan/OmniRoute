@@ -7,7 +7,10 @@ import {
   mergeInjectedFallbackOwnerNames,
 } from "./chatCore/memorySkillsInjection.ts";
 import { resolveChatCoreRequestSetup } from "./chatCore/requestSetup.ts";
-import { normalizeOpenAICompatibleTools } from "./chatCore/openAICompatibleTools.ts";
+import {
+  normalizeOpenAICompatibleTools,
+  shouldNormalizeFunctionToolsOnly,
+} from "./chatCore/openAICompatibleTools.ts";
 import {
   buildFailureUsageRecord,
   projectFailureUsageErrorCode,
@@ -24,6 +27,7 @@ export {
   relocateDirectiveOnlyMessages,
 } from "./chatCore/claudeSystemRole.ts";
 import { checkIdempotencyCache } from "./chatCore/idempotency.ts";
+import { acquireTurnExecution, createTurnInProgressResult } from "./chatCore/turnExecutionGuard.ts";
 import { checkSemanticCache } from "./chatCore/semanticCache.ts";
 import { checkLifecycle, resolveLifecycle } from "./chatCore/modelLifecyclePolicy.ts";
 import {
@@ -701,6 +705,19 @@ export async function handleChatCore({
     transport?: string,
     failureDetail?: string
   ): void => recordKeyHealthStatusFor(status, creds, log, transport, failureDetail);
+  // Endpoint/format resolution extracted to chatCore/requestFormat.ts (#3501); pure derivation
+  // from the request. OUTSIDE the try below — persistFailureUsage closes over endpointPath.
+  const {
+    endpointPath,
+    sourceFormat,
+    isResponsesEndpoint,
+    nativeCodexPassthrough,
+    nativeXaiResponsesPassthrough,
+    isDroidCLI,
+    isOpencodeClient,
+    copilotCompatibleReasoning,
+    clientResponseFormat,
+  } = resolveChatCoreRequestFormat({ clientRawRequest, body, provider, userAgent });
   // ── Phase 9.2: Idempotency check ──
   // Resolve the idempotency key once here and reuse it at the Phase 9.2 save site below,
   // rather than re-deriving it. (#3821-review LEDGER-6)
@@ -719,24 +736,27 @@ export async function handleChatCore({
   if (idempotencyHit) {
     return idempotencyHit;
   }
-  // T07: Inject connectionId into credentials so executors can rotate API keys
+
+  const turnExecution = acquireTurnExecution(idempotencyKey);
+  if (turnExecution.acquired === false) {
+    const duplicate = createTurnInProgressResult(turnExecution.retryCount);
+    log?.warn?.(
+      "TURN_GUARD",
+      `duplicate blocked cid=${traceId} retry=${turnExecution.retryCount} ageMs=${turnExecution.ageMs}`
+    );
+    return duplicate.result;
+  }
+  const releaseTurnExecution = turnExecution.release;
+  let turnExecutionHandedOffToStream = false;
+
+  // Preserve chatCore's canonical formatting while the guarded body remains byte-stable.
+  // prettier-ignore
+  try {
+    // T07: Inject connectionId into credentials so executors can rotate API keys
   // using providerSpecificData.extraApiKeys (API Key Round-Robin feature)
   if (connectionId && credentials && !credentials.connectionId) {
     credentials.connectionId = connectionId;
   }
-  // Endpoint/format resolution extracted to chatCore/requestFormat.ts (#3501); pure derivation
-  // from the inbound request, destructured so every downstream use stays byte-identical.
-  const {
-    endpointPath,
-    sourceFormat,
-    isResponsesEndpoint,
-    nativeCodexPassthrough,
-    nativeXaiResponsesPassthrough,
-    isDroidCLI,
-    isOpencodeClient,
-    copilotCompatibleReasoning,
-    clientResponseFormat,
-  } = resolveChatCoreRequestFormat({ clientRawRequest, body, provider, userAgent });
   let clientRequestedResponsesStream = false;
   const nativeOpenAICompatibleResponsesPassthrough =
     shouldUseNativeOpenAICompatibleResponsesPassthrough({
@@ -1050,6 +1070,11 @@ export async function handleChatCore({
   const reasoningCacheScope = reasoningReplaySessionKey
     ? `api-key:${String(apiKeyInfo?.id ?? "local")}\x1f${String(reasoningReplaySessionKey)}`
     : null;
+  // Normalized OpenAI transcript the reasoning replay pass digested for a
+  // Responses-API target (reported by translateRequest). A Responses body has
+  // `input`, not `messages`, so the replay-cache write side would otherwise digest
+  // an empty history and never match the read side for plain assistant turns.
+  let reasoningReplayHistory: unknown[] | null = null;
   // persistAttemptLogs extracted to chatCore/attemptLogging.ts (#3501); bind the per-request context
   // once so the 16 call sites keep passing only the per-attempt args (byte-identical).
   const persistAttemptLogs = (args: PersistAttemptLogsArgs) =>
@@ -2378,7 +2403,12 @@ export async function handleChatCore({
         extractSystemRoleMessages(translatedBody);
       } else {
         // Non-CC path: full normalization including content type conversion.
-        normalizeClaudeUpstreamMessages(translatedBody, { preserveToolResultBlocks: true });
+        // Preserve tool_result blocks only when the upstream target speaks the
+        // Anthropic Messages format — OpenAI-compatible gateways reject them
+        // and return 503. See issue #13971.
+        normalizeClaudeUpstreamMessages(translatedBody, {
+          preserveToolResultBlocks: targetFormat === FORMATS.CLAUDE,
+        });
       }
     } else if (isClaudePassthrough) {
       // Pure passthrough: forward the body as-is without OpenAI round-trip.
@@ -2429,7 +2459,16 @@ export async function handleChatCore({
           ensureCacheControlOnLastUserMessage(translatedBody);
         }
       } else {
-        normalizeClaudeUpstreamMessages(translatedBody, { preserveToolResultBlocks: true });
+        // Same guard as the CC-bridge path: only preserve tool_result blocks
+        // for Anthropic-native targets. See issue #13971. This branch only runs
+        // under isClaudePassthrough (sourceFormat === targetFormat === CLAUDE,
+        // defined above), so targetFormat === FORMATS.CLAUDE always holds here —
+        // the guard is a no-op on this call site, kept for symmetry with the
+        // CC-bridge one above rather than a change to code the issue said not
+        // to touch.
+        normalizeClaudeUpstreamMessages(translatedBody, {
+          preserveToolResultBlocks: targetFormat === FORMATS.CLAUDE,
+        });
       }
 
       log?.debug?.("FORMAT", `claude passthrough (preserveCache=${preserveCacheControl})`);
@@ -2469,8 +2508,21 @@ export async function handleChatCore({
       // conflicts with Claude OAuth tools, but in the passthrough path the tools
       // are already in Claude format. Applying the prefix turns "Bash" into
       // "proxy_Bash", which Claude rejects ("No such tool available: proxy_Bash").
+      //
+      // #618's actual traffic was real Claude Code talking to first-party Anthropic
+      // (provider "claude") reaching this fallback branch instead of the dedicated
+      // Claude Code bridge/passthrough branches above. Scoping the disable to
+      // `provider === "claude"` keeps that fix intact while no longer blanket-applying
+      // it to every other provider that merely targets Claude's wire format — a
+      // third-party provider's own ordinary (non-Claude-native) tool names, e.g.
+      // GitHub Copilot's own client-executed "web_fetch" tool, were passing through
+      // unprefixed here and colliding with Claude's reserved tool namespace, since
+      // they were never "already in Claude format" the way this comment assumes.
+      // See #13835.
       if (targetFormat === FORMATS.CLAUDE) {
-        translatedBody._disableToolPrefix = true;
+        if (provider === "claude") {
+          translatedBody._disableToolPrefix = true;
+        }
         normalizeClaudeUpstreamMessages(translatedBody);
       }
 
@@ -2481,9 +2533,12 @@ export async function handleChatCore({
       // This must happen before translateRequest, which validates and throws on unknown types.
       // Skip normalization when we are in native openai-compatible Responses passthrough mode
       // to preserve native tool definitions (exec with lark grammar, collaboration namespace, etc.).
+      // #13789: built-in providers observed to reject non-function tool types (agentrouter GLM:
+      // `400 tools[0].type:type is illegal`) are normalized too, via a conservative allowlist
+      // in shouldNormalizeFunctionToolsOnly that keeps openai's own `custom` tools untouched.
       if (
         !nativeOpenAICompatibleResponsesPassthrough &&
-        provider?.startsWith("openai-compatible-") &&
+        shouldNormalizeFunctionToolsOnly(provider, targetFormat) &&
         Array.isArray(translatedBody.tools)
       ) {
         const normalized = normalizeOpenAICompatibleTools(
@@ -2495,7 +2550,7 @@ export async function handleChatCore({
         if (dropped > 0) {
           log?.debug?.(
             "TOOLS",
-            `Dropped ${dropped} unconvertible tool(s) for openai-compatible provider`
+            `Dropped ${dropped} unconvertible tool(s) for ${provider} (function-tools-only)`
           );
         }
       }
@@ -2532,6 +2587,9 @@ export async function handleChatCore({
           signatureNamespace: connectionId,
           copilotClient: copilotCompatibleReasoning,
           reasoningCacheScope,
+          onReasoningReplayHistory: (messages) => {
+            reasoningReplayHistory = messages;
+          },
           ...(preCompressionBody ? { preCompressionBody } : {}),
         }
       );
@@ -5017,8 +5075,10 @@ export async function handleChatCore({
         effectiveModel: currentModel,
         translatedBody: translatedBody as Record<string, unknown>,
         toolNameMap,
+        customToolNames,
         requestToolIdentityMap,
         reasoningCacheScope,
+        reasoningReplayHistory,
         clientHeaders: clientRawRequest?.headers ?? null,
         isClaudeCodeCompatible,
         log,
@@ -5162,6 +5222,9 @@ export async function handleChatCore({
               signatureNamespace: connectionId,
               copilotClient: copilotCompatibleReasoning,
               reasoningCacheScope,
+              onReasoningReplayHistory: (messages) => {
+                reasoningReplayHistory = messages;
+              },
             }
           );
           return runNonStreamingProviderLeg(
@@ -5185,8 +5248,10 @@ export async function handleChatCore({
                 effectiveModel: currentModel,
                 translatedBody: translatedBody as Record<string, unknown>,
                 toolNameMap,
+                customToolNames,
                 requestToolIdentityMap,
                 reasoningCacheScope,
+                reasoningReplayHistory,
                 clientHeaders: clientRawRequest?.headers ?? null,
                 isClaudeCodeCompatible,
                 log,
@@ -5512,6 +5577,9 @@ export async function handleChatCore({
         headers: clientRawRequest?.headers,
         translatedResponse,
         model,
+        // The dual-layer manager scopes entries per provider (cacheByProvider);
+        // lookup passes the resolved provider, so the write must too (#14159).
+        provider,
         apiKeyId: apiKeyInfo?.id ?? undefined,
         usage,
         log,
@@ -5835,8 +5903,11 @@ export async function handleChatCore({
         const choices = cacheStreamBody.choices as
           { message?: Record<string, unknown> }[] | undefined;
         const msg = choices?.[0]?.message;
-        const historyMessages = (translatedBody as { messages?: unknown[] } | null | undefined)
-          ?.messages;
+        // Responses-shaped bodies carry `input`, not `messages` — use the pivot
+        // transcript translateRequest reported so plain-turn keys match the read side.
+        const historyMessages =
+          (translatedBody as { messages?: unknown[] } | null | undefined)?.messages ??
+          reasoningReplayHistory;
         if (requiresReasoningReplay({ provider, model })) {
           cacheReasoningFromAssistantMessage(msg, provider, model, {
             scope: reasoningCacheScope,
@@ -6013,6 +6084,7 @@ export async function handleChatCore({
       body: bodyForCacheWrite,
       headers: clientRawRequest?.headers,
       model,
+      provider,
       apiKeyId: apiKeyInfo?.id ?? undefined,
       streamUsage,
       log,
@@ -6151,23 +6223,27 @@ export async function handleChatCore({
     );
   }
 
-  const finalStream = assembleStreamingPipeline({
-    providerResponse,
-    transformStream,
-    streamController,
-    createPiiTransform,
-    clientRawRequestHeaders: clientRawRequest?.headers,
-    clientResponseFormat,
-    echoModel,
-    responseHeaders,
-    // Same adaptive budget the pre-handoff readiness gate above just used —
-    // reasoning models that legitimately take a while to say anything keep
-    // that same patience for their first REAL content, not just their first
-    // lifecycle frame. See pipeWithDisconnect's own doc comment.
-    contentStallTimeoutMs: streamReadinessPolicy.timeoutMs,
-  });
+    const finalStream = assembleStreamingPipeline({
+      providerResponse,
+      transformStream,
+      streamController,
+      createPiiTransform,
+      clientRawRequestHeaders: clientRawRequest?.headers,
+      clientResponseFormat,
+      echoModel,
+      responseHeaders,
+      // Same adaptive budget the pre-handoff readiness gate above just used —
+      // reasoning models that legitimately take a while to say anything keep
+      // that same patience for their first REAL content, not just their first
+      // lifecycle frame. See pipeWithDisconnect's own doc comment.
+      contentStallTimeoutMs: streamReadinessPolicy.timeoutMs,
+    });
+    const clientFacingStream = wrapReadableStreamWithFinalize(
+      finalStream,
+      releaseTurnExecution
+    );
 
-  // ── Gamification event (fire-and-forget) ──
+    // ── Gamification event (fire-and-forget) ──
   await emitRequestGamificationEvent({ apiKeyId: apiKeyInfo?.id, model, provider });
 
   // ── Plugin onResponse hook (fire-and-forget) ──
@@ -6181,12 +6257,19 @@ export async function handleChatCore({
     response: { status: 200, streamed: true },
   });
 
-  return {
-    success: true,
-    response: new Response(finalStream, {
+    const response = new Response(clientFacingStream, {
       headers: responseHeaders,
-    }),
-  };
+    });
+    turnExecutionHandedOffToStream = true;
+    return {
+      success: true,
+      response,
+    };
+  } finally {
+    if (!turnExecutionHandedOffToStream) {
+      releaseTurnExecution();
+    }
+  }
 }
 export function isTokenExpiringSoon(expiresAt, bufferMs = 5 * 60 * 1000) {
   if (!expiresAt) return false;

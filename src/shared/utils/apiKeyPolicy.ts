@@ -23,7 +23,10 @@ import {
 import { HTTP_STATUS } from "@omniroute/open-sse/config/constants.ts";
 import * as log from "@/sse/utils/logger";
 import { checkRateLimit, RateLimitRule } from "./rateLimiter";
-import { resolveEndpointCategory } from "@/shared/constants/endpointCategories";
+import {
+  resolveCanonicalEndpointPath,
+  resolveEndpointCategory,
+} from "@/shared/constants/endpointCategories";
 import { resolveQuotaKeyScope } from "@/lib/quota/quotaKey";
 import { isQuotaModelName, parseQuotaModelName } from "@/lib/quota/quotaModelNaming";
 import { buildApiKeyUsageLimitPolicyRejection } from "@/lib/usage/apiKeyUsageLimits";
@@ -72,6 +75,7 @@ export interface ApiKeyMetadata {
   name?: string;
   modelAccessMode?: "all" | "restricted";
   allowedModels?: string[];
+  blockedModels?: string[];
   allowedCombos?: string[];
   allowedConnections?: string[];
   allowedQuotas?: string[];
@@ -343,6 +347,7 @@ async function validateStandardRoutingTarget(
   const hasModelRestrictions =
     apiKeyInfo.modelAccessMode === "restricted" ||
     Boolean(apiKeyInfo.allowedModels?.length) ||
+    Boolean(apiKeyInfo.blockedModels?.length) ||
     apiKeyInfo.disableNonPublicModels === true;
   if (!requestedComboName && hasModelRestrictions && modelStr.startsWith("auto/")) {
     requestedComboName = modelStr;
@@ -497,10 +502,12 @@ function validateEndpointAccess(context: PolicyContext): Response | null {
   if (!apiKeyInfo.allowedEndpoints?.length) return null;
   try {
     // A route handler sees the client's original URL: `/v1/…` when the
-    // `/v1/:path*` rewrite fired, but `/api/v1/…` when the client hit the App
-    // Router path directly (no rewrite). The category prefixes are `/v1/…`, so
-    // strip the `/api` shape or a restricted key silently passes on that path.
-    const pathname = new URL(request.url).pathname.replace(/^\/api(?=\/v1\/)/, "");
+    // `/v1/:path*` rewrite fired, `/api/v1/…` when the client hit the App
+    // Router path directly (no rewrite), and the raw alias spelling
+    // (`/chat/completions`, `/models`, `/codex/…`, `/v1/v1/…`) in every case.
+    // The category prefixes are `/v1/…`, so canonicalize the path first or a
+    // restricted key silently passes on those spellings (#13685).
+    const pathname = resolveCanonicalEndpointPath(new URL(request.url).pathname);
     const category = resolveEndpointCategory(pathname);
     if (category && !apiKeyInfo.allowedEndpoints.includes(category)) {
       return errorResponse(
@@ -582,6 +589,7 @@ async function validateModelAccess(context: PolicyContext): Promise<Response | n
   const hasModelRestrictions =
     apiKeyInfo.modelAccessMode === "restricted" ||
     Boolean(apiKeyInfo.allowedModels?.length) ||
+    Boolean(apiKeyInfo.blockedModels?.length) ||
     apiKeyInfo.disableNonPublicModels === true;
   if (!requestedComboName && hasModelRestrictions) {
     if (modelStr.startsWith("auto/") || modelStr.startsWith("qtSd/")) {

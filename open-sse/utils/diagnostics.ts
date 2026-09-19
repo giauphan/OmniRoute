@@ -291,7 +291,11 @@ export function detectMalformedNonStream(
     // text:""}] — one block, just with no visible text — which is the exact
     // same legitimate truncated-completion shape, so the exemption must apply
     // whenever there is no visible output, not only when content is [].
-    if (stopReason === "max_tokens" || stopReason === "tool_use") return null;
+    // "length" is the OpenAI-style spelling some Claude-compatible shims
+    // (ollama qwen3 with the reasoning budget exhausted) emit for the same
+    // truncated-completion case — sentinel content + stop_reason "length".
+    if (stopReason === "max_tokens" || stopReason === "tool_use" || stopReason === "length")
+      return null;
     // content:[] with no stop_reason at all is non-terminal, not empty (#9971).
     if (content.length === 0 && stopReason.length === 0) return null;
     return "empty_choices";

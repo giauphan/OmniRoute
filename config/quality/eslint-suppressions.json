@@ -185,9 +185,6 @@
     }
   },
   "open-sse/executors/tinycmsSigner.ts": {
-    "@typescript-eslint/no-explicit-any": {
-      "count": 1
-    },
     "@typescript-eslint/no-unused-vars": {
       "count": 2
     }
@@ -560,11 +557,6 @@
   },
   "open-sse/services/opencodeOllamaUsage.ts": {
     "no-restricted-syntax": {
-      "count": 1
-    }
-  },
-  "open-sse/services/rateLimitManager.ts": {
-    "@typescript-eslint/no-unused-vars": {
       "count": 1
     }
   },
@@ -1266,7 +1258,7 @@
   },
   "src/app/api/v1/rerank/route.ts": {
     "@typescript-eslint/no-unused-vars": {
-      "count": 3
+      "count": 2
     }
   },
   "src/app/api/v1/search/route.ts": {
@@ -1612,16 +1604,6 @@
       "count": 1
     }
   },
-  "src/lib/oauth/providers/github.ts": {
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
-  "src/lib/oauth/providers/kimi-coding.ts": {
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
   "src/lib/oauth/providers/kiro.ts": {
     "@typescript-eslint/no-unused-vars": {
       "count": 3
@@ -1669,11 +1651,6 @@
   },
   "src/lib/quota/sqliteQuotaStore.ts": {
     "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
-  "src/lib/semanticCache.ts": {
-    "no-restricted-syntax": {
       "count": 1
     }
   },

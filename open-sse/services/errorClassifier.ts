@@ -178,6 +178,25 @@ export function isGeoBlockedError(errorMessage: string): boolean {
 // classified as an egress-fixable geo block, or it would get the non-terminal
 // 24h exclusion treatment instead of that provider's own (possibly terminal)
 // path.
+// OpenCode Zen free-tier refusal. Mirrors isOpencodeFreeTierRefusal in
+// open-sse/executors/opencodeGeoBlock.ts, which must stay a leaf module (no
+// imports) while this file pulls the registry and the DB — the same mirroring the
+// Cloudflare 1010 check uses. The parity test pins both to one vector table.
+// Only the relayed sentence is reachable here: parseUpstreamError hands the
+// classifier `error.message` and keeps `error.type` aside, so matching the
+// machine token alone would never fire. The token stays in the list for callers
+// that pass the whole body.
+const FREE_TIER_REFUSAL_SIGNALS = ["freetiererror", "free tier can only be used"];
+
+function isOpencodeFreeTierProvider(provider?: string | null): boolean {
+  return (provider || "").toLowerCase().startsWith("opencode");
+}
+
+function isFreeTierClientRefusal(bodyStr: string): boolean {
+  const lower = bodyStr.toLowerCase();
+  return FREE_TIER_REFUSAL_SIGNALS.some((signal) => lower.includes(signal));
+}
+
 function isGeoBlockEligibleProvider(provider?: string | null): boolean {
   const p = (provider || "").toLowerCase();
   if (
@@ -216,12 +235,44 @@ function isGeoBlockEligibleProvider(provider?: string | null): boolean {
 const CLOUDFLARE_1010_REGEX =
   /(?<![A-Za-z0-9_-])error[\s_-]?code[\\"':=\s]{0,12}1010(?!\w)|(?<![A-Za-z0-9_-])error[-_]\s?1010(?!\w)\/?/i;
 
+// A Cloudflare managed/JS challenge is the SAME class of block as a 1010 — the
+// edge refused the CLIENT's signature and demanded an interactive browser
+// challenge — but it is a different product surface and carries none of the
+// 1010 markers. It arrives as a ~12KB text/html interstitial (with header
+// `cf-mitigated: challenge`), so a body-shape match is the only signal
+// available to a classifier that sees the body alone.
+//
+// Observed verbatim on `POST chatgpt.com/backend-api/codex/responses/input_tokens`
+// for a HEALTHY Codex OAuth account whose token refreshed successfully in the
+// same second and which served normal `/responses` traffic seconds before and
+// after: `window._cf_chl_opt = {... cType: 'managed', cZone: 'chatgpt.com' ...}`.
+// Without this branch the challenge falls through to FORBIDDEN, and chatCore's
+// FORBIDDEN handler writes the terminal `banned`/`isActive:false` state that
+// never auto-recovers — taking the whole provider offline until an operator
+// reconnects, on a block that says nothing about account health.
+//
+// IMPORTANT: these markers are matched as full, distinctive Cloudflare-internal
+// strings, never as loose words like "challenge" — a provider error body may
+// legitimately discuss a "challenge" in prose.
+const CLOUDFLARE_CHALLENGE_MARKERS = [
+  "_cf_chl_opt",
+  "cdn-cgi/challenge-platform",
+  'id="challenge-error-text"',
+  String.raw`id=\"challenge-error-text\"`,
+] as const;
+
+export function isCloudflareChallengeInterstitial(errorText: string): boolean {
+  const text = String(errorText || "").toLowerCase();
+  return CLOUDFLARE_CHALLENGE_MARKERS.some((marker) => text.includes(marker.toLowerCase()));
+}
+
 export function isCloudflareFingerprintRejection(errorText: string): boolean {
   const text = String(errorText || "").toLowerCase();
   return (
     CLOUDFLARE_1010_REGEX.test(text) ||
     text.includes("browser_signature_banned") ||
-    text.includes("fingerprint_rejection")
+    text.includes("fingerprint_rejection") ||
+    isCloudflareChallengeInterstitial(text)
   );
 }
 
@@ -440,6 +491,18 @@ export function classifyProviderError(
       /\bTurnstile required\b/i.test(bodyStr)
     ) {
       return PROVIDER_ERROR_TYPES.FORBIDDEN;
+    }
+
+    // The free tier refuses the REQUEST (client identity or request shape), not the
+    // account: the same credential succeeds on a compliant request, and every
+    // sibling account gets the same verdict. FORBIDDEN would ban the connection
+    // permanently and GEO_BLOCKED would park a healthy account for 24h, so neither
+    // fits. PROJECT_ROUTE_ERROR records the refusal (lastErrorType/lastError/
+    // errorCode) and explicitly does not ban — matching how a recoverable
+    // project-config 403 is handled above. Must precede the apikey short-circuit
+    // below, which would otherwise drop this refusal as unclassified.
+    if (isOpencodeFreeTierProvider(provider) && isFreeTierClientRefusal(bodyStr)) {
+      return PROVIDER_ERROR_TYPES.PROJECT_ROUTE_ERROR;
     }
 
     if (provider && getProviderCategory(provider) === "apikey") {
