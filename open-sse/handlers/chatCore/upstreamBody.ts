@@ -9,12 +9,16 @@ import {
   resolvePayloadRuleProtocols,
 } from "../../services/payloadRules.ts";
 import { getEffectiveToolLimit, getKnownToolLimit } from "../../services/toolLimitDetector.ts";
+import { OMNIROUTE_WEB_SEARCH_FALLBACK_TOOL_NAME } from "../../services/webSearchFallback.ts";
+import { OMNIROUTE_WEB_FETCH_FALLBACK_TOOL_NAME } from "../../services/webFetchInterception.ts";
+import { CLAUDE_OAUTH_TOOL_PREFIX } from "../../translator/request/openai-to-claude.ts";
 import {
   providerSupportsCaching,
   resolveConnectionCacheOverride,
   type ConnectionCacheOverride,
 } from "../../utils/cacheControlPolicy.ts";
 import { FORMATS } from "../../translator/formats.ts";
+import { stripInternalBodyFields } from "../../config/cliFingerprints.ts";
 import { sanitizeRequestForResolvedTarget } from "../../services/targetRequestSanitizer.ts";
 import { normalizeThinkingForModel } from "@/shared/constants/modelSpecs.ts";
 import {
@@ -66,6 +70,35 @@ function buildAppliedRulesSummary(
     .join(", ");
 }
 
+// The web_search / web_fetch fallback stands in for a hosted tool the client declared,
+// and the router executes its calls itself. Tools are sorted by name (#12234) before
+// namespaces are flattened, so behind a large MCP catalog the fallback sat past the
+// cap and was cut: the model never saw a search tool. Keep it; the rest fills the room
+// that is left, in order.
+const FALLBACK_TOOL_NAMES = new Set([
+  OMNIROUTE_WEB_SEARCH_FALLBACK_TOOL_NAME,
+  OMNIROUTE_WEB_FETCH_FALLBACK_TOOL_NAME,
+]);
+
+function isFallbackTool(tool: unknown): boolean {
+  if (!tool || typeof tool !== "object") return false;
+  const record = tool as Record<string, unknown>;
+  const fn = record.function as Record<string, unknown> | undefined;
+  const name = typeof record.name === "string" ? record.name : fn?.name;
+  if (typeof name !== "string") return false;
+  // Claude-format targets carry the OAuth prefix (openai-to-claude.ts).
+  const unprefixed = name.startsWith(CLAUDE_OAUTH_TOOL_PREFIX)
+    ? name.slice(CLAUDE_OAUTH_TOOL_PREFIX.length)
+    : name;
+  return FALLBACK_TOOL_NAMES.has(unprefixed);
+}
+
+function capToolList(tools: unknown[], limit: number): unknown[] {
+  let pinnedRoom = Math.min(limit, tools.filter(isFallbackTool).length);
+  let room = limit - pinnedRoom;
+  return tools.filter((tool) => (isFallbackTool(tool) ? pinnedRoom-- > 0 : room-- > 0));
+}
+
 function truncateToolList(
   bodyToSend: Body,
   provider: string | null | undefined,
@@ -78,7 +111,7 @@ function truncateToolList(
   if (knownLimit !== null) {
     if (bodyToSend.tools.length > knownLimit) {
       const originalCount = bodyToSend.tools.length;
-      const truncatedTools = bodyToSend.tools.slice(0, knownLimit);
+      const truncatedTools = capToolList(bodyToSend.tools, knownLimit);
       bodyToSend = { ...bodyToSend, tools: truncatedTools };
       log?.debug?.(
         "TOOL_LIMIT",
@@ -93,7 +126,7 @@ function truncateToolList(
   const effectiveToolLimit = getEffectiveToolLimit(provider);
   if (bodyToSend.tools.length > effectiveToolLimit) {
     const originalCount = bodyToSend.tools.length;
-    const truncatedTools = bodyToSend.tools.slice(0, effectiveToolLimit);
+    const truncatedTools = capToolList(bodyToSend.tools, effectiveToolLimit);
     bodyToSend = { ...bodyToSend, tools: truncatedTools };
     log?.debug?.(
       "TOOL_LIMIT",
@@ -259,6 +292,14 @@ function normalizeAttemptBody(opts: PrepareUpstreamBodyOptions): Body {
   }
   bodyToSend = stripGpt5SamplingWhenReasoning(bodyToSend, provider, modelToCall, log);
   bodyToSend = stripGpt5ReasoningWhenTools(bodyToSend, provider, modelToCall, targetFormat, log);
+
+  // All models, including universal/context-handoff summary models, pass through
+  // this shared pre-executor boundary. Remove OmniRoute-only routing markers here
+  // so custom executors that serialize their own request bodies cannot leak them.
+  // keepExecutorMarkers: `_native*Passthrough` is read by the executor further down
+  // (codex.ts/xai.ts) and deleted there; applyFingerprint() strips it at
+  // serialization. Removing it here would disable native passthrough (#14496).
+  stripInternalBodyFields(bodyToSend, { keepExecutorMarkers: true });
   return bodyToSend;
 }
 

@@ -69,6 +69,13 @@ export const GEMINI_UNSUPPORTED_SCHEMA_KEYS = new Set([
   // "Unknown name \"prefixItems\" ... Cannot find field". ensureArrayItems
   // below still guarantees an `items` schema for the tuple-typed array.
   "prefixItems",
+  // #12871: `additionalItems` is the draft-07 spelling of the same tuple-typed
+  // array concept as `prefixItems` above — it describes positional array entries,
+  // which the Gemini schema parser has no field for, rejecting the request with
+  // "Unknown name \"additionalItems\" ... Cannot find field". Stripping it leaves
+  // a bare `type: "array"`, which `ensureArrayItems()` below (#10578) fills with a
+  // safe `items` schema instead of failing the call.
+  "additionalItems",
   // Complex schema keywords (handled by flattenAnyOfOneOf/mergeAllOf)
   "anyOf",
   "oneOf",
@@ -548,7 +555,16 @@ function removeUnsupportedKeywords(obj: unknown, keywords: Set<string>): void {
   const record = obj as JsonRecord;
   // Delete unsupported *constraint* keywords at the current schema level.
   for (const key of Object.keys(record)) {
-    if (keywords.has(key) || key.startsWith("x-")) {
+    // `~`-prefixed keys are the Standard Schema convention (Zod 4+, Valibot,
+    // ArkType) for internal/vendor metadata namespaced to avoid colliding
+    // with real schema property names -- e.g. a tool built from one of those
+    // libraries can leak a literal `~optional` key into a property's
+    // subschema. The plain `"optional"` entry in the denylist above doesn't
+    // match the tilde-prefixed form, and Gemini 400s the entire tool list on
+    // the unrecognized field ("Unknown name \"~optional\" ... Cannot find
+    // field"), taking down every model behind it. Strip the whole class the
+    // same way `x-` vendor extensions are already stripped below.
+    if (keywords.has(key) || key.startsWith("x-") || key.startsWith("~")) {
       delete record[key];
     }
   }
@@ -753,6 +769,57 @@ function flattenTypeArrays(obj: unknown): void {
   forEachSubschema(record, flattenTypeArrays);
 }
 
+const VALID_PROTOBUF_TYPES = new Set(["string", "number", "integer", "boolean", "array", "object"]);
+
+// Python/protobuf-flavored type spellings some MCP/agent clients emit, mapped
+// onto the six JSON Schema type names Gemini's Schema proto actually accepts
+// (#14083). A lookup table keeps this a single branch instead of a long
+// if/else chain (complexity ratchet).
+const PROTOBUF_TYPE_ALIASES: Record<string, string> = {
+  float: "number",
+  double: "number",
+  int: "integer",
+  int32: "integer",
+  int64: "integer",
+  uint: "integer",
+  uint32: "integer",
+  uint64: "integer",
+  bool: "boolean",
+  dict: "object",
+  map: "object",
+  list: "array",
+  set: "array",
+};
+
+function sanitizeTypeName(typeStr: string, record: JsonRecord): string {
+  const lower = typeStr.toLowerCase();
+  const aliased = PROTOBUF_TYPE_ALIASES[lower];
+  if (aliased) return aliased;
+  if (VALID_PROTOBUF_TYPES.has(lower)) return lower;
+  if (record.properties !== undefined) return "object";
+  if (record.items !== undefined) return "array";
+  return "string";
+}
+
+// Sanitize protobuf-flavored schema types recursively (#14083).
+function sanitizeProtobufTypes(obj: unknown): void {
+  if (!obj || typeof obj !== "object") return;
+
+  if (Array.isArray(obj)) {
+    for (const item of obj) {
+      sanitizeProtobufTypes(item);
+    }
+    return;
+  }
+
+  const record = obj as JsonRecord;
+  if (typeof record.type === "string") {
+    record.type = sanitizeTypeName(record.type, record);
+  }
+
+  forEachSubschema(record, sanitizeProtobufTypes);
+}
+
 // Clean JSON Schema for Antigravity API compatibility - removes unsupported keywords recursively
 // Reference: CLIProxyAPI/internal/util/gemini_schema.go
 /**
@@ -819,6 +886,10 @@ export function cleanJSONSchemaForAntigravity(
   flattenAnyOfOneOf(cleaned);
   flattenTypeArrays(cleaned);
 
+  // Phase 2b: normalize protobuf-flavored type spellings (dict/bool/int32/float/list/...)
+  // that some MCP/agent clients emit onto the JSON Schema type names Gemini accepts (#14083).
+  sanitizeProtobufTypes(cleaned);
+
   // Phase 3: Preserve the only supported additionalProperties shape before keyword cleanup.
   normalizeAdditionalProperties(cleaned);
 
@@ -839,7 +910,12 @@ export function cleanJSONSchemaForAntigravity(
     const record = obj as JsonRecord;
     if (record.required && Array.isArray(record.required) && record.properties) {
       const properties = toRecord(record.properties);
-      const validRequired = record.required.filter(
+      // Dedupe first (#14083): a client-supplied `required` list can repeat a
+      // field name, and a duplicate that also fails the properties-membership
+      // filter below must not be counted twice when deciding whether anything
+      // valid survives.
+      const dedupedRequired = Array.from(new Set(record.required));
+      const validRequired = dedupedRequired.filter(
         (field) =>
           typeof field === "string" && Object.prototype.hasOwnProperty.call(properties, field)
       );

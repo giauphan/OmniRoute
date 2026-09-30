@@ -25,6 +25,7 @@ import assert from "node:assert/strict";
 import {
   applyFreeTierRequestContract,
   configuredPlaceholderToolNames,
+  mergeClientToolsWithObserved,
   noteFreeTierOutcome,
   prepareFreeTierRequest,
   isGatedFreeTierRequest,
@@ -34,6 +35,8 @@ import {
 import {
   _resetToolObservationForTests,
   getObservedToolNames,
+  recordAcceptedToolNames,
+  resolvePlaceholderNames,
 } from "../../open-sse/executors/opencodeToolObservation.ts";
 import {
   DEFAULT_OPENCODE_USER_AGENT,
@@ -145,7 +148,7 @@ test("responses: the placeholder tool is flat and tool_choice stays absent", () 
   assert.equal("tool_choice" in body, false);
 });
 
-test("client-supplied tools are never replaced, and no tool_choice is imposed", () => {
+test("client-supplied tools are never replaced, required placeholders are appended, and no tool_choice is imposed", () => {
   const clientTools = [
     { type: "function", function: { name: "search", parameters: { type: "object" } } },
   ];
@@ -153,9 +156,45 @@ test("client-supplied tools are never replaced, and no tool_choice is imposed", 
     { ...CHAT_BODY(), tools: clientTools },
     "openai"
   ) as Record<string, unknown>;
-  assert.deepEqual(body.tools, clientTools);
+  const tools = body.tools as Array<{ type: string; function?: { name: string } }>;
+  assert.equal(tools.length, 2);
+  assert.equal(tools[0].function?.name, "search");
+  assert.equal(tools[1].function?.name, "_noop");
   assert.equal("tool_choice" in body, false);
   assert.equal(body.stream, true);
+});
+
+test("when client-supplied tools already include placeholder tools, nothing extra is added", () => {
+  const clientTools = [
+    { type: "function", function: { name: "search", parameters: { type: "object" } } },
+    { type: "function", function: { name: "_noop", parameters: { type: "object" } } },
+  ];
+  const body = applyFreeTierRequestContract(
+    { ...CHAT_BODY(), tools: clientTools },
+    "openai"
+  ) as Record<string, unknown>;
+  assert.deepEqual(body.tools, clientTools);
+});
+
+test("when client-supplied tools are present, multiple configured placeholders are appended", () => {
+  const clientTools = [
+    { type: "function", function: { name: "run_code", parameters: { type: "object" } } },
+  ];
+  const body = applyFreeTierRequestContract({ ...CHAT_BODY(), tools: clientTools }, "openai", [
+    "glob",
+    "grep",
+    "read",
+    "edit",
+    "write",
+    "bash",
+  ]) as Record<string, unknown>;
+  const tools = body.tools as Array<{ type: string; function?: { name: string } }>;
+  assert.equal(tools.length, 7);
+  assert.equal(tools[0].function?.name, "run_code");
+  assert.deepEqual(
+    tools.slice(1).map((t) => t.function?.name),
+    ["glob", "grep", "read", "edit", "write", "bash"]
+  );
 });
 
 test("a client tool_choice is preserved", () => {
@@ -518,6 +557,13 @@ test("an accepted request teaches the names it carried, and a later bare request
   assert.equal(second.attempt?.borrowed, true);
 });
 
+test("configured placeholder names take precedence over un-scoped observed tools for generic clients", () => {
+  _resetToolObservationForTests();
+  recordAcceptedToolNames("opencode", "big-pickle", undefined, ["run_code"]);
+  const resolved = resolvePlaceholderNames("opencode", "big-pickle", undefined, ["glob", "grep"]);
+  assert.deepEqual(resolved, ["glob", "grep"]);
+});
+
 test("what one model learns stays with that model", () => {
   // Asserts an absence, so it stays green if the store is removed entirely — it guards
   // against cross-model leakage, not against the mechanism disappearing.
@@ -749,4 +795,40 @@ test("a client session id is read case-insensitively, a synthesized one is not b
   assert.equal(clientSuppliedOpencodeSession({ "x-opencode-session": "   " }), undefined);
   assert.equal(clientSuppliedOpencodeSession({}), undefined);
   assert.equal(clientSuppliedOpencodeSession(undefined), undefined);
+});
+
+test("mergeClientToolsWithObserved: keeps client tools first and appends missing observed names with empty schemas [free-tier-observed-tools]", () => {
+  _resetToolObservationForTests();
+  const body = {
+    ...CHAT_BODY(),
+    tools: [
+      { type: "function", function: { name: "glob", parameters: { type: "object" } } },
+      { type: "function", function: { name: "read", parameters: { type: "object" } } },
+    ],
+  };
+  const merged = mergeClientToolsWithObserved(body, "openai", "opencode", "big-pickle", undefined, [
+    "read",
+    "edit",
+  ]);
+  const tools = (merged as Record<string, unknown>).tools as Array<{
+    function: { name: string; parameters: object };
+  }>;
+  assert.deepEqual(
+    tools.map((t) => t.function.name),
+    ["glob", "read", "edit"]
+  );
+  // Appended entries are list entries, not callable tools.
+  assert.deepEqual(tools[2].function.parameters, { type: "object", properties: {} });
+});
+
+test("mergeClientToolsWithObserved: leaves the body untouched when nothing observed [free-tier-observed-tools]", () => {
+  _resetToolObservationForTests();
+  const body = {
+    ...CHAT_BODY(),
+    tools: [{ type: "function", function: { name: "glob", parameters: { type: "object" } } }],
+  };
+  assert.equal(
+    mergeClientToolsWithObserved(body, "openai", "opencode", "big-pickle", undefined, []),
+    body
+  );
 });

@@ -1,6 +1,6 @@
 # OmniRoute Auto-Combo Engine (Magyar)
 
-🌐 **Languages:** 🇺🇸 [English](../../../../routing/AUTO-COMBO.md) · 🇪🇹 [am](../../../am/docs/routing/AUTO-COMBO.md) · 🇸🇦 [ar](../../../ar/docs/routing/AUTO-COMBO.md) · 🇦🇿 [az](../../../az/docs/routing/AUTO-COMBO.md) · 🇧🇬 [bg](../../../bg/docs/routing/AUTO-COMBO.md) · 🇧🇩 [bn](../../../bn/docs/routing/AUTO-COMBO.md) · 🇨🇿 [cs](../../../cs/docs/routing/AUTO-COMBO.md) · 🇩🇰 [da](../../../da/docs/routing/AUTO-COMBO.md) · 🇩🇪 [de](../../../de/docs/routing/AUTO-COMBO.md) · 🇬🇷 [el](../../../el/docs/routing/AUTO-COMBO.md) · 🇪🇸 [es](../../../es/docs/routing/AUTO-COMBO.md) · 🇪🇪 [et](../../../et/docs/routing/AUTO-COMBO.md) · 🇮🇷 [fa](../../../fa/docs/routing/AUTO-COMBO.md) · 🇫🇮 [fi](../../../fi/docs/routing/AUTO-COMBO.md) · 🇫🇷 [fr](../../../fr/docs/routing/AUTO-COMBO.md) · 🇮🇪 [ga](../../../ga/docs/routing/AUTO-COMBO.md) · 🇮🇳 [gu](../../../gu/docs/routing/AUTO-COMBO.md) · 🇳🇬 [ha](../../../ha/docs/routing/AUTO-COMBO.md) · 🇮🇱 [he](../../../he/docs/routing/AUTO-COMBO.md) · 🇮🇳 [hi](../../../hi/docs/routing/AUTO-COMBO.md) · 🇭🇷 [hr](../../../hr/docs/routing/AUTO-COMBO.md) · 🇦🇲 [hy](../../../hy/docs/routing/AUTO-COMBO.md) · 🇮🇩 [id](../../../id/docs/routing/AUTO-COMBO.md) · 🇳🇬 [ig](../../../ig/docs/routing/AUTO-COMBO.md) · 🇮🇹 [it](../../../it/docs/routing/AUTO-COMBO.md) · 🇯🇵 [ja](../../../ja/docs/routing/AUTO-COMBO.md) · 🇬🇪 [ka](../../../ka/docs/routing/AUTO-COMBO.md) · 🇰🇭 [km](../../../km/docs/routing/AUTO-COMBO.md) · 🇮🇳 [kn](../../../kn/docs/routing/AUTO-COMBO.md) · 🇰🇷 [ko](../../../ko/docs/routing/AUTO-COMBO.md) · 🇱🇹 [lt](../../../lt/docs/routing/AUTO-COMBO.md) · 🇱🇻 [lv](../../../lv/docs/routing/AUTO-COMBO.md) · 🇮🇳 [ml](../../../ml/docs/routing/AUTO-COMBO.md) · 🇮🇳 [mr](../../../mr/docs/routing/AUTO-COMBO.md) · 🇲🇾 [ms](../../../ms/docs/routing/AUTO-COMBO.md) · 🇲🇹 [mt](../../../mt/docs/routing/AUTO-COMBO.md) · 🇲🇲 [my](../../../my/docs/routing/AUTO-COMBO.md) · 🇳🇵 [ne](../../../ne/docs/routing/AUTO-COMBO.md) · 🇳🇱 [nl](../../../nl/docs/routing/AUTO-COMBO.md) · 🇳🇴 [no](../../../no/docs/routing/AUTO-COMBO.md) · 🇮🇳 [or](../../../or/docs/routing/AUTO-COMBO.md) · 🇮🇳 [pa](../../../pa/docs/routing/AUTO-COMBO.md) · 🇵🇭 [phi](../../../phi/docs/routing/AUTO-COMBO.md) · 🇵🇱 [pl](../../../pl/docs/routing/AUTO-COMBO.md) · 🇵🇹 [pt](../../../pt/docs/routing/AUTO-COMBO.md) · 🇧🇷 [pt-BR](../../../pt-BR/docs/routing/AUTO-COMBO.md) · 🇷🇴 [ro](../../../ro/docs/routing/AUTO-COMBO.md) · 🇷🇺 [ru](../../../ru/docs/routing/AUTO-COMBO.md) · 🇱🇰 [si](../../../si/docs/routing/AUTO-COMBO.md) · 🇸🇰 [sk](../../../sk/docs/routing/AUTO-COMBO.md) · 🇸🇮 [sl](../../../sl/docs/routing/AUTO-COMBO.md) · 🇷🇸 [sr](../../../sr/docs/routing/AUTO-COMBO.md) · 🇸🇪 [sv](../../../sv/docs/routing/AUTO-COMBO.md) · 🇰🇪 [sw](../../../sw/docs/routing/AUTO-COMBO.md) · 🇮🇳 [ta](../../../ta/docs/routing/AUTO-COMBO.md) · 🇮🇳 [te](../../../te/docs/routing/AUTO-COMBO.md) · 🇹🇭 [th](../../../th/docs/routing/AUTO-COMBO.md) · 🇹🇷 [tr](../../../tr/docs/routing/AUTO-COMBO.md) · 🇺🇦 [uk-UA](../../../uk-UA/docs/routing/AUTO-COMBO.md) · 🇵🇰 [ur](../../../ur/docs/routing/AUTO-COMBO.md) · 🇺🇿 [uz](../../../uz/docs/routing/AUTO-COMBO.md) · 🇻🇳 [vi](../../../vi/docs/routing/AUTO-COMBO.md) · 🇳🇬 [yo](../../../yo/docs/routing/AUTO-COMBO.md) · 🇨🇳 [zh-CN](../../../zh-CN/docs/routing/AUTO-COMBO.md) · 🇹🇼 [zh-TW](../../../zh-TW/docs/routing/AUTO-COMBO.md)
+🌐 **Languages:** 🇺🇸 [English](../../../../routing/AUTO-COMBO.md) · 🇪🇹 [am](../../../am/docs/routing/AUTO-COMBO.md) · 🇸🇦 [ar](../../../ar/docs/routing/AUTO-COMBO.md) · 🇦🇿 [az](../../../az/docs/routing/AUTO-COMBO.md) · 🇧🇬 [bg](../../../bg/docs/routing/AUTO-COMBO.md) · 🇧🇩 [bn](../../../bn/docs/routing/AUTO-COMBO.md) · 🇧🇦 [bs](../../../bs/docs/routing/AUTO-COMBO.md) · 🇨🇿 [cs](../../../cs/docs/routing/AUTO-COMBO.md) · 🇩🇰 [da](../../../da/docs/routing/AUTO-COMBO.md) · 🇩🇪 [de](../../../de/docs/routing/AUTO-COMBO.md) · 🇬🇷 [el](../../../el/docs/routing/AUTO-COMBO.md) · 🇪🇸 [es](../../../es/docs/routing/AUTO-COMBO.md) · 🇪🇪 [et](../../../et/docs/routing/AUTO-COMBO.md) · 🇮🇷 [fa](../../../fa/docs/routing/AUTO-COMBO.md) · 🇫🇮 [fi](../../../fi/docs/routing/AUTO-COMBO.md) · 🇫🇷 [fr](../../../fr/docs/routing/AUTO-COMBO.md) · 🇮🇪 [ga](../../../ga/docs/routing/AUTO-COMBO.md) · 🇮🇳 [gu](../../../gu/docs/routing/AUTO-COMBO.md) · 🇳🇬 [ha](../../../ha/docs/routing/AUTO-COMBO.md) · 🇮🇱 [he](../../../he/docs/routing/AUTO-COMBO.md) · 🇮🇳 [hi](../../../hi/docs/routing/AUTO-COMBO.md) · 🇭🇷 [hr](../../../hr/docs/routing/AUTO-COMBO.md) · 🇦🇲 [hy](../../../hy/docs/routing/AUTO-COMBO.md) · 🇮🇩 [id](../../../id/docs/routing/AUTO-COMBO.md) · 🇳🇬 [ig](../../../ig/docs/routing/AUTO-COMBO.md) · 🇮🇹 [it](../../../it/docs/routing/AUTO-COMBO.md) · 🇯🇵 [ja](../../../ja/docs/routing/AUTO-COMBO.md) · 🇬🇪 [ka](../../../ka/docs/routing/AUTO-COMBO.md) · 🇰🇭 [km](../../../km/docs/routing/AUTO-COMBO.md) · 🇮🇳 [kn](../../../kn/docs/routing/AUTO-COMBO.md) · 🇰🇷 [ko](../../../ko/docs/routing/AUTO-COMBO.md) · 🇱🇹 [lt](../../../lt/docs/routing/AUTO-COMBO.md) · 🇱🇻 [lv](../../../lv/docs/routing/AUTO-COMBO.md) · 🇮🇳 [ml](../../../ml/docs/routing/AUTO-COMBO.md) · 🇮🇳 [mr](../../../mr/docs/routing/AUTO-COMBO.md) · 🇲🇾 [ms](../../../ms/docs/routing/AUTO-COMBO.md) · 🇲🇹 [mt](../../../mt/docs/routing/AUTO-COMBO.md) · 🇲🇲 [my](../../../my/docs/routing/AUTO-COMBO.md) · 🇳🇵 [ne](../../../ne/docs/routing/AUTO-COMBO.md) · 🇳🇱 [nl](../../../nl/docs/routing/AUTO-COMBO.md) · 🇳🇴 [no](../../../no/docs/routing/AUTO-COMBO.md) · 🇮🇳 [or](../../../or/docs/routing/AUTO-COMBO.md) · 🇮🇳 [pa](../../../pa/docs/routing/AUTO-COMBO.md) · 🇵🇭 [phi](../../../phi/docs/routing/AUTO-COMBO.md) · 🇵🇱 [pl](../../../pl/docs/routing/AUTO-COMBO.md) · 🇵🇹 [pt](../../../pt/docs/routing/AUTO-COMBO.md) · 🇧🇷 [pt-BR](../../../pt-BR/docs/routing/AUTO-COMBO.md) · 🇷🇴 [ro](../../../ro/docs/routing/AUTO-COMBO.md) · 🇷🇺 [ru](../../../ru/docs/routing/AUTO-COMBO.md) · 🇱🇰 [si](../../../si/docs/routing/AUTO-COMBO.md) · 🇸🇰 [sk](../../../sk/docs/routing/AUTO-COMBO.md) · 🇸🇮 [sl](../../../sl/docs/routing/AUTO-COMBO.md) · 🇷🇸 [sr](../../../sr/docs/routing/AUTO-COMBO.md) · 🇸🇪 [sv](../../../sv/docs/routing/AUTO-COMBO.md) · 🇰🇪 [sw](../../../sw/docs/routing/AUTO-COMBO.md) · 🇮🇳 [ta](../../../ta/docs/routing/AUTO-COMBO.md) · 🇮🇳 [te](../../../te/docs/routing/AUTO-COMBO.md) · 🇹🇭 [th](../../../th/docs/routing/AUTO-COMBO.md) · 🇹🇷 [tr](../../../tr/docs/routing/AUTO-COMBO.md) · 🇺🇦 [uk-UA](../../../uk-UA/docs/routing/AUTO-COMBO.md) · 🇵🇰 [ur](../../../ur/docs/routing/AUTO-COMBO.md) · 🇺🇿 [uz](../../../uz/docs/routing/AUTO-COMBO.md) · 🇻🇳 [vi](../../../vi/docs/routing/AUTO-COMBO.md) · 🇳🇬 [yo](../../../yo/docs/routing/AUTO-COMBO.md) · 🇨🇳 [zh-CN](../../../zh-CN/docs/routing/AUTO-COMBO.md) · 🇹🇼 [zh-TW](../../../zh-TW/docs/routing/AUTO-COMBO.md)
 
 ---
 
@@ -279,53 +279,109 @@ feloldott értékek a motor meglévő `config.modePack` / `config.budgetCap` /
 `config.budgetFallback` bemeneteibe kerülnek. Egy kombináció tárolt `config.budgetFallback` („strict” |
 „cheapest”) értéke határozza meg az állandó házirendet; a fejléc ezt egyetlen kérés erejéig felülírja.
 
-## Az összes útválasztási stratégia
+## Minden útválasztási stratégia
 
-Az OmniRoute kombinációs motorja **19 útválasztási stratégiát** támogat (deklarálva itt: `src/shared/constants/routingStrategies.ts` → `ROUTING_STRATEGY_VALUES`). Maga az Auto Combo motor az `auto` stratégia alatt érhető el; a többi stratégia a tartósan tárolt kombinációkhoz használható.
+Az OmniRoute kombinációs motorja **19 útválasztási stratégiát** támogat (deklarálva itt: `src/shared/constants/routingStrategies.ts` → `ROUTING_STRATEGY_VALUES`). Maga az Auto Combo motor az `auto` stratégia alatt érhető el; a többi a mentett kombinációkhoz használható.
 
-| Stratégia           | Leírás                                                                                                                                                                                                                                                    |
-| :------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `priority`          | Első célpontot előnyben részesítő, explicit prioritású rendezett lista                                                                                                                                                                                    |
-| `weighted`          | Súlyozott véletlenszerű választás célpontonkénti súly alapján                                                                                                                                                                                             |
-| `round-robin`       | A célpontok sorrendben történő, ciklikus bejárása                                                                                                                                                                                                         |
-| `context-relay`     | A kontextus továbbadása a célpontok között (hosszú beszélgetésekhez)                                                                                                                                                                                      |
-| `fill-first`        | Az egyes célpontok kvótájának feltöltése a következőre lépés előtt                                                                                                                                                                                        |
-| `p2c`               | Véletlenszerű terheléselosztás a „kettő közül a jobb” módszerrel                                                                                                                                                                                          |
-| `random`            | Egyenletes véletlenszerű kiválasztás                                                                                                                                                                                                                      |
-| `least-used`        | Az aktuálisan legkisebb terhelésű célpont kiválasztása                                                                                                                                                                                                    |
-| `cost-optimized`    | A kérésenkénti költség minimalizálása a katalógus árazása alapján                                                                                                                                                                                         |
-| `reset-aware` ⭐    | Prioritás a kvóta-visszaállítási idő alapján — a rövidebb visszaállítási ablakok előrébb kerülnek                                                                                                                                                         |
-| `reset-window`      | Azon célpontok előnyben részesítése, amelyek kvótaablaka a leghamarabb áll vissza                                                                                                                                                                         |
-| `headroom`          | A legtöbb fennmaradó kvótatartalékkal rendelkező célpont kiválasztása                                                                                                                                                                                     |
-| `strict-random`     | Véletlenszerű választás az ismétlések deduplikálása nélkül                                                                                                                                                                                                |
-| `auto`              | Az Auto Combo pontozásának használata (16 tényező) — **ajánlott**                                                                                                                                                                                         |
-| `lkgp`              | Utolsó ismert működő útvonal (az utolsó sikeres szolgáltatónál marad, majd szükség esetén visszatér a szabályokhoz)                                                                                                                                       |
-| `context-optimized` | Az aktuális kontextusmérethez legjobban illeszkedő célpont kiválasztása                                                                                                                                                                                   |
-| `cache-optimized`   | A célpontok átrendezése a prompt-gyorsítótár affinitása alapján — elsőként az a kapcsolat kerül kipróbálásra, amely a legnagyobb valószínűséggel már tárolja a kérés gyorsítótárazott előtagját (`open-sse/services/combo/promptCacheAffinity.ts`, #8008) |
-| `fusion` 🧬         | Kérések párhuzamos kiküldése egy modellpanelnek, majd egy válasz szintetizálása egy bíráló segítségével (lásd alább)                                                                                                                                      |
-| `pipeline`          | A célpontok egymás utáni futtatása úgy, hogy minden lépés kimenete a következő lépés bemenetébe kerül; csak a végső válasz tér vissza (#6396)                                                                                                             |
+| Stratégia           | Leírás                                                                                                                                                                                                                                                            |
+| :------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `priority`          | Az első célpontot előnyben részesítő, explicit prioritású rendezett lista                                                                                                                                                                                         |
+| `weighted`          | Súlyozott véletlenszerű kiválasztás célpontonkénti súly alapján                                                                                                                                                                                                   |
+| `round-robin`       | A célpontok sorrendben történő ciklikus bejárása (kötegelve; lásd alább)                                                                                                                                                                                          |
+| `context-relay`     | A kontextus továbbadása a célpontok között (hosszú beszélgetésekhez)                                                                                                                                                                                              |
+| `fill-first`        | Az egyes célpontok kvótájának feltöltése a következőre lépés előtt                                                                                                                                                                                                |
+| `p2c`               | Véletlenszerű terheléselosztás a „kettő választása” elv alapján                                                                                                                                                                                                   |
+| `random`            | Egyenletes véletlenszerű kiválasztás                                                                                                                                                                                                                              |
+| `least-used`        | A jelenleg legalacsonyabb terhelésű célpont kiválasztása                                                                                                                                                                                                          |
+| `cost-optimized`    | A kérésenkénti költség minimalizálása a katalógus árazása alapján                                                                                                                                                                                                 |
+| `reset-aware` ⭐    | Prioritás a kvóta visszaállítási ideje alapján — a rövidebb visszaállítási időablakok előrébb kerülnek                                                                                                                                                            |
+| `reset-window`      | Azon célpontok előnyben részesítése, amelyek kvótaidőablaka a leghamarabb áll vissza                                                                                                                                                                              |
+| `headroom`          | A legtöbb fennmaradó kvótatartalékkal rendelkező célpont kiválasztása                                                                                                                                                                                             |
+| `strict-random`     | Véletlenszerű kiválasztás az ismétlődések deduplikációja nélkül                                                                                                                                                                                                   |
+| `auto`              | Az Auto Combo pontozásának használata (16 tényező) — **ajánlott**                                                                                                                                                                                                 |
+| `lkgp`              | Utolsó ismert jó útvonal (rögzítés az utolsó sikeres szolgáltatóhoz, majd visszaállás a szabályokra)                                                                                                                                                              |
+| `context-optimized` | Az aktuális kontextusmérethez legjobban illeszkedő célpont kiválasztása                                                                                                                                                                                           |
+| `cache-optimized`   | A célpontok átrendezése a prompt-gyorsítótárhoz való affinitás alapján — elsőként az a kapcsolat kerül kipróbálásra, amelynél a legvalószínűbb, hogy már megtalálható a kérés gyorsítótárazott előtagja (`open-sse/services/combo/promptCacheAffinity.ts`, #8008) |
+| `fusion` 🧬         | A kérés párhuzamos kiküldése egy modellpanelnek, majd egyetlen válasz szintetizálása egy bírálómodell segítségével (lásd alább)                                                                                                                                   |
+| `pipeline`          | A célpontok egymás utáni futtatása úgy, hogy minden lépés kimenete a következő lépés bemenetévé válik; csak a végső válasz kerül visszaadásra (#6396)                                                                                                             |
 
 ⭐ = Újdonság a v3.8.0 verzióban · 🧬 = Újdonság a v3.8.36 verzióban
 
 ### A `weighted` szemantikája
 
-A `weighted` **kérésenkénti arányos véletlenszerű sorsolást** végez
+A `weighted` **kérésenkénti arányos véletlenszerű sorsolást** jelent
 (`open-sse/services/combo/targetSorters.ts` → `selectWeightedTarget`), nem pedig kiegyenlítést:
 
 - Minden kérés **egy** lépést sorsol ki `weight / totalWeight` valószínűséggel; a fennmaradó lépések
-  súly szerint csökkenő sorrendben alkotják az adott kérés tartalék láncát.
-- Az a lépés, amelynek súlya `0` (vagy nincs megadva), **soha nem kerül kisorsolásra**, amíg bármely más lépés
-  súlya > 0 — csak tartalékként szolgálhat, ha a kisorsolt lépés sikertelen. A kiválasztás csak akkor válik
-  egyenletessé, ha **minden** súly 0.
-- Azok a lépések, amelyek összes célpontja elérhetetlen — a szolgáltatói áramkör-megszakító állapota `OPEN`, a kapcsolat
-  várakozási időszakban van, vagy a modell zárolva van — még a sorsolás előtt kikerülnek
-  (`open-sse/services/combo/targetResolution.ts`), így átmenetileg egyetlen működő lépés nyerhet meg
-  minden kérést.
-- A `stickyWeightedLimit` (kombinációs konfiguráció, alapértelmezett értéke `1` = kikapcsolva) a kisorsolt lépést ennyi
-  egymást követő siker erejéig rögzíti az újrasorsolás előtt.
+  csökkenő súly szerint rendezve alkotják az adott kérés tartalék láncát.
+- A `0` súlyú (vagy súly nélküli) lépés **soha nem kerül kisorsolásra**, amíg bármely másik lépés
+  súlya > 0 — csak tartalékként szolgálhat, ha a kisorsolt lépés meghiúsul. A kiválasztás csak akkor
+  válik egyenletessé, ha **minden** súly 0.
+- Azok a lépések, amelyek összes célpontja elérhetetlen — a szolgáltató áramkör-megszakítója `OPEN`,
+  a kapcsolat türelmi időszakban van, vagy a modell zárolva van — még a sorsolás előtt eltávolításra kerülnek
+  (`open-sse/services/combo/targetResolution.ts`), így egyetlen működőképes lépés átmenetileg
+  minden kérést megnyerhet.
+- A `stickyWeightedLimit` (kombinációs konfiguráció, alapértelmezés: `1` = kikapcsolva) ennyi
+  egymást követő sikerig rögzíti a kisorsolt lépést az újrasorsolás előtt.
 
 Szigorú rotációhoz használja a `round-robin` stratégiát; a `weighted` azonos súlyai statisztikai — nem
-szigorú — egyensúlyt eredményeznek.
+szigorú — egyensúlyt biztosítanak.
+
+### Ágensalapú folyamatlánc-mód
+
+Egy kétlépéses `pipeline` kombináció a `config.agenticOrchestration.enabled`
+beállítással engedélyezheti a tervező/végrehajtó útválasztást. Az első cél felel a
+tervezésért és a végső válaszokért; a második cél kliensnatív eszközhívásokat bocsát ki.
+Az OmniRoute a kérés protokollja alapján észleli az eszközeredményeket folytató
+kéréseket, megkérdezi a tervezőt, hogy szükség van-e újabb eszközkörre, majd dinamikusan
+a végrehajtót vagy a tervezőt teszi meg a kliens felé irányuló utolsó lépésnek.
+
+```json
+{
+  "strategy": "pipeline",
+  "models": [{ "model": "provider/planner" }, { "model": "provider/executor" }],
+  "config": {
+    "agenticOrchestration": { "enabled": true, "maxToolRounds": 8 }
+  }
+}
+```
+
+A végrehajtó egyetlen válaszban több, egymástól független hívást is kibocsáthat. A függő
+hívások kezelése a kliens későbbi eszközeredmény-köreiben történik, miközben a tervező
+minden eredményt felülvizsgál. A `maxToolRounds` alapértelmezett értéke `8`, és `1`–`32`
+közötti értéket fogad el; a korlát elérésekor a tervezőnek az elérhető legjobb végső
+választ kell előállítania. A belső tervezői döntések pufferelésre kerülnek, míg a
+kiválasztott, kliens felé irányuló válasz megőrzi az eredeti streamelési beállítást.
+
+### `round-robin` ragadós kötegelés és fiókbővítés
+
+A ciklikus elosztás kötegelt, nem pedig lépésenként egy kérésből áll:
+
+- A `stickyRoundRobinLimit` (először a kombináció konfigurációja, majd
+  `comboStickyRoundRobinLimit`, aztán `settings.stickyRoundRobinLimit`, alapértelmezetten
+  **3**) ennyi egymást követő sikerig ugyanazt a célt használja, mielőtt továbblépne.
+  Kérésenkénti váltáshoz állítsa a kombináció felülbírálási értékét `1`-re. A kombináció
+  szerkesztője megjeleníti a tényleges értéket és azt a réteget, amelyből az származik.
+- A `connectionAwareExpansion` (először a kombináció konfigurációja, majd a beállítások,
+  alapértelmezetten **false**) a váltás előtt minden szolgáltatói szintű lépést
+  fiókonkénti célokra bont ki. A B csoport stratégiái (priority, weighted, round-robin,
+  random, p2c, least-used, cost-optimized, lkgp, fill-first, strict-random,
+  context-optimized, cache-optimized, context-relay, fusion, pipeline) mindaddig
+  szolgáltatói szintű nézetet használnak, amíg ez nincs bekapcsolva. A kombináció
+  szerkesztője az öröklés / be / ki lehetőségeket kínálja; az öröklés a globális
+  alapértelmezést (ki) használja.
+- A promptgyorsítótár-helyalapú útválasztás (`promptCacheAffinityEnabled`,
+  alapértelmezetten **true**) átrendezi a rögzített kapcsolatokat, hogy az egyező
+  gyorsítótárkulcsok egyetlen fiókon maradjanak. Elsőbbséget élvez a rögzített,
+  fiókonkénti lépések közötti ciklikus és súlyozott váltással szemben. Ha szigorú
+  váltásra van szüksége, kapcsolja ki a Settings → Combo defaults alatt. Nincs
+  kombinációnkénti felülbírálási lehetőség.
+
+Egy modell több fiókja közötti váltáshoz három rögzített `connectionId` helyett inkább
+**egyetlen dinamikus fióklépést** (üres `connectionId`, a teljes készlet) használjon `1`
+értékű ragadós korláttal. A rögzített lépések és az affinitás együttesen ugyanarra a
+fiókra terelik a kéréseket még akkor is, amikor a ciklikus elosztás számlálója
+előrehalad.
 
 ## Fúziós stratégia
 

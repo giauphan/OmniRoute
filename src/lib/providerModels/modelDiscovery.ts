@@ -9,6 +9,7 @@ import { CANONICAL_EFFORT_VALUES } from "@/shared/reasoning/effortStandardizatio
 import { isObsoleteKiroModelAlias } from "@omniroute/open-sse/services/kiroModels.ts";
 import { filterSelectableModels } from "@omniroute/open-sse/services/modelLifecycle.ts";
 import { getEmbeddingProvider } from "@omniroute/open-sse/config/embeddingRegistry.ts";
+import { hasPayloadFreeEvidence } from "@/shared/utils/payloadFreeEvidence";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -18,26 +19,6 @@ function asRecord(value: unknown): JsonRecord {
 
 function toNonEmptyString(value: unknown): string | null {
   return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
-}
-
-function isZeroPrice(value: unknown): boolean {
-  if (typeof value === "number") return value === 0;
-  if (typeof value !== "string" || value.trim().length === 0) return false;
-  const parsed = Number(value);
-  return Number.isFinite(parsed) && parsed === 0;
-}
-
-function hasLiveFreeEvidence(
-  id: string,
-  record: JsonRecord,
-  promptPrice: string | number | undefined,
-  completionPrice: string | number | undefined
-): boolean {
-  return (
-    record.isFree === true ||
-    id.endsWith(":free") ||
-    (isZeroPrice(promptPrice) && isZeroPrice(completionPrice))
-  );
 }
 
 /**
@@ -634,6 +615,9 @@ export function normalizeDiscoveredModels(
     // window as `max_model_len`, the value the engine was actually started with.
     // Without it a vLLM model syncs with no window at all and the resolver hands
     // out the 128K default, understating a 250K deployment by half. #12858
+    // Anthropic Models API reports the window as `max_input_tokens` and the output
+    // cap as `max_tokens`. #14159 briefly treated `max_tokens` as a window candidate;
+    // that mapped Claude Opus 5 to 128K instead of 1M. Do not put `max_tokens` here.
     const contextWindow = firstPositiveNumber(
       record.context_length,
       record.contextLength,
@@ -641,7 +625,8 @@ export function normalizeDiscoveredModels(
       record.max_model_len,
       record.maxModelLen,
       record.max_context_window,
-      record.max_tokens,
+      record.max_input_tokens,
+      record.maxInputTokens,
       topProvider.context_length
     );
     const isVertexProvider = providerId === "vertex" || providerId === "vertex-partner";
@@ -651,6 +636,9 @@ export function normalizeDiscoveredModels(
     );
     const outputTokenLimit = firstPositiveNumber(
       record.outputTokenLimit,
+      record.max_output_tokens,
+      record.maxOutputTokens,
+      record.max_tokens,
       topProvider.max_completion_tokens
     );
 
@@ -661,18 +649,9 @@ export function normalizeDiscoveredModels(
     // models reached the catalog with no vision flag and vision-capable models
     // (which work at request time) showed up as non-vision after import.
     const supportsVision = detectVisionInput(record);
-    const pricing = asRecord(record.pricing);
-    const promptPrice =
-      typeof pricing.prompt === "string" || typeof pricing.prompt === "number"
-        ? pricing.prompt
-        : undefined;
-    const completionPrice =
-      typeof pricing.completion === "string" || typeof pricing.completion === "number"
-        ? pricing.completion
-        : undefined;
     // Persist only evidence present in this discovery payload. Static catalog
     // membership is intentionally not evidence about this connection's economics.
-    const isFree = hasLiveFreeEvidence(id, record, promptPrice, completionPrice);
+    const isFree = hasPayloadFreeEvidence({ ...record, id });
 
     deduped.set(id, {
       id,

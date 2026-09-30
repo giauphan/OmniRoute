@@ -1,6 +1,6 @@
 # OmniRoute Auto-Combo Engine (עברית)
 
-🌐 **Languages:** 🇺🇸 [English](../../../../routing/AUTO-COMBO.md) · 🇪🇹 [am](../../../am/docs/routing/AUTO-COMBO.md) · 🇸🇦 [ar](../../../ar/docs/routing/AUTO-COMBO.md) · 🇦🇿 [az](../../../az/docs/routing/AUTO-COMBO.md) · 🇧🇬 [bg](../../../bg/docs/routing/AUTO-COMBO.md) · 🇧🇩 [bn](../../../bn/docs/routing/AUTO-COMBO.md) · 🇨🇿 [cs](../../../cs/docs/routing/AUTO-COMBO.md) · 🇩🇰 [da](../../../da/docs/routing/AUTO-COMBO.md) · 🇩🇪 [de](../../../de/docs/routing/AUTO-COMBO.md) · 🇬🇷 [el](../../../el/docs/routing/AUTO-COMBO.md) · 🇪🇸 [es](../../../es/docs/routing/AUTO-COMBO.md) · 🇪🇪 [et](../../../et/docs/routing/AUTO-COMBO.md) · 🇮🇷 [fa](../../../fa/docs/routing/AUTO-COMBO.md) · 🇫🇮 [fi](../../../fi/docs/routing/AUTO-COMBO.md) · 🇫🇷 [fr](../../../fr/docs/routing/AUTO-COMBO.md) · 🇮🇪 [ga](../../../ga/docs/routing/AUTO-COMBO.md) · 🇮🇳 [gu](../../../gu/docs/routing/AUTO-COMBO.md) · 🇳🇬 [ha](../../../ha/docs/routing/AUTO-COMBO.md) · 🇮🇳 [hi](../../../hi/docs/routing/AUTO-COMBO.md) · 🇭🇷 [hr](../../../hr/docs/routing/AUTO-COMBO.md) · 🇭🇺 [hu](../../../hu/docs/routing/AUTO-COMBO.md) · 🇦🇲 [hy](../../../hy/docs/routing/AUTO-COMBO.md) · 🇮🇩 [id](../../../id/docs/routing/AUTO-COMBO.md) · 🇳🇬 [ig](../../../ig/docs/routing/AUTO-COMBO.md) · 🇮🇹 [it](../../../it/docs/routing/AUTO-COMBO.md) · 🇯🇵 [ja](../../../ja/docs/routing/AUTO-COMBO.md) · 🇬🇪 [ka](../../../ka/docs/routing/AUTO-COMBO.md) · 🇰🇭 [km](../../../km/docs/routing/AUTO-COMBO.md) · 🇮🇳 [kn](../../../kn/docs/routing/AUTO-COMBO.md) · 🇰🇷 [ko](../../../ko/docs/routing/AUTO-COMBO.md) · 🇱🇹 [lt](../../../lt/docs/routing/AUTO-COMBO.md) · 🇱🇻 [lv](../../../lv/docs/routing/AUTO-COMBO.md) · 🇮🇳 [ml](../../../ml/docs/routing/AUTO-COMBO.md) · 🇮🇳 [mr](../../../mr/docs/routing/AUTO-COMBO.md) · 🇲🇾 [ms](../../../ms/docs/routing/AUTO-COMBO.md) · 🇲🇹 [mt](../../../mt/docs/routing/AUTO-COMBO.md) · 🇲🇲 [my](../../../my/docs/routing/AUTO-COMBO.md) · 🇳🇵 [ne](../../../ne/docs/routing/AUTO-COMBO.md) · 🇳🇱 [nl](../../../nl/docs/routing/AUTO-COMBO.md) · 🇳🇴 [no](../../../no/docs/routing/AUTO-COMBO.md) · 🇮🇳 [or](../../../or/docs/routing/AUTO-COMBO.md) · 🇮🇳 [pa](../../../pa/docs/routing/AUTO-COMBO.md) · 🇵🇭 [phi](../../../phi/docs/routing/AUTO-COMBO.md) · 🇵🇱 [pl](../../../pl/docs/routing/AUTO-COMBO.md) · 🇵🇹 [pt](../../../pt/docs/routing/AUTO-COMBO.md) · 🇧🇷 [pt-BR](../../../pt-BR/docs/routing/AUTO-COMBO.md) · 🇷🇴 [ro](../../../ro/docs/routing/AUTO-COMBO.md) · 🇷🇺 [ru](../../../ru/docs/routing/AUTO-COMBO.md) · 🇱🇰 [si](../../../si/docs/routing/AUTO-COMBO.md) · 🇸🇰 [sk](../../../sk/docs/routing/AUTO-COMBO.md) · 🇸🇮 [sl](../../../sl/docs/routing/AUTO-COMBO.md) · 🇷🇸 [sr](../../../sr/docs/routing/AUTO-COMBO.md) · 🇸🇪 [sv](../../../sv/docs/routing/AUTO-COMBO.md) · 🇰🇪 [sw](../../../sw/docs/routing/AUTO-COMBO.md) · 🇮🇳 [ta](../../../ta/docs/routing/AUTO-COMBO.md) · 🇮🇳 [te](../../../te/docs/routing/AUTO-COMBO.md) · 🇹🇭 [th](../../../th/docs/routing/AUTO-COMBO.md) · 🇹🇷 [tr](../../../tr/docs/routing/AUTO-COMBO.md) · 🇺🇦 [uk-UA](../../../uk-UA/docs/routing/AUTO-COMBO.md) · 🇵🇰 [ur](../../../ur/docs/routing/AUTO-COMBO.md) · 🇺🇿 [uz](../../../uz/docs/routing/AUTO-COMBO.md) · 🇻🇳 [vi](../../../vi/docs/routing/AUTO-COMBO.md) · 🇳🇬 [yo](../../../yo/docs/routing/AUTO-COMBO.md) · 🇨🇳 [zh-CN](../../../zh-CN/docs/routing/AUTO-COMBO.md) · 🇹🇼 [zh-TW](../../../zh-TW/docs/routing/AUTO-COMBO.md)
+🌐 **Languages:** 🇺🇸 [English](../../../../routing/AUTO-COMBO.md) · 🇪🇹 [am](../../../am/docs/routing/AUTO-COMBO.md) · 🇸🇦 [ar](../../../ar/docs/routing/AUTO-COMBO.md) · 🇦🇿 [az](../../../az/docs/routing/AUTO-COMBO.md) · 🇧🇬 [bg](../../../bg/docs/routing/AUTO-COMBO.md) · 🇧🇩 [bn](../../../bn/docs/routing/AUTO-COMBO.md) · 🇧🇦 [bs](../../../bs/docs/routing/AUTO-COMBO.md) · 🇨🇿 [cs](../../../cs/docs/routing/AUTO-COMBO.md) · 🇩🇰 [da](../../../da/docs/routing/AUTO-COMBO.md) · 🇩🇪 [de](../../../de/docs/routing/AUTO-COMBO.md) · 🇬🇷 [el](../../../el/docs/routing/AUTO-COMBO.md) · 🇪🇸 [es](../../../es/docs/routing/AUTO-COMBO.md) · 🇪🇪 [et](../../../et/docs/routing/AUTO-COMBO.md) · 🇮🇷 [fa](../../../fa/docs/routing/AUTO-COMBO.md) · 🇫🇮 [fi](../../../fi/docs/routing/AUTO-COMBO.md) · 🇫🇷 [fr](../../../fr/docs/routing/AUTO-COMBO.md) · 🇮🇪 [ga](../../../ga/docs/routing/AUTO-COMBO.md) · 🇮🇳 [gu](../../../gu/docs/routing/AUTO-COMBO.md) · 🇳🇬 [ha](../../../ha/docs/routing/AUTO-COMBO.md) · 🇮🇳 [hi](../../../hi/docs/routing/AUTO-COMBO.md) · 🇭🇷 [hr](../../../hr/docs/routing/AUTO-COMBO.md) · 🇭🇺 [hu](../../../hu/docs/routing/AUTO-COMBO.md) · 🇦🇲 [hy](../../../hy/docs/routing/AUTO-COMBO.md) · 🇮🇩 [id](../../../id/docs/routing/AUTO-COMBO.md) · 🇳🇬 [ig](../../../ig/docs/routing/AUTO-COMBO.md) · 🇮🇹 [it](../../../it/docs/routing/AUTO-COMBO.md) · 🇯🇵 [ja](../../../ja/docs/routing/AUTO-COMBO.md) · 🇬🇪 [ka](../../../ka/docs/routing/AUTO-COMBO.md) · 🇰🇭 [km](../../../km/docs/routing/AUTO-COMBO.md) · 🇮🇳 [kn](../../../kn/docs/routing/AUTO-COMBO.md) · 🇰🇷 [ko](../../../ko/docs/routing/AUTO-COMBO.md) · 🇱🇹 [lt](../../../lt/docs/routing/AUTO-COMBO.md) · 🇱🇻 [lv](../../../lv/docs/routing/AUTO-COMBO.md) · 🇮🇳 [ml](../../../ml/docs/routing/AUTO-COMBO.md) · 🇮🇳 [mr](../../../mr/docs/routing/AUTO-COMBO.md) · 🇲🇾 [ms](../../../ms/docs/routing/AUTO-COMBO.md) · 🇲🇹 [mt](../../../mt/docs/routing/AUTO-COMBO.md) · 🇲🇲 [my](../../../my/docs/routing/AUTO-COMBO.md) · 🇳🇵 [ne](../../../ne/docs/routing/AUTO-COMBO.md) · 🇳🇱 [nl](../../../nl/docs/routing/AUTO-COMBO.md) · 🇳🇴 [no](../../../no/docs/routing/AUTO-COMBO.md) · 🇮🇳 [or](../../../or/docs/routing/AUTO-COMBO.md) · 🇮🇳 [pa](../../../pa/docs/routing/AUTO-COMBO.md) · 🇵🇭 [phi](../../../phi/docs/routing/AUTO-COMBO.md) · 🇵🇱 [pl](../../../pl/docs/routing/AUTO-COMBO.md) · 🇵🇹 [pt](../../../pt/docs/routing/AUTO-COMBO.md) · 🇧🇷 [pt-BR](../../../pt-BR/docs/routing/AUTO-COMBO.md) · 🇷🇴 [ro](../../../ro/docs/routing/AUTO-COMBO.md) · 🇷🇺 [ru](../../../ru/docs/routing/AUTO-COMBO.md) · 🇱🇰 [si](../../../si/docs/routing/AUTO-COMBO.md) · 🇸🇰 [sk](../../../sk/docs/routing/AUTO-COMBO.md) · 🇸🇮 [sl](../../../sl/docs/routing/AUTO-COMBO.md) · 🇷🇸 [sr](../../../sr/docs/routing/AUTO-COMBO.md) · 🇸🇪 [sv](../../../sv/docs/routing/AUTO-COMBO.md) · 🇰🇪 [sw](../../../sw/docs/routing/AUTO-COMBO.md) · 🇮🇳 [ta](../../../ta/docs/routing/AUTO-COMBO.md) · 🇮🇳 [te](../../../te/docs/routing/AUTO-COMBO.md) · 🇹🇭 [th](../../../th/docs/routing/AUTO-COMBO.md) · 🇹🇷 [tr](../../../tr/docs/routing/AUTO-COMBO.md) · 🇺🇦 [uk-UA](../../../uk-UA/docs/routing/AUTO-COMBO.md) · 🇵🇰 [ur](../../../ur/docs/routing/AUTO-COMBO.md) · 🇺🇿 [uz](../../../uz/docs/routing/AUTO-COMBO.md) · 🇻🇳 [vi](../../../vi/docs/routing/AUTO-COMBO.md) · 🇳🇬 [yo](../../../yo/docs/routing/AUTO-COMBO.md) · 🇨🇳 [zh-CN](../../../zh-CN/docs/routing/AUTO-COMBO.md) · 🇹🇼 [zh-TW](../../../zh-TW/docs/routing/AUTO-COMBO.md)
 
 ---
 
@@ -277,51 +277,103 @@ curl -sS http://localhost:20128/v1/chat/completions \
 
 ## כל אסטרטגיות הניתוב
 
-מנוע השילובים של OmniRoute תומך ב-**19 אסטרטגיות ניתוב** (המוצהרות ב-`src/shared/constants/routingStrategies.ts` ← `ROUTING_STRATEGY_VALUES`). מנוע השילוב האוטומטי עצמו נחשף תחת האסטרטגיה `auto`; האחרות זמינות לשילובים שמורים.
+מנוע הקומבו של OmniRoute תומך ב-**19 אסטרטגיות ניתוב** (המוצהרות ב-`src/shared/constants/routingStrategies.ts` → `ROUTING_STRATEGY_VALUES`). מנוע Auto Combo עצמו נחשף תחת האסטרטגיה `auto`; האחרות זמינות עבור קומבואים מתמידים.
 
-| אסטרטגיה            | תיאור                                                                                                                                                                                  |
-| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `priority`          | רשימה ממוינת לפי היעד הראשון, עם עדיפות מפורשת                                                                                                                                         |
-| `weighted`          | בחירה אקראית משוקללת לפי המשקל של כל יעד                                                                                                                                               |
-| `round-robin`       | מעבר מחזורי בין היעדים לפי הסדר                                                                                                                                                        |
-| `context-relay`     | העברת ההקשר בין יעדים (שיחות ארוכות)                                                                                                                                                   |
-| `fill-first`        | מילוי המכסה של כל יעד לפני מעבר ליעד הבא                                                                                                                                               |
-| `p2c`               | איזון עומסים אקראי בשיטת בחירה מבין 2                                                                                                                                                  |
-| `random`            | בחירה אקראית אחידה                                                                                                                                                                     |
-| `least-used`        | בחירת היעד בעל העומס הנוכחי הנמוך ביותר                                                                                                                                                |
-| `cost-optimized`    | מזעור העלות בדולרים לכל בקשה בהתאם לתמחור בקטלוג                                                                                                                                       |
-| `reset-aware` ⭐    | תעדוף לפי מועד איפוס המכסה — חלונות איפוס קצרים מדורגים גבוה יותר                                                                                                                      |
-| `reset-window`      | העדפת יעדים שחלון המכסה שלהם יתאפס מוקדם ביותר                                                                                                                                         |
-| `headroom`          | בחירת היעד בעל מרווח המכסה הנותר הגדול ביותר                                                                                                                                           |
-| `strict-random`     | בחירה אקראית ללא ביטול כפילויות של חזרות                                                                                                                                               |
-| `auto`              | שימוש בניקוד השילוב האוטומטי (16 גורמים) — **מומלץ**                                                                                                                                   |
-| `lkgp`              | הנתיב האחרון הידוע כתקין (נצמד לספק המצליח האחרון ולאחר מכן חוזר לכללים)                                                                                                               |
-| `context-optimized` | בחירת היעד המתאים ביותר לגודל ההקשר הנוכחי                                                                                                                                             |
-| `cache-optimized`   | סידור מחדש של היעדים לפי זיקה למטמון הפרומפט — החיבור שסביר ביותר שכבר מחזיק את התחילית השמורה במטמון של בקשה זו מנוסה ראשון (`open-sse/services/combo/promptCacheAffinity.ts`, #8008) |
-| `fusion` 🧬         | שליחה במקביל לקבוצת מודלים ולאחר מכן סינתזה של תשובה אחת באמצעות שופט (ראו להלן)                                                                                                       |
-| `pipeline`          | הרצת היעדים ברצף, תוך העברת הפלט של כל שלב כקלט לשלב הבא; רק התשובה הסופית מוחזרת (#6396)                                                                                              |
+| אסטרטגיה            | תיאור                                                                                                                                                                                 |
+| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `priority`          | רשימה ממוינת לפי היעד הראשון, עם עדיפות מפורשת                                                                                                                                        |
+| `weighted`          | בחירה אקראית משוקללת לפי המשקל של כל יעד                                                                                                                                              |
+| `round-robin`       | מעבר מחזורי בין היעדים לפי הסדר (באצוות; ראו להלן)                                                                                                                                    |
+| `context-relay`     | העברת ההקשר בין יעדים (שיחות ארוכות)                                                                                                                                                  |
+| `fill-first`        | מילוי המכסה של כל יעד לפני מעבר ליעד הבא                                                                                                                                              |
+| `p2c`               | איזון עומסים אקראי בשיטת Power-of-2-choices                                                                                                                                           |
+| `random`            | בחירה אקראית אחידה                                                                                                                                                                    |
+| `least-used`        | בחירת היעד בעל העומס הנוכחי הנמוך ביותר                                                                                                                                               |
+| `cost-optimized`    | מזעור העלות בדולרים לכל בקשה, בהתאם לתמחור בקטלוג                                                                                                                                     |
+| `reset-aware` ⭐    | תעדוף לפי זמן איפוס המכסה — חלונות איפוס קצרים מדורגים גבוה יותר                                                                                                                      |
+| `reset-window`      | העדפת יעדים שחלון המכסה שלהם יתאפס בזמן הקרוב ביותר                                                                                                                                   |
+| `headroom`          | בחירת היעד בעל מרווח המכסה הנותר הגדול ביותר                                                                                                                                          |
+| `strict-random`     | בחירה אקראית ללא מניעת כפילויות חוזרות                                                                                                                                                |
+| `auto`              | שימוש בניקוד Auto Combo (16 גורמים) — **מומלץ**                                                                                                                                       |
+| `lkgp`              | הנתיב האחרון הידוע כתקין (נצמד לספק האחרון שהצליח, ולאחר מכן חוזר לכללים)                                                                                                             |
+| `context-optimized` | בחירת היעד המתאים ביותר לגודל ההקשר הנוכחי                                                                                                                                            |
+| `cache-optimized`   | סידור מחדש של היעדים לפי זיקה למטמון הפרומפט — החיבור שסביר ביותר כי כבר מחזיק בקידומת השמורה במטמון של בקשה זו מנוסה ראשון (`open-sse/services/combo/promptCacheAffinity.ts`, #8008) |
+| `fusion` 🧬         | שליחה במקביל לקבוצת מודלים, ולאחר מכן סינתזה של תשובה אחת באמצעות שופט (ראו להלן)                                                                                                     |
+| `pipeline`          | הרצת היעדים ברצף, תוך העברת הפלט של כל שלב לקלט של השלב הבא; רק התשובה הסופית מוחזרת (#6396)                                                                                          |
 
 ⭐ = חדש ב-v3.8.0 · 🧬 = חדש ב-v3.8.36
 
 ### הסמנטיקה של `weighted`
 
 `weighted` היא **הגרלה אקראית יחסית לכל בקשה**
-(`open-sse/services/combo/targetSorters.ts` ← `selectWeightedTarget`), ולא מנגנון איזון:
+(`open-sse/services/combo/targetSorters.ts` → `selectWeightedTarget`), ולא מנגנון איזון:
 
-- בכל בקשה נבחר שלב **אחד** בהסתברות `weight / totalWeight`; השלבים הנותרים
+- בכל בקשה מוגרל שלב **אחד** בהסתברות `weight / totalWeight`; השלבים הנותרים
   מסודרים לפי משקל בסדר יורד כשרשרת הגיבוי עבור אותה בקשה.
-- שלב שמשקלו `0` (או חסר) **לעולם אינו נבחר בהגרלה** כל עוד לשלב אחר כלשהו יש
-  משקל > 0 — הוא יכול לשמש רק כגיבוי לאחר כשל בשלב שנבחר. רק כאשר **כל**
-  המשקלים הם 0, הבחירה נעשית אחידה.
-- שלבים שכל היעדים שלהם אינם זמינים — מפסק המעגל של הספק במצב `OPEN`, תקופת
-  צינון של החיבור או נעילת מודל — מוסרים מההגרלה לפני שהיא מתבצעת
-  (`open-sse/services/combo/targetResolution.ts`), ולכן שלב תקין יחיד עשוי לזכות זמנית
+- שלב שמשקלו `0` (או שהמשקל חסר) **לעולם אינו מוגרל** כל עוד לשלב אחר כלשהו יש
+  משקל > 0 — הוא יכול לשמש רק כגיבוי לאחר שהשלב שהוגרל נכשל. רק כאשר **כל**
+  המשקלים הם 0, הבחירה הופכת לאחידה.
+- שלבים שכל היעדים שלהם אינם זמינים — מפסק הזרם של הספק במצב `OPEN`, תקופת
+  צינון של החיבור, נעילת המודל — מוסרים מההגרלה לפני שהיא מתבצעת
+  (`open-sse/services/combo/targetResolution.ts`), כך ששלב תקין יחיד עשוי לזכות זמנית
   בכל בקשה.
-- `stickyWeightedLimit` (תצורת שילוב, ברירת המחדל `1` = כבוי) מקבע את השלב שנבחר למשך מספר זה של
-  הצלחות רצופות לפני ביצוע הגרלה מחדש.
+- `stickyWeightedLimit` (הגדרת קומבו, ברירת המחדל `1` = כבוי) מקבע את השלב שהוגרל למשך מספר זה של
+  הצלחות רצופות לפני הגרלה מחדש.
 
-לרוטציה קפדנית השתמשו ב-`round-robin`; משקלים שווים ב-`weighted` מספקים איזון
-סטטיסטי — לא קפדני.
+לרוטציה קפדנית השתמשו ב-`round-robin`; משקלים שווים ב-`weighted` מספקים איזון סטטיסטי — לא
+קפדני.
+
+### מצב pipeline סוכני
+
+שילוב `pipeline` בן שני שלבים יכול להצטרף לניתוב מתכנן/מבצע באמצעות
+`config.agenticOrchestration.enabled`. היעד הראשון אחראי לתכנון ולתשובות הסופיות;
+היעד השני מפיק קריאות לכלים בפורמט המקורי של הלקוח. OmniRoute מזהה המשכים של
+תוצאות כלים מתוך פרוטוקול הבקשה, שואל את המתכנן אם נדרש סבב כלים נוסף, ובוחר באופן
+דינמי במבצע או במתכנן כשלב הסופי המוצג ללקוח.
+
+```json
+{
+  "strategy": "pipeline",
+  "models": [{ "model": "provider/planner" }, { "model": "provider/executor" }],
+  "config": {
+    "agenticOrchestration": { "enabled": true, "maxToolRounds": 8 }
+  }
+}
+```
+
+המבצע רשאי להפיק כמה קריאות בלתי תלויות בתגובה אחת. קריאות תלויות מטופלות
+בסבבים מאוחרים יותר של תוצאות כלים מצד הלקוח, כאשר המתכנן בוחן כל תוצאה.
+ערך ברירת המחדל של `maxToolRounds` הוא `8`, והוא מקבל ערכים בטווח `1`–`32`;
+לאחר הגעה למגבלה, על המתכנן להפיק את התשובה הסופית הטובה ביותר הזמינה.
+החלטות פנימיות של המתכנן נשמרות במאגר זמני, בעוד שהתגובה שנבחרה להצגה ללקוח
+משמרת את העדפת ההזרמה המקורית.
+
+### אצווה דביקה והרחבת חשבונות ב-`round-robin`
+
+Round-robin פועל באצוות, ולא לפי בקשה אחת בכל שלב:
+
+- `stickyRoundRobinLimit` (תחילה תצורת השילוב, לאחר מכן `comboStickyRoundRobinLimit`,
+  ואז `settings.stickyRoundRobinLimit`; ברירת המחדל היא **3**) משאיר את אותו יעד
+  למשך מספר זה של הצלחות רצופות לפני המעבר ליעד הבא. הגדירו את דריסת השילוב
+  לערך `1` כדי לעבור לאחר כל בקשה. עורך השילובים מציג את הערך בפועל ואת השכבה
+  שממנה הוא התקבל.
+- `connectionAwareExpansion` (תחילה תצורת השילוב ולאחר מכן ההגדרות; ברירת המחדל
+  היא **false**) מרחיב כל שלב ברמת הספק ליעדים נפרדים לכל חשבון לפני הסבב.
+  אסטרטגיות מקבוצה B (עדיפות, משוקללת, round-robin, אקראית, p2c, הכי פחות בשימוש,
+  ממוטבת לעלות, lkgp, מילוי ראשון, אקראית קפדנית, ממוטבת להקשר, ממוטבת למטמון,
+  העברת הקשר, מיזוג, pipeline) שומרות על תצוגה ברמת הספק עד להפעלת אפשרות זו.
+  עורך השילובים מציע ירושה / מופעל / כבוי; ירושה משתמשת בברירת המחדל הגלובלית
+  (כבוי).
+- ניתוב לפי מקומיות מטמון ההנחיות (`promptCacheAffinityEnabled`; ברירת המחדל היא
+  **true**) משנה את סדר החיבורים המוצמדים, כך שמפתחות מטמון תואמים יישארו באותו
+  חשבון. הוא מקבל קדימות על פני round-robin וסבב משוקלל בין שלבים מוצמדים לכל
+  חשבון. כבו אותו תחת הגדרות → ברירות המחדל של שילובים אם נדרש סבב קפדני.
+  אין אפשרות לדריסה ברמת שילוב.
+
+לסבב בין כמה חשבונות עבור מודל אחד, העדיפו **שלב אחד עם חשבון דינמי**
+(`connectionId` ריק, המאגר כולו) עם מגבלה דביקה של `1`, ולא שלושה ערכי
+`connectionId` מוצמדים. שלבים מוצמדים יחד עם זיקה מתכנסים לאותו חשבון, גם כאשר
+מונה ה-RR ממשיך להתקדם.
 
 ## אסטרטגיית Fusion
 
